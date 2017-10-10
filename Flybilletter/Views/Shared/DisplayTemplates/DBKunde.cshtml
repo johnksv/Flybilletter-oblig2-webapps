@@ -1,0 +1,58 @@
+﻿@model Flybilletter.Models.DBKunde
+
+<dl class="dl-horizontal">
+
+    <dt>
+        Fornavn
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Fornavn)
+    </dd>
+
+    <dt>
+        Etternavn
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Etternavn)
+    </dd>
+
+    <dt>
+        Fødselsdag
+    </dt>
+    <dd>
+        @{var dato = Model.Fodselsdag.ToShortDateString(); }
+        @Html.DisplayFor(model => dato)
+    </dd>
+
+    <dt>
+        Adresse
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Adresse)
+    </dd>
+
+    <dt>
+        Poststed
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Poststed.Postnr)
+        @Html.DisplayFor(model => model.Poststed.Poststed)
+    </dd>
+
+    <dt>
+        Telefonnummer
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Tlf)
+
+    </dd>
+
+    <dt>
+        E-post
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.EPost)
+    </dd>
+
+</dl>

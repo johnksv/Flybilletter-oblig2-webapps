@@ -1,0 +1,145 @@
+﻿@model Flybilletter.Models.FlygningerViewModel
+
+@if (Model == null)
+{
+    <h3>Feil. Uglydig søk-parametre</h3>
+    return;
+}
+
+<script>
+    $(function () {
+        $('#valgtReise').change(function () {
+            $("tr.flygning").removeClass("info");
+            $("tr.flygning input:checked").parents("tr").addClass("info");
+
+            var isTurChecked = $('input[name=turindeks]:checked', '#valgtReise').val() != null; // Hvis ikke valgt verdi = null
+            var isReturChecked = true;
+            if ($('input[name=returindeks]', '#valgtReise').length > 0) { // Hvis det finnes returreiser
+                isReturChecked = $('input[name=returindeks]:checked', '#valgtReise').val() != null;
+            }
+
+            if (isTurChecked && isReturChecked) {
+                $('#submitFlygninger').addClass("btn-success");
+                $('#submitFlygninger').prop('disabled', false);
+            }
+        });
+
+        $("tr.flygning").click(function (event) {
+            $(this).find("input").prop('checked', true);
+
+            $('#valgtReise').change();
+        });
+    });
+</script>
+
+
+<h3>Flygninger:</h3>
+@using (Html.BeginForm("ValgtReise", "Home", FormMethod.Post, new { id = "valgtReise" }))
+{
+    <h4>Tur</h4>
+    if (Model.TurMuligheter.Count > 0)
+    {
+        <table class="table table-striped col-md-12 col-sm-12">
+            <thead>
+                <tr>
+                    <th>Rute</th>
+                    <th>Avgang</th>
+                    <th>Ankomst</th>
+                    <th>Reisetid</th>
+                    <th>Pris</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            @for (var i = 0; i < Model.TurMuligheter.Count; i++)
+            {
+                var reise = Model.TurMuligheter[i];
+                <tr class="flygning">
+                    @if (reise.Mellomlanding > 0)
+                    {
+                        <td>
+                            @reise.Fra.Navn - @reise.Til.Navn <a href="#mellom-tur-@i" data-toggle="collapse" class="btn btn-info btn-xs">Vis mer</a>
+                            <div id="mellom-tur-@i" class="collapse">
+                                @Html.Partial("_Mellomlandinger", reise)
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @reise.Fra.Navn - @reise.Til.Navn
+                        </td>
+                    }
+
+                    <td>@reise.Avgang</td>
+                    <td>@reise.Ankomst</td>
+                    <td>@(reise.Ankomst - reise.Avgang)</td>
+                    <td>@reise.Pris</td>
+                    <td><input name="turindeks" type="radio" value="@i" /></td>
+                </tr>
+
+            }
+        </table>
+    }
+    else
+    {
+        <p>Vi fant ingen flygninger for denne tiden.</p>
+    }
+    if (Model.TurRetur)
+    {
+
+            <h4>Retur</h4>
+        if (Model.ReturMuligheter.Count > 0)
+        {
+            <table class="table table-striped col-md-12 col-sm-12">
+                <thead>
+                    <tr>
+                        <th>Rute</th>
+                        <th>Avgang</th>
+                        <th>Ankomst</th>
+                        <th>Reisetid</th>
+                        <th>Pris</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @for (var i = 0; i < Model.ReturMuligheter.Count; i++)
+                {
+                    var reise = Model.ReturMuligheter[i];
+                    <tr class="flygning">
+                        @if (reise.Mellomlanding > 0)
+                        {
+                            <td>
+                                @reise.Fra.Navn - @reise.Til.Navn <a href="#mellom-retur-@i" data-toggle="collapse" class="btn btn-info btn-xs">Vis mer</a>
+                                <div id="mellom-retur-@i" class="collapse">
+                                    @Html.Partial("_Mellomlandinger", reise)
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @reise.Fra.Navn - @reise.Til.Navn
+                            </td>
+                        }
+
+                        <td>@reise.Avgang</td>
+                        <td>@reise.Ankomst</td>
+                        <td>@(reise.Ankomst - reise.Avgang)</td>
+                        <td>@reise.Pris</td>
+                        <td><input name="returindeks" type="radio" value="@i" /></td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>Vi fant ingen flygninger for denne tiden.</p>
+        }
+
+    }
+
+
+
+        <button id="submitFlygninger" class="btn" type="submit" disabled="disabled">Velg flygninger</button>
+    
+}

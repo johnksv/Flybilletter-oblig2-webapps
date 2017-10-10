@@ -1,0 +1,25 @@
+﻿@model Flybilletter.Models.Bestilling
+
+@{
+    ViewBag.Title = "Kvittering";
+}
+
+<h2>@ViewBag.Title</h2>
+@if (Model == null)
+{
+    
+    <div class="alert alert-warning">
+        <strong>Ugyldig tilgang!</strong> Ingen aktiv bestilling er valgt. Vennligst gå til søk, og følg stegene, eller søk på referanse.
+    </div>
+}
+else
+{
+    <h3>Referanse: @Model.Referanse</h3>
+
+    <div>
+        <p>Vil du se detaljer angående din bestilling, se her <a href="/Home/ReferanseSok?referanse=@Model.Referanse" >@Model.Referanse</a> </p>
+    </div>
+
+
+}
+

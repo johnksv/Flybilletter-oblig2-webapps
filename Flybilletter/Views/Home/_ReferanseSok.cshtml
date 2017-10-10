@@ -1,0 +1,36 @@
+﻿@using (Html.BeginForm("ReferanseSok", "Home", FormMethod.Get, new { @class = "form-inline referanseSokForm", autocomplete = "off" }))
+{
+    <div class="form-group">
+        <label>Referanse</label>
+        <input type="text" class="form-control" name="referanse">
+        <button type="submit" class="btn btn-success">Finn referanse</button>
+    </div>
+    <hr />
+    <div class="alert alert-warning hidden" role="alert">
+        <strong>Feil!</strong> Det eksisterer ingen referanser med denne ID-en eksisterer.
+    </div>
+}
+
+<script>
+    $(function () {
+        $(".referanseSokForm").submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/ReferanseEksisterer",
+                data: $(this).serialize(),
+                dataType: "json"
+            }).done(function (data) {
+                if (data.exists == "True") {
+                    window.location.href = data.url
+                } else {
+                    $(".referanseSokForm .hidden").removeClass("hidden");
+                }
+            });
+
+        });
+
+    });
+
+</script>

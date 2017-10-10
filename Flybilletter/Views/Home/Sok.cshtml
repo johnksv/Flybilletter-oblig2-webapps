@@ -1,0 +1,151 @@
+﻿@model Flybilletter.Models.SokViewModel
+
+@{
+    ViewBag.Title = "Sok";
+    var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string jsonFlyplasser = jsSerializer.Serialize(ViewBag.Flyplasser);
+}
+<script type="text/javascript">
+    var flyplasser = JSON.parse('@Html.Raw(jsonFlyplasser)');
+    
+    function populerFlyplassSelectMedOptions(htmlElementID, ekskluderFlyplassID)
+    {
+        var utStreng = "";
+        for (var i in flyplasser) {
+            var flyplass = flyplasser[i];
+            if (flyplass.ID !== ekskluderFlyplassID)
+            {
+                utStreng += "<option value='" + flyplass.ID + "'>" + flyplass.Navn + " - " + flyplass.ID + "</option>";
+            }
+        }
+        
+        $(htmlElementID).empty().append(utStreng);
+    }
+
+    function radioButtonChange()
+    {
+        var value = $("input[name='turretur']:checked").val();
+        
+        if (value !== "true")
+        {
+            $("#returdato").attr('disabled', '');
+            //$("#returdato").toggleClass("disabled");
+        }
+        else
+        {
+            $("#returdato").removeAttr('disabled', '');
+        }
+    }
+
+    $(document).ready(function ()
+    {
+        populerFlyplassSelectMedOptions("#fraFlyplass", null)
+
+        //Funksjonen som Change tar som parameter blir kalt når select-boksen endrer verdi
+        $("#fraFlyplass").change(function () {
+            var fraFlyplassID = $("#fraFlyplass").val();
+            populerFlyplassSelectMedOptions("#tilFlyplass", fraFlyplassID)
+        });
+
+        //Kaller fraFlyplass sin change for første gang (slik at til-flyplasser fylles inn korrekt)
+        $("#fraFlyplass").change();
+
+        $("input[name='turretur']").change(function () { radioButtonChange() });
+
+
+
+        $("#sokForm").change(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: "/Home/Sok",
+                method: "POST",
+                data: $("#sokForm").serialize(),
+
+            }).done(function (httpResponse) {
+                $("#flygnigner").html(httpResponse);
+
+
+            });
+        });
+
+        $("#sokForm").change();
+        $("#turdato").change(function () {
+            $("#returdato").val($("#turdato").val());
+        });
+
+        $("#sokForm").submit(function (event) {
+            event.preventDefault();
+            $("#sokForm").change();
+        });
+    });
+</script>
+<h2>Bestill flybilletter</h2>
+
+
+@using (Html.BeginForm(null,null,FormMethod.Post, new { id="sokForm"}))
+{
+    <div class="form-horizontal">
+        <h4>Søk etter flyreiser</h4>
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Fra">Fra</label>
+            <div class="col-md-10">
+                <select id="fraFlyplass" class="form-control" name="Fra"></select>
+                @Html.ValidationMessageFor(model => model.Fra, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Til">Til</label>
+            <div class="col-md-10">
+                <select id="tilFlyplass" class="form-control" name="Til"></select>
+                @Html.ValidationMessageFor(model => model.Til, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <label class="radio-inline">
+                    <input type="radio" name="turretur" value="true" checked="checked" />Tur/Retur<br />
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="turretur" value="false" />En vei<br />
+                </label>
+            </div>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Avreise, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Avreise, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "turdato" } })
+                @Html.ValidationMessageFor(model => model.Avreise, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Retur, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Retur, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "returdato" } })
+                @Html.ValidationMessageFor(model => model.Retur, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AntallBilletter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AntallBilletter, new { htmlAttributes = new { @class = "form-control", @min = "1", @max = "100", @Value = "1" } })
+                @Html.ValidationMessageFor(model => model.AntallBilletter, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+
+<div id="flygnigner">
+
+
+</div>

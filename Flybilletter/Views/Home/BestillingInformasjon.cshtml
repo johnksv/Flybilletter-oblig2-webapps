@@ -1,0 +1,71 @@
+﻿@model Flybilletter.Models.Bestilling
+
+@if (Model == null)
+{
+
+    <h3>Referansen finnes ikke i databasen</h3>
+    return;
+}
+
+@{
+    var fraFlyplass = Model.FlygningerTur.First().Rute.Fra;
+    var tilFlyplass = Model.FlygningerTur.Last().Rute.Til;
+    var bestillingsTidspunkt = Model.BestillingsTidspunkt;
+}
+
+<div>
+    <h3>Referanse: @Html.DisplayFor(model => model.Referanse)</h3>
+    <h4>Din reise fra @fraFlyplass.By (@fraFlyplass.ID) til @tilFlyplass.By (@tilFlyplass.ID)</h4>
+    <div>
+        <label>Tidspunkt for bestilling: </label>
+        @Html.DisplayFor(model => model.BestillingsTidspunkt)
+    </div>
+    <div>
+        <label>Betalt: </label>
+        @Html.DisplayFor(model => model.Totalpris) NOK
+    </div>
+    <hr />
+
+    <h3>Flygninger</h3>
+    <h4>Tur</h4>
+    <div class="row">
+        @foreach (var flygning in Model.FlygningerTur)
+        {
+            <div class="col-md-6">
+                @Html.DisplayFor(model => flygning)
+            </div>
+        }
+    </div>
+    
+
+    @if (Model.FlygningerRetur != null && Model.FlygningerRetur.Count > 0)
+    {
+        <h4>Retur</h4>
+        <div class="row">
+            @foreach (var item in Model.FlygningerRetur)
+            {
+                <div class="col-md-6">
+                    @Html.DisplayFor(model => item)
+                </div>
+            }
+        </div>
+    }
+
+
+    <h3>Passasjerer</h3>
+    <div class="row">
+        @for (int i = 0, antall = 1; i < Model.Passasjerer.Count; i++, antall++)
+        {
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Passasjer @antall</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DisplayFor(model => model.Passasjerer[i], new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿@model Flybilletter.Models.Flygning
+
+<div class="panel panel-default">
+    @{
+        var ruteFra = Model.Rute.Fra;
+        var ruteTil = Model.Rute.Til;
+        TimeSpan reisetid = Model.AnkomstTid - Model.AvgangsTid;
+
+     }
+    <div class="panel panel-heading">
+        <h3 class="panel-title">Flygning fra @ruteFra.By (@ruteFra.ID)  til @ruteTil.By (@ruteTil.ID)</h3>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                Avgangstid
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AvgangsTid)
+            </dd>
+
+            <dt>
+                Ankomsttid
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AnkomstTid)
+            </dd>
+
+            <dt>
+                Reisetid
+            </dt>
+            <dd>
+                @reisetid.Hours time, @reisetid.Minutes minutter
+            </dd>
+            
+            
+            <dt>
+                Fly
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fly.Modell)
+            </dd>
+            
+        </dl>
+
+    </div>
+</div>

@@ -1,0 +1,245 @@
+﻿@model Flybilletter.Models.BestillingViewModel
+
+@{
+    ViewBag.Title = "Bestille";
+}
+
+@if (Model == null)
+{
+
+    <h3>Direkte aksess ikke tillatt</h3>
+    return;
+}
+
+<script>
+    $(function () {
+        $("#kreditkortform").submit(function (event) {
+            event.preventDefault();
+            var isValid = $(this).valid();
+            if (isValid) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/Kunde",
+                    data: $("#kundeConfirmForm").serialize()
+                }).done(function () {
+                    $("#kreditkortform").unbind("submit");
+                    $("#kreditkortform").submit();
+                });
+            }
+        });
+
+
+        $("#kundeConfirmForm").submit(function (event) {
+            event.preventDefault();
+            var isValid = $(this).valid();
+            var isDisabled = $(this).find("input").prop('readonly');
+
+            if (isDisabled) {
+                $("#kundeInformasjonBtn").text("Bekreft informasjon");
+            } else if (isValid) {
+                $("#kundeInformasjonBtn").text("Endre informasjon");
+            } else {
+                return; //Hvis formen ikke er valid
+            }
+
+            $(this).find("input").prop('readonly', !isDisabled);
+            $("#kundeInformasjonBtn").toggleClass("btn-success");
+            $("#kundeInformasjonBtn").toggleClass("btn-default");
+
+
+            var okForBetaling = isValid && !isDisabled;
+            if (okForBetaling) {
+                $("#gaaTilBetaling").removeClass("disabled");
+                $("#gaaTilBetaling").removeClass("btn-default");
+                $("#gaaTilBetaling").addClass("btn-success");
+
+                $("#valideringFeilmelding").addClass("hidden");
+            } else {
+                $("#valideringFeilmelding").removeClass("hidden");
+                $("#gaaTilBetaling").addClass("disabled");
+                $("#gaaTilBetaling").addClass("btn-default");
+                $("#gaaTilBetaling").removeClass("btn-success");
+
+            }
+
+        });
+
+        $("#gaaTilBetaling").click(function (event) {
+            var valid = $("#kundeConfirmForm").valid();
+            var bekreftet = $("#kundeConfirmForm").find("input").prop("readonly");
+
+            if (valid && bekreftet) {
+                $("#betalingsinformasjon").modal();
+            }
+        });
+
+    });
+
+</script>
+
+<h2>Informasjon om bestilling</h2>
+
+<h3>@Model.Tur.Fra.By - @Model.Tur.Til.By</h3>
+
+
+<div class="row">
+    @foreach (var item in Model.Tur.Flygninger) //Det er maks 2 elementer i listen, siden vi kun har maks 1 mellomlanding ATM
+    {
+        <div class="col-md-6">
+            @Html.DisplayFor(model => item)
+        </div>
+    }
+</div>
+
+
+@if (Model.Retur != null)
+{
+    <h3>@Model.Retur.Fra.By - @Model.Retur.Til.By</h3>
+    <div class="row">
+        @foreach (var item in Model.Retur.Flygninger)
+        {
+            <div class="col-md-6">
+                @Html.DisplayFor(model => item)
+            </div>
+        }
+    </div>
+}
+
+<hr />
+<h3>Reisende</h3>
+
+
+@using (Html.BeginForm("Kunde", "Home", FormMethod.Post, new { id = "kundeConfirmForm", @class = "passasjerBekreftelse", @autocomplete = "false" })) ///Home/BestillingDetaljer
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        @for (int i = 0, antall = 1; i < Model.Kunder.Count; i++, antall++)
+        {
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Passasjer @antall</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        @Html.EditorFor(model => model.Kunder[i], new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Kunder[i], "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+        <button id="kundeInformasjonBtn" type="submit" class="btn btn-success">Bekreft informasjon</button>
+}
+
+
+<hr />
+<div class="">
+    <button id="gaaTilBetaling" class="btn btn-default disabled">Gå til betaling</button>
+</div>
+
+<div id="valideringFeilmelding" class="alert alert-info col-md-12" role="alert" style="margin-top: 0.5em;">
+    Alle felter må bekreftes før man kan gå til betaling.
+</div>
+
+<div style="margin-top: 1em;">
+    <a class="btn btn-default" href="/Home/Sok">Tilbake til søk</a>
+</div>
+
+<div class="modal" id="betalingsinformasjon" role="dialog">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="panel panel-default" style="margin-bottom: 0px;">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Betaling</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        @using (@Html.BeginForm("GenererReferanse", "Home", FormMethod.Post, new { id = "kreditkortform" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kredittkort.Kortholder, htmlAttributes: new { @class = "control-label" })
+
+                                @Html.EditorFor(model => model.Kredittkort.Kortholder, new { htmlAttributes = new { @class = "form-control", placeholder = "Fullt navn", type = "text", autocomplete = "cc-name" } })
+                                @Html.ValidationMessageFor(model => model.Kredittkort.Kortholder, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kredittkort.Kortnummer, htmlAttributes: new { @class = "control-label" })
+
+
+                                @Html.EditorFor(model => model.Kredittkort.Kortnummer, new { htmlAttributes = new { @class = "form-control", placeholder = "Kortnummer", type = "number", autocomplete = "cc-number", min = "000" } })
+                                @Html.ValidationMessageFor(model => model.Kredittkort.Kortnummer, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kredittkort.CVC, htmlAttributes: new { @class = "control-label" })
+
+                                @Html.EditorFor(model => model.Kredittkort.CVC, new { htmlAttributes = new { @class = "form-control", placeholder = "CVC", type = "number", autocomplete = "cc-csc", min = "000", max = "999" } })
+                                @Html.ValidationMessageFor(model => model.Kredittkort.CVC, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Kredittkort.Utlop, htmlAttributes: new { @class = "control-label" })
+
+                                @Html.EditorFor(model => model.Kredittkort.Utlop, new { htmlAttributes = new { @class = "form-control", placeholder = "MM-ÅÅ", type = "text", autocomplete = "cc-exp" } })
+                                @Html.ValidationMessageFor(model => model.Kredittkort.Utlop, "", new { @class = "text-danger" })
+
+                            </div>
+                        }
+                        <p>Vi gjør oppmerksom på at kortinformasjon blir ikke lagret, men den blir "validert". Selv om denne siden kun emulerer at vi belaster kortet, vil vi anbefale å IKKE oppgi reell kortdata.</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4>Prisoversikt</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Hva</th>
+                                        <th>Pris</th>
+                                    </tr>
+                                </thead>
+                                @{
+                                    double totalPris = 0;
+                                    var flygninger = new List<Flybilletter.Models.Flygning>();
+                                    flygninger.AddRange(Model.Tur.Flygninger);
+                                    if (Model.Retur != null)
+                                    {
+                                        flygninger.AddRange(Model.Retur.Flygninger);
+                                    }
+                                    foreach (var flygning in flygninger)
+                                    {
+                                        <tr>
+                                            <td>@flygning.Rute.Fra.By - @flygning.Rute.Til.By</td>
+                                            <td>@flygning.Rute.BasePris,-</td>
+                                        </tr>
+                                        totalPris += flygning.Rute.BasePris;
+                                    }
+                                }
+                                <tr class="info">
+                                    <th>Totalbeløp:</th>
+                                    <th>@totalPris,-</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel-footer">
+                    <button class="btn btn-success" type="submit" form="kreditkortform">Bekreft informasjon</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

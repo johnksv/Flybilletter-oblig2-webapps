@@ -1,0 +1,88 @@
+﻿@model Flybilletter.Models.Kunde
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fornavn, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fornavn, new { htmlAttributes = new { @class = "form-control", autocomplete = "given-name" } })
+            @Html.ValidationMessageFor(model => model.Fornavn, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Etternavn, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Etternavn, new { htmlAttributes = new { @class = "form-control", autocomplete = "family-name" } })
+            @Html.ValidationMessageFor(model => model.Etternavn, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fodselsdag, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fodselsdag, new { htmlAttributes = new { @class = "form-control", autocomplete = "bday" } })
+            @Html.ValidationMessageFor(model => model.Fodselsdag, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Adresse, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Adresse, new { htmlAttributes = new { @class = "form-control", autocomplete = "street-address" } })
+            @Html.ValidationMessageFor(model => model.Adresse, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Postnummer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.Postnummer, new { htmlAttributes = new { @class = "form-control", autocomplete = "postal-code" } })
+            @Html.ValidationMessageFor(model => model.Postnummer, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-5" style="margin-top:0.5em;">
+            <span id="@Html.IdFor(model => model.Poststed)"> </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Tlf, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Tlf, new { htmlAttributes = new { @class = "form-control", autocomplete = "tel" } })
+            @Html.ValidationMessageFor(model => model.Tlf, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EPost, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EPost, new { htmlAttributes = new { @class = "form-control", autocomplete = "email" } })
+            @Html.ValidationMessageFor(model => model.EPost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+
+</div>
+
+<script>
+
+
+
+    $("#@Html.IdFor(model => model.Postnummer)").change(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Home/HentPoststed",
+            data: "postnummer=" + $(this).val()
+        }).done(function (response) {
+            if (response === "null") {
+                $("#@Html.IdFor(model => model.Poststed)").html("UGYLDIG POSTSTED");
+            } else {
+                $("#@Html.IdFor(model => model.Poststed)").html(response);
+            }
+        });
+    });
+
+
+</script>

@@ -1,0 +1,24 @@
+﻿@model Flybilletter.Models.Reise
+
+
+<table class="table col-md-1 col-sm-2">
+    <thead>
+        <tr>
+            <th>Rute</th>
+            <th>Avgang</th>
+            <th>Ankomst</th>
+            <th>Reisetid</th>
+            <th>Pris</th>
+        </tr>
+    </thead>
+    @foreach (var flygning in Model.Flygninger)
+    {
+        <tr>
+            <td>@flygning.Rute.Fra.Navn - @flygning.Rute.Til.Navn</td>
+            <td>@flygning.AvgangsTid</td>
+            <td>@flygning.AnkomstTid</td>
+            <td>@(flygning.AnkomstTid - flygning.AvgangsTid)</td>
+            <td>@flygning.Rute.BasePris</td>
+        </tr>
+    }
+</table>
