@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomeneModel\Bestilling.cs" />
+    <Compile Include="DomeneModel\Postnummer.cs" />
     <Compile Include="ViewModel\BestillingViewModel.cs" />
     <Compile Include="DomeneModel\Fly.cs" />
     <Compile Include="DomeneModel\Flygning.cs" />

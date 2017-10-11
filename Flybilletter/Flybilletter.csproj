@@ -145,7 +145,6 @@
     <Content Include="Views\Home\Kvittering.cshtml" />
     <Content Include="Views\Home\_ReferanseSok.cshtml" />
     <Content Include="Views\Home\BestillingInformasjon.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\KredittkortViewModel.cshtml" />
     <Content Include="Views\Home\_Flygninger.cshtml" />
     <Content Include="Views\Home\_Mellomlandinger.cshtml" />
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
