@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Flybilletter.DAL.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace Flybilletter.Models
+namespace Flybilletter.DAL
 {
     public class DBInit : DropCreateDatabaseAlways<DB>
     {
         protected override void Seed(DB context)
         {
-            var OSL = new Flyplass()
+            var OSL = new DBFlyplass()
             {
                 ID = "OSL",
                 By = "Oslo",
@@ -18,7 +19,7 @@ namespace Flybilletter.Models
                 Navn = "Gardermoen Lufthavn"
 
             };
-            var BOO = new Flyplass()
+            var BOO = new DBFlyplass()
             {
                 ID = "BOO",
                 By = "Bodø",
@@ -26,7 +27,7 @@ namespace Flybilletter.Models
                 Navn = "Bodø Lufthavn"
 
             };
-            var MXP = new Flyplass()
+            var MXP = new DBFlyplass()
             {
                 ID = "MXP",
                 By = "Milano",
@@ -34,7 +35,7 @@ namespace Flybilletter.Models
                 Navn = "Malpensa lufthavn"
 
             };
-            var LHR = new Flyplass()
+            var LHR = new DBFlyplass()
             {
                 ID = "LHR",
                 By = "London",
@@ -42,7 +43,7 @@ namespace Flybilletter.Models
                 Navn = "Heathrow lufthavn"
 
             };
-            var ARN = new Flyplass()
+            var ARN = new DBFlyplass()
             {
                 ID = "ARN",
                 By = "Stockholm",
@@ -50,7 +51,7 @@ namespace Flybilletter.Models
                 Navn = "Arlanda Lufthavn"
 
             };
-            var CPH = new Flyplass()
+            var CPH = new DBFlyplass()
             {
                 ID = "CPH",
                 By = "København",
@@ -60,88 +61,88 @@ namespace Flybilletter.Models
             };
 
 
-            var BOOOSL = new Rute()
+            var BOOOSL = new DBRute()
             {
                 Fra = BOO,
                 Til = OSL,
                 BasePris = 1199
             };
-            var OSLBOO = new Rute()
+            var OSLBOO = new DBRute()
             {
                 Fra = OSL,
                 Til = BOO,
                 BasePris = 1199
             };
-            var OSLMXP = new Rute()
+            var OSLMXP = new DBRute()
             {
                 Fra = OSL,
                 Til = MXP,
                 BasePris = 1499
             };
-            var MXPOSL = new Rute()
+            var MXPOSL = new DBRute()
             {
                 Fra = MXP,
                 Til = OSL,
                 BasePris = 1499
             };
-            var OSLLHR = new Rute()
+            var OSLLHR = new DBRute()
             {
                 Fra = OSL,
                 Til = LHR,
                 BasePris = 1299
             };
-            var LHROSL = new Rute()
+            var LHROSL = new DBRute()
             {
                 Fra = LHR,
                 Til = OSL,
                 BasePris = 1299
             };
-            var ARNOSL = new Rute()
+            var ARNOSL = new DBRute()
             {
                 Fra = ARN,
                 Til = OSL,
                 BasePris = 799
             };
-            var OSLARN = new Rute()
+            var OSLARN = new DBRute()
             {
                 Fra = OSL,
                 Til = ARN,
                 BasePris = 799
             };
-            var CPHOSL = new Rute()
+            var CPHOSL = new DBRute()
             {
                 Fra = CPH,
                 Til = OSL,
                 BasePris = 899
             };
-            var OSLCPH = new Rute()
+            var OSLCPH = new DBRute()
             {
                 Fra = OSL,
                 Til = CPH,
                 BasePris = 899
             };
             
-            var Boeing737_1 = new Fly()
+            var Boeing737_1 = new DBFly()
             {
                 Modell = "Boeing 737",
                 AntallSeter = 150
             };
-            var Boeing737_2 = new Fly()
+            var Boeing737_2 = new DBFly()
             {
                 Modell = "Boeing 737",
                 AntallSeter = 150
             };
-            var Boeing737_3 = new Fly()
+            var Boeing737_3 = new DBFly()
             {
                 Modell = "Boeing 737",
                 AntallSeter = 150
             };
-            var AirbusA380_1 = new Fly()
+            var AirbusA380_1 = new DBFly()
             {
                 Modell = "Airbus A380",
                 AntallSeter = 450
             };
-            var AirbusA380_2 = new Fly()
+            var AirbusA380_2 = new DBFly()
             {
                 Modell = "Airbus A380",
                 AntallSeter = 450
@@ -150,7 +151,7 @@ namespace Flybilletter.Models
 
             for (int i = 0; i < 1344; i += 8) // 336 timer = 2 uker
             {
-                var flygningBOOOSL = new Flygning()
+                var flygningBOOOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     AnkomstTid = DateTime.Today.AddHours(i + 1),
@@ -158,7 +159,7 @@ namespace Flybilletter.Models
                     Rute = BOOOSL
                 };
 
-                var flygningOSLBOO = new Flygning()
+                var flygningOSLBOO = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     AnkomstTid = DateTime.Today.AddHours(i + 3),
@@ -166,7 +167,7 @@ namespace Flybilletter.Models
                     Rute = OSLBOO
                 };
 
-                var flygningMXPOSL = new Flygning()
+                var flygningMXPOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 0.5),
                     AnkomstTid = DateTime.Today.AddHours(i + 2.5),
@@ -174,49 +175,49 @@ namespace Flybilletter.Models
                     Rute = MXPOSL
                 };
 
-                var flygningOSLMXP = new Flygning()
+                var flygningOSLMXP = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 4),
                     AnkomstTid = DateTime.Today.AddHours(i + 6),
                     Fly = flygningMXPOSL.Fly,
                     Rute = OSLMXP
                 };
-                var flygningOSLLHR = new Flygning()
+                var flygningOSLLHR = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     AnkomstTid = DateTime.Today.AddHours(i + 4),
                     Fly = AirbusA380_2,
                     Rute = OSLLHR
                 };
-                var flygningLHROSL = new Flygning()
+                var flygningLHROSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 6),
                     AnkomstTid = DateTime.Today.AddHours(i + 8),
                     Fly = flygningOSLLHR.Fly,
                     Rute = LHROSL
                 };
-                var flygningARNOSL = new Flygning()
+                var flygningARNOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     AnkomstTid = DateTime.Today.AddHours(i + 1),
                     Fly = Boeing737_1,
                     Rute = ARNOSL
                 };
-                var flygningOSLARN = new Flygning()
+                var flygningOSLARN = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     AnkomstTid = DateTime.Today.AddHours(i + 3),
                     Fly = flygningARNOSL.Fly,
                     Rute = OSLARN
                 };
-                var flygningOSLCPH = new Flygning()
+                var flygningOSLCPH = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     AnkomstTid = DateTime.Today.AddHours(i + 1),
                     Fly = Boeing737_3,
                     Rute = OSLCPH
                 };
-                var flygningCPHOSL = new Flygning()
+                var flygningCPHOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 3),
                     AnkomstTid = DateTime.Today.AddHours(i + 4),

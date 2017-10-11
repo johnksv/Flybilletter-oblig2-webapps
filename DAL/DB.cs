@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Flybilletter.DAL.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
-namespace Flybilletter.Models
+namespace Flybilletter.DAL
 {
     public class DB : DbContext
     {
@@ -21,12 +22,12 @@ namespace Flybilletter.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
 
-        public virtual DbSet<Bestilling> Bestillinger { get; set; }
-        public virtual DbSet<Fly> Fly { get; set; }
-        public virtual DbSet<Flygning> Flygninger { get; set; }
-        public virtual DbSet<Flyplass> Flyplasser { get; set; }
+        public virtual DbSet<DBBestilling> Bestillinger { get; set; }
+        public virtual DbSet<DBFly> Fly { get; set; }
+        public virtual DbSet<DBFlygning> Flygninger { get; set; }
+        public virtual DbSet<DBFlyplass> Flyplasser { get; set; }
         public virtual DbSet<DBKunde> Kunder { get; set; }
         public virtual DbSet<DBPoststed> Poststeder { get; set; }
-        public virtual DbSet<Rute> Ruter { get; set; }
+        public virtual DbSet<DBRute> Ruter { get; set; }
     }
 }

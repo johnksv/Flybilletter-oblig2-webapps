@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,15 +7,6 @@ using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
-
-    public class DBPoststed
-    {
-        [Key]
-        public string Postnr { get; set; }
-        public string Poststed { get; set; }
-
-        public virtual List<DBKunde> Kunder { get; set; }
-    }
 
     public class DBKunde
     {
@@ -32,7 +24,7 @@ namespace Flybilletter.DAL.DBModel
 
         public string EPost { get; set; }
 
-        public DBPoststed Poststed { get; set; }
+        public virtual DBPoststed Poststed { get; set; }
 
 
 

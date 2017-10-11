@@ -1,4 +1,7 @@
-﻿@model Flybilletter.Models.DBKunde
+﻿@model Flybilletter.Model.DomeneModel.Kunde
+    @{
+        //TODO: SJekk at denne fungerer. Her var det egentlig DBKunde
+    }
 
 <dl class="dl-horizontal">
 
@@ -35,8 +38,8 @@
         Poststed
     </dt>
     <dd>
-        @Html.DisplayFor(model => model.Poststed.Postnr)
-        @Html.DisplayFor(model => model.Poststed.Poststed)
+        @Html.DisplayFor(model => model.Postnummer)
+        @Html.DisplayFor(model => model.Poststed)
     </dd>
 
     <dt>

@@ -54,6 +54,7 @@
     <Compile Include="DBModel\DBFly.cs" />
     <Compile Include="DBModel\DBFlygning.cs" />
     <Compile Include="DBModel\DBFlyplass.cs" />
+    <Compile Include="DBModel\DBPoststed.cs" />
     <Compile Include="DBModel\DBReise.cs" />
     <Compile Include="DBModel\DBRute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

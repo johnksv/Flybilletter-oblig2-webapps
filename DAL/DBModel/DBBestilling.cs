@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Flybilletter.DAL.DBModel
@@ -14,6 +16,40 @@ namespace Flybilletter.DAL.DBModel
         public virtual List<DBFlygning> FlygningerRetur { get; set; }
         public DateTime BestillingsTidspunkt { get; set; }
         public double Totalpris { get; set; }
+
+        public static Bestilling FinnBestilling(string referanse)
+        {
+            Bestilling bestilling = null;
+
+            referanse = referanse.ToUpper().Trim();
+            var regex = new Regex("^[A-Z0-9]{6}$");
+            bool isMatch = regex.IsMatch(referanse);
+
+            if (isMatch)
+            {
+                using (var db = new DB())
+                {
+                    DBBestilling dbbestilling = db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault();
+                    if(dbbestilling != null)
+                    {
+                        bestilling = new Bestilling()
+                        {
+                            ID = dbbestilling.ID,
+                            BestillingsTidspunkt = dbbestilling.BestillingsTidspunkt,
+                            Referanse = dbbestilling.Referanse,
+                            Totalpris = dbbestilling.Totalpris
+                            //TODO: dbbestilling.FlygningerRetur må gjøres om fra List<DBFlygning> til List<Flygning>, samt List<DBKunde> til List<Kunde>
+                            //Kanskje denne er mulig https://stackoverflow.com/questions/1909268/convert-a-list-of-objects-from-one-type-to-another-using-lambda-expression
+                            //FlygningerRetur = dbbestilling.FlygningerRetur,
+                            //FlygningerTur = dbbestilling.FlygningerTur,
+                            //Passasjerer = dbbestilling.Passasjerer,
+                        };
+                    }
+                }
+            }
+
+            return bestilling;
+        }
 
     }
 }

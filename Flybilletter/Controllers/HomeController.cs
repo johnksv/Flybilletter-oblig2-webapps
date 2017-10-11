@@ -1,4 +1,6 @@
-﻿using Flybilletter.Models;
+﻿using BLL;
+using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,9 @@ namespace Flybilletter.Controllers
     public class HomeController : Controller
     {
 
-        private DB db = new DB();
-
         public ActionResult Sok()
         {
-            ViewBag.flyplasser = db.Flyplasser.ToList();
+            ViewBag.flyplasser = BLLFlyplass.HentAlle();
 
             var model = new SokViewModel()
             {
@@ -28,7 +28,7 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult Sok(Flybilletter.Models.SokViewModel innSok)
+        public ActionResult Sok(SokViewModel innSok)
         {
             bool sammeTilOgFra = innSok.Til.Equals(innSok.Fra);
             var fra = db.Flyplasser.Where(flyplass => flyplass.ID == innSok.Fra).First(); //Hvis du tweaket i HTML-koden fortjener du ikke feilmelding
@@ -164,13 +164,15 @@ namespace Flybilletter.Controllers
                 string CVCstring = ModelState["Kredittkort.CVC"].Value.AttemptedValue;
                 string utlop = ModelState["Kredittkort.Utlop"].Value.AttemptedValue;
                 string feilmelding;
-                bool gyldig = VerifiserKredittkort(CVCstring, utlop, out feilmelding);
+                bool gyldig = BLLBestilling.VerifiserKredittkort(CVCstring, utlop, out feilmelding);
                 if (!gyldig)
                 {
                     ViewBag.Feilmelding = feilmelding;
                     return View("BetalingFeilet");
                 }
             }
+
+            //TODO: Hvor skal denne metoden legges i BLL? Kanskje en metode som heter "LeggInnBestilling", som tar parameter List<Kunde> og BestillingViewModel
 
             // Generer referanse, lagre i database
             var kunder = (List<Kunde>)Session["KunderBestilling"];
@@ -236,17 +238,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public ActionResult ReferanseSok(string referanse)
         {
-            Bestilling bestilling = null;
-
-            referanse = referanse.ToUpper().Trim();
-            var regex = new Regex("^[A-Z0-9]{6}$");
-            bool isMatch = regex.IsMatch(referanse);
-
-            if (isMatch)
-            {
-                bestilling = db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).First();
-            }
-
+            Bestilling bestilling = BLLBestilling.FinnBestilling(referanse);
             return View("BestillingInformasjon", bestilling);
         }
 
@@ -275,75 +267,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public string HentPoststed(string postnummer)
         {
-            var regex = new Regex("^[0-9]{4}$");
-            bool isMatch = regex.IsMatch(postnummer);
-            DBPoststed poststed = null;
-            if (isMatch)
-            {
-                poststed = db.Poststeder.FirstOrDefault(model => model.Postnr == postnummer);
-            }
-            
-            return poststed == null ? "null" : poststed.Poststed;
-        }
-
-
-        public ActionResult ReferanseSammendrag(string referanse)
-        {
-            var bestilling = db.Bestillinger.First(best => best.Referanse.Equals(referanse));
-
-            return View(bestilling);
-        }
-
-        private bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding)
-        {
-            feilmelding = "";
-            int cvc = 0;
-            bool ok = int.TryParse(CVCstring, out cvc);
-            if (!ok || cvc < 100 || cvc > 999)
-            {
-                feilmelding = "Ugyldig CVC. Må være mellom 100 og 999";
-                return false;
-            }
-
-            
-            var regex = new Regex(@"^([0-9]{2})\-([0-9]{2})$");
-            Match match = regex.Match(utlop);
-            bool resultat = false;
-            if (match.Success)
-            {
-                int mnd = int.Parse(match.Groups[1].Value);
-                int aar = int.Parse(match.Groups[2].Value);
-
-                if (mnd > 0 && mnd <= 12) //Sjekk at mnd er OK
-                {
-                    resultat = true;
-                    if (aar < DateTime.Now.Year - 2000) //Sjekk at vi ikke er i fortiden
-                    {
-                        feilmelding = "Ugyldig utløp. Kortet kan ikke være utløpt.";
-                        resultat = false;
-                    }
-                    else if (aar == DateTime.Now.Year - 2000) //Om kortet går ut samme år som nå sjekker vi at mnd er OK
-                    {
-                        int currmnd = DateTime.Now.Month;
-                        if (mnd < currmnd) 
-                        {
-                            feilmelding = "Ugyldig utløp. Kortet kan ikke være utløpt.";
-                            resultat = false;
-                        }
-                    }
-                }
-            }
-            
-            return resultat;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return BLLKunde.HentPoststed(postnummer);
         }
     }
 }

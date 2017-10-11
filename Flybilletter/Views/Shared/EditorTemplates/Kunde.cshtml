@@ -1,4 +1,4 @@
-﻿@model Flybilletter.Models.Kunde
+﻿@model Flybilletter.Model.DomeneModel.Kunde
 
 <div class="form-horizontal">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -76,11 +76,7 @@
             url: "/Home/HentPoststed",
             data: "postnummer=" + $(this).val()
         }).done(function (response) {
-            if (response === "null") {
-                $("#@Html.IdFor(model => model.Poststed)").html("UGYLDIG POSTSTED");
-            } else {
-                $("#@Html.IdFor(model => model.Poststed)").html(response);
-            }
+            $("#@Html.IdFor(model => model.Poststed)").html(response);
         });
     });
 
