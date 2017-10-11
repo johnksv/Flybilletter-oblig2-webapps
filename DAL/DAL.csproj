@@ -47,7 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DB.cs" />
+    <Compile Include="DBInit.cs" />
+    <Compile Include="DBModel\DBKunde.cs" />
+    <Compile Include="DBModel\DBBestilling.cs" />
+    <Compile Include="DBModel\DBFly.cs" />
+    <Compile Include="DBModel\DBFlygning.cs" />
+    <Compile Include="DBModel\DBFlyplass.cs" />
+    <Compile Include="DBModel\DBReise.cs" />
+    <Compile Include="DBModel\DBRute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

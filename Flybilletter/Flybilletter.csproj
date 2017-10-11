@@ -128,20 +128,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BestillingViewModel.cs" />
-    <Compile Include="Models\FlygningerViewModel.cs" />
-    <Compile Include="Models\DBKunde.cs" />
-    <Compile Include="Models\KredittkortViewModel.cs" />
-    <Compile Include="Models\Reise.cs" />
-    <Compile Include="Models\SokViewModel.cs" />
-    <Compile Include="Models\DB.cs" />
-    <Compile Include="Models\DBInit.cs" />
-    <Compile Include="Models\Flyplass.cs" />
-    <Compile Include="Models\Bestilling.cs" />
-    <Compile Include="Models\Rute.cs" />
-    <Compile Include="Models\Fly.cs" />
-    <Compile Include="Models\Kunde.cs" />
-    <Compile Include="Models\Flygning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

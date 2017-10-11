@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Flybilletter.Models
+namespace Flybilletter.Model.ViewModel
 {
     public class BestillingViewModel
     {
