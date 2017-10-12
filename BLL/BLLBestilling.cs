@@ -58,5 +58,43 @@ namespace BLL
 
             return resultat;
         }
+
+
+
+        public static List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, bool turRetur = false)
+        {
+            List<Reise> reise;
+            List<Flygning> fraListe = DBFlygning.HentFlygninger(fraFlyplassID);
+            List<Flygning> tilListe = DBFlygning.HentFlygninger(tilFlyplassID);
+            List<Flygning> fraListe = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID.Equals(fra.ID)).ToList(); //fly som drar fra reiseplass
+            List<Flygning> tilListe = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID.Equals(til.ID)).ToList(); //fly som ender opp i destinasjon
+            List<Reise> turListe = new List<Reise>();
+            List<Reise> returListe = new List<Reise>();
+
+
+            foreach (Flygning fraFly in fraListe)
+            {
+                if (fraFly.Rute.Til.ID == til)
+                {
+                    if (fraFly.AvgangsTid.Date == innSok.Avreise.Date)
+                        turListe.Add(new Reise(fraFly));
+                }
+                else
+                {
+                    foreach (Flygning tilFly in tilListe)
+                    {
+                        if (fraFly.Rute.Til == tilFly.Rute.Fra && fraFly.AvgangsTid.Date == innSok.Avreise.Date &&
+                            (tilFly.AvgangsTid - fraFly.AnkomstTid) >= new TimeSpan(1, 0, 0))
+                        {
+                            turListe.Add(new Reise(fraFly, tilFly));
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            return reise;
+        }
     }
 }

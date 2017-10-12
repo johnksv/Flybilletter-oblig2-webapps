@@ -48,6 +48,5 @@ namespace Flybilletter.Model.DomeneModel
 
         public string Poststed { get; set; }
 
-        public List<Bestilling> Bestillinger { get; set; }
     }
 }

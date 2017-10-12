@@ -11,8 +11,6 @@ namespace Flybilletter.Model.DomeneModel
         public virtual Flyplass Fra { get; set; }
         public virtual Flyplass Til { get; set; }
         public double BasePris { get; set; } //faktor for å regne ut total pris for turen
-        public virtual List<Flygning> Flygninger { get; set; }
-
 
     }
 }

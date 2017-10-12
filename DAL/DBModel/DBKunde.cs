@@ -26,6 +26,8 @@ namespace Flybilletter.DAL.DBModel
 
         public virtual DBPoststed Poststed { get; set; }
 
+        public virtual List<DBBestilling> Bestillinger { get; set; }
+
 
 
         public static List<Kunde> hentAlle()
