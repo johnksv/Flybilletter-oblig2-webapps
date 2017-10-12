@@ -19,22 +19,29 @@ namespace Flybilletter.DAL.DBModel
             List<Flyplass> flyplasser = null;
             using (var db = new DB())
             {
-                flyplasser = db.Flyplasser.Select(model => new Flyplass() {
+                flyplasser = db.Flyplasser.Select(model => new Flyplass()
+                {
                     ID = model.ID,
                     By = model.By,
                     Land = model.Land,
-                    Navn =model.Navn,
-                    //TODO: Skal vi virkelig mappe denne??
-                    Ruter = model.Ruter.Select(m => new Rute () {
-                        BasePris = m.BasePris,
-                        // Flygninger = m.Flygninger TODO:hvor langt kan vi "hente" data?? Om vi skal ha flyginger må vi mappe dette fra DBFlygninger til Flygninger.
-                    }).ToList()
-                    
+                    Navn = model.Navn
                 }).ToList();
             }
 
             return flyplasser;
 
+        }
+
+        public static Flyplass Hent(string tilFlyplassID)
+        {
+            Flyplass resultat = null;
+            using (var db = new DB())
+            {
+                DBFlyplass dbflyplass = db.Flyplasser.Find(tilFlyplassID);
+                resultat = AutoMapper.Mapper.Map<Flyplass>(dbflyplass);
+            }
+
+            return resultat;
         }
     }
 }

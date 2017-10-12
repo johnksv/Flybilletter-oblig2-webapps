@@ -1,4 +1,5 @@
-﻿using Flybilletter.Model.DomeneModel;
+﻿using AutoMapper;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,12 @@ namespace Flybilletter.DAL.DBModel
         public DateTime AvgangsTid { get; set; }
         public DateTime AnkomstTid { get; set; }
 
-        public static List<Flygning> HentFlygninger(string fraFlyplassID)
+        public static List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
             List<Flygning> flygninger = null;
             using (var db = new DB())
             {
-                flygninger = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID.Equals(fraFlyplassID)).Select(model =>
+                flygninger = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).Select(model =>
                      new Flygning()
                      {
                          AnkomstTid = model.AnkomstTid,
@@ -33,6 +34,31 @@ namespace Flybilletter.DAL.DBModel
             return flygninger;
         }
 
+        public static List<Flygning> HentFlygningerTil(Flyplass flyplass)
+        {
+            List<Flygning> flygninger = null;
+            using (var db = new DB())
+            {
+                flygninger = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).Select(model =>
+                     new Flygning()
+                     {
+                         AnkomstTid = model.AnkomstTid,
+                         AvgangsTid = model.AvgangsTid
 
+                     }
+                ).ToList();
+            }
+
+            return flygninger;
+        }
+
+        public static Flygning Finn(int ID)
+        {
+            using(var db = new DB())
+            {
+                var dbFlygning = db.Flygninger.Find(ID);
+                return Mapper.Map<Flygning>(dbFlygning);
+            }
+        }
     }
 }

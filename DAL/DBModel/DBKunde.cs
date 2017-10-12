@@ -51,21 +51,25 @@ namespace Flybilletter.DAL.DBModel
             return kunder;
         }
 
-        public static List<DBKunde> LeggInn(IEnumerable<Kunde> kunder)
+        public static bool LeggInn(IEnumerable<Kunde> kunder)
         {
-            var dbKunder = new List<DBKunde>(kunder.Count());
+            bool result = true;
             foreach (var kunde in kunder)
             {
-                dbKunder.Add(LeggInn(kunde));
+                bool current = LeggInn(kunde);
+                result = result == true ? current : false;
             }
-            return dbKunder;
+
+            return result;
         }
 
-            public static DBKunde LeggInn(Kunde innKunde)
+        private static DBKunde KundeTilDBKunde(Kunde innKunde, out bool postnummerEksisterte)
         {
+            DBKunde dbKunde = null;
+
             using (var db = new DB())
             {
-                var nyKunde = new DBKunde()
+                dbKunde = new DBKunde()
                 {
                     Fornavn = innKunde.Fornavn,
                     Etternavn = innKunde.Etternavn,
@@ -76,33 +80,71 @@ namespace Flybilletter.DAL.DBModel
                 };
 
                 var poststed = db.Poststeder.Find(innKunde.Postnummer);
-                if(poststed == null) //Antar at posten har byttet postnummer på denne plassen
+
+                postnummerEksisterte = poststed != null;
+
+                if (!postnummerEksisterte) //Antar at posten har byttet postnummer på denne plassen
                 {
+                    postnummerEksisterte = false;
                     poststed = new DBPoststed()
                     {
-                        Postnr= innKunde.Postnummer,
+                        Postnr = innKunde.Postnummer,
                         Poststed = ""
                     };
-                    
-                }else
-                {
-                    db.Poststeder.Attach(poststed);
+
                 }
 
-                
-                nyKunde.Poststed = poststed;
-                
-                db.Kunder.Add(nyKunde);
-                db.SaveChanges();
-                return nyKunde;
+                dbKunde.Poststed = poststed;
             }
+            return dbKunde;
         }
-  
-        public Kunde HentKundePaaID(int kundeID)
+
+        public static bool LeggInn(Kunde innKunde)
+        {
+            try
+            {
+                using (var db = new DB())
+                {
+                    var dbKunde = KundeTilDBKunde(innKunde, out bool postnummerIkkeEksisterte);
+
+                    if (postnummerIkkeEksisterte)
+                    {
+                        db.Poststeder.Attach(dbKunde.Poststed);
+                    }
+
+                    db.Kunder.Add(dbKunde);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        internal static void LeggInnEllerHentDeretterAttach(Kunde innKunde)
         {
             using (var db = new DB())
             {
-                var dbKunde = db.Kunder.Where(kund => kund.ID == kundeID).FirstOrDefault();
+                DBKunde kunde = db.Kunder.Find(innKunde.ID);
+                if (kunde == null)
+                {
+                    LeggInn(innKunde);
+                    kunde = db.Kunder.Find(innKunde.ID);
+                }
+
+                db.Kunder.Attach(kunde);
+            }
+            
+        }
+
+        public static Kunde HentKunde(int kundeID)
+        {
+            using (var db = new DB())
+            {
+                var dbKunde = db.Kunder.Find(kundeID);
                 if (dbKunde == null)
                 {
                     return null;

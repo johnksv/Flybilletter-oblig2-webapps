@@ -1,5 +1,6 @@
 ﻿using Flybilletter.DAL.DBModel;
 using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,42 +60,52 @@ namespace BLL
             return resultat;
         }
 
-
-
-        public static List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, bool turRetur = false)
+        public static Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende)
         {
-            List<Reise> reise;
-            List<Flygning> fraListe = DBFlygning.HentFlygninger(fraFlyplassID);
-            List<Flygning> tilListe = DBFlygning.HentFlygninger(tilFlyplassID);
-            List<Flygning> fraListe = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID.Equals(fra.ID)).ToList(); //fly som drar fra reiseplass
-            List<Flygning> tilListe = db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID.Equals(til.ID)).ToList(); //fly som ender opp i destinasjon
-            List<Reise> turListe = new List<Reise>();
-            List<Reise> returListe = new List<Reise>();
-
-
-            foreach (Flygning fraFly in fraListe)
+            BLLKunde.LeggInn(kunder);
+            var bestilling = new Bestilling()
             {
-                if (fraFly.Rute.Til.ID == til)
+                BestillingsTidspunkt = DateTime.Now,
+                FlygningerTur = new List<Flygning>(),
+                Passasjerer = kunder,
+                Totalpris = gjeldende.Totalpris
+            };
+
+            do //Lag en unik UUID helt til det ikke finnes i databasen fra før.
+            {
+                bestilling.Referanse = Guid.NewGuid().ToString().ToUpper().Substring(0, 6);
+            } while (DBBestilling.FinnBestilling(bestilling.Referanse) != null);
+
+
+            foreach (var flygning in gjeldende.Tur.Flygninger)
+            {
+                Flygning dbFlygning = DBFlygning.Finn(flygning.ID);
+                if (dbFlygning == null) throw new InvalidOperationException("Ugyldig flygning"); //Det skjedde en feil
+
+                bestilling.FlygningerTur.Add(dbFlygning);
+            }
+
+            if (gjeldende.Retur != null)
+            {
+                bestilling.FlygningerRetur = new List<Flygning>();
+                foreach (var flygning in gjeldende.Retur.Flygninger)
                 {
-                    if (fraFly.AvgangsTid.Date == innSok.Avreise.Date)
-                        turListe.Add(new Reise(fraFly));
-                }
-                else
-                {
-                    foreach (Flygning tilFly in tilListe)
-                    {
-                        if (fraFly.Rute.Til == tilFly.Rute.Fra && fraFly.AvgangsTid.Date == innSok.Avreise.Date &&
-                            (tilFly.AvgangsTid - fraFly.AnkomstTid) >= new TimeSpan(1, 0, 0))
-                        {
-                            turListe.Add(new Reise(fraFly, tilFly));
-                            break;
-                        }
-                    }
+                    var dbFlygning = DBFlygning.Finn(flygning.ID);
+                    if (dbFlygning == null) throw new InvalidOperationException("Ugyldig flygning");
+
+                    bestilling.FlygningerRetur.Add(dbFlygning);
                 }
             }
 
+            DBBestilling.LeggInn(bestilling);
 
-            return reise;
+
+            return bestilling;
+        }
+
+        public static bool EksistererReferanse(string referanse)
+        {
+            return DBBestilling.EksistererReferanse(referanse);
         }
     }
 }

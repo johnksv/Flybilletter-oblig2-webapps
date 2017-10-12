@@ -16,5 +16,16 @@ namespace BLL
             Postnummer postnr = DBPoststed.HentPoststed(postnummer);
             return  postnr == null ? "UGYLDIG POSTNUMMER" : postnr.Poststed;
         }
+
+
+        public static bool LeggInn(IEnumerable<Kunde> kunder)
+        {
+            return DBKunde.LeggInn(kunder);
+        }
+
+        public static bool LeggInn(Kunde innKunde)
+        {
+            return DBKunde.LeggInn(innKunde);
+        }
     }
 }

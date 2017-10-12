@@ -1,4 +1,5 @@
-﻿using Flybilletter.Model.DomeneModel;
+﻿using AutoMapper;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Web;
 namespace Flybilletter.DAL.DBModel
 {
     public class DBBestilling
-    { 
+    {
         public int ID { get; set; }
         public string Referanse { get; set; } //ID til bestillingen
         public virtual List<DBKunde> Passasjerer { get; set; } //Passasjerer knyttet til en bestilling
@@ -29,10 +30,14 @@ namespace Flybilletter.DAL.DBModel
             {
                 using (var db = new DB())
                 {
+
                     DBBestilling dbbestilling = db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault();
-                    if(dbbestilling != null)
+
+
+                    if (dbbestilling != null)
                     {
-                        bestilling = new Bestilling()
+                        bestilling = Mapper.Map<Bestilling>(dbbestilling);
+                        /* bestilling = new Bestilling()
                         {
                             ID = dbbestilling.ID,
                             BestillingsTidspunkt = dbbestilling.BestillingsTidspunkt,
@@ -43,7 +48,7 @@ namespace Flybilletter.DAL.DBModel
                             //FlygningerRetur = dbbestilling.FlygningerRetur,
                             //FlygningerTur = dbbestilling.FlygningerTur,
                             //Passasjerer = dbbestilling.Passasjerer,
-                        };
+                        }; */
                     }
                 }
             }
@@ -51,5 +56,27 @@ namespace Flybilletter.DAL.DBModel
             return bestilling;
         }
 
+        public static void LeggInn(Bestilling bestilling)
+        {
+            using (var db = new DB())
+            {
+                var dbbestilling = Mapper.Map<DBBestilling>(bestilling);
+
+                foreach (var kunde in bestilling.Passasjerer)
+                {
+                    DBKunde.LeggInnEllerHentDeretterAttach(kunde);
+                }
+                db.Bestillinger.Add(dbbestilling);
+                db.SaveChanges();
+            }
+        }
+
+        public static bool EksistererReferanse(string referanse)
+        {
+            using(var db = new DB())
+            {
+                return db.Bestillinger.Where(best => best.Referanse == referanse).Any();
+            }
+        }
     }
 }
