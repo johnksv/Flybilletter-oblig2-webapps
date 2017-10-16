@@ -149,7 +149,7 @@ namespace Flybilletter.DAL
             };
 
 
-            for (int i = 0; i < 1344; i += 8) // 336 timer = 2 uker
+            for (int i = 0; i < 100; i += 8) // 336 timer = 2 uker _ STO 1344
             {
                 var flygningBOOOSL = new DBFlygning()
                 {
@@ -269,7 +269,7 @@ namespace Flybilletter.DAL
         //Poststeder er hentet fra Difi: https://data.norge.no/data/posten-norge/postnummer-i-norge
         private IEnumerable<DBPoststed> poststeder = new DBPoststed[] {
             new DBPoststed() {Postnr = "0001", Poststed = "OSLO"},
-            new DBPoststed() {Postnr = "0010", Poststed = "OSLO"},
+            /*new DBPoststed() {Postnr = "0010", Poststed = "OSLO"},
             new DBPoststed() {Postnr = "0015", Poststed = "OSLO"},
             new DBPoststed() {Postnr = "0018", Poststed = "OSLO"},
             new DBPoststed() {Postnr = "0021", Poststed = "OSLO"},
@@ -5121,7 +5121,7 @@ namespace Flybilletter.DAL
             new DBPoststed() {Postnr = "9980", Poststed = "BERLEVÅG"},
             new DBPoststed() {Postnr = "9981", Poststed = "BERLEVÅG"},
             new DBPoststed() {Postnr = "9982", Poststed = "KONGSFJORD"},
-            new DBPoststed() {Postnr = "9990", Poststed = "BÅTSFJORD"},
+            new DBPoststed() {Postnr = "9990", Poststed = "BÅTSFJORD"}, */
             new DBPoststed() {Postnr = "9991", Poststed = "BÅTSFJORD"}
         };
     }
