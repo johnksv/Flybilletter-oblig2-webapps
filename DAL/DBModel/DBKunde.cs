@@ -1,4 +1,5 @@
-﻿using Flybilletter.Model.DomeneModel;
+﻿using AutoMapper;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,7 +36,7 @@ namespace Flybilletter.DAL.DBModel
             List<Kunde> kunder = null;
             using (var db = new DB())
             {
-                kunder = db.Kunder.Select(kunde => new Kunde()
+                /*kunder = db.Kunder.Select(kunde => new Kunde()
                 {
                     ID = kunde.ID,
                     Fornavn = kunde.Fornavn,
@@ -46,7 +47,14 @@ namespace Flybilletter.DAL.DBModel
                     Tlf = kunde.Tlf,
                     EPost = kunde.EPost,
                     Fodselsdag = kunde.Fodselsdag
-                }).ToList();
+                }).ToList(); */
+                if (db.Kunder.Any())
+                {
+                    kunder = new List<Kunde>();
+                    db.Kunder.ToList().ForEach(kunde => {
+                        kunder.Add(Mapper.Map<Kunde>(kunde));
+                    });
+                } 
             }
             return kunder;
         }

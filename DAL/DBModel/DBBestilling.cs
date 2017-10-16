@@ -30,29 +30,13 @@ namespace Flybilletter.DAL.DBModel
             {
                 using (var db = new DB())
                 {
-
                     DBBestilling dbbestilling = db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault();
-
-
                     if (dbbestilling != null)
                     {
                         bestilling = Mapper.Map<Bestilling>(dbbestilling);
-                        /* bestilling = new Bestilling()
-                        {
-                            ID = dbbestilling.ID,
-                            BestillingsTidspunkt = dbbestilling.BestillingsTidspunkt,
-                            Referanse = dbbestilling.Referanse,
-                            Totalpris = dbbestilling.Totalpris
-                            //TODO: dbbestilling.FlygningerRetur må gjøres om fra List<DBFlygning> til List<Flygning>, samt List<DBKunde> til List<Kunde>
-                            //Kanskje denne er mulig https://stackoverflow.com/questions/1909268/convert-a-list-of-objects-from-one-type-to-another-using-lambda-expression
-                            //FlygningerRetur = dbbestilling.FlygningerRetur,
-                            //FlygningerTur = dbbestilling.FlygningerTur,
-                            //Passasjerer = dbbestilling.Passasjerer,
-                        }; */
                     }
                 }
             }
-
             return bestilling;
         }
 
