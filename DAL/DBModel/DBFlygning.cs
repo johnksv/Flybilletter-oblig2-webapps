@@ -18,14 +18,14 @@ namespace Flybilletter.DAL.DBModel
 
         public static List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
-            // TODO: Håndter hvis det ikke finnes flygninger. i.e flygninger = null
-            List<Flygning> flygninger = new List<Flygning>();
+            List<Flygning> flygninger = null;
             using (var db = new DB())
             {
-                db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList().ForEach(model =>
+                flygninger = Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList());
+                /*db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList().ForEach(model =>
                 {
                     flygninger.Add(Mapper.Map<Flygning>(model));
-                });
+                }); */
             }
 
             return flygninger;
@@ -33,14 +33,14 @@ namespace Flybilletter.DAL.DBModel
 
         public static List<Flygning> HentFlygningerTil(Flyplass flyplass)
         {
-            // TODO: Håndter hvis det ikke finnes flygninger. i.e flygninger = null
-            List<Flygning> flygninger = new List<Flygning>();
+            List<Flygning> flygninger = null;
             using (var db = new DB())
             {
-                db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList().ForEach(model =>
+                flygninger = Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList());
+                /*db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList().ForEach(model =>
                 {
                     flygninger.Add(Mapper.Map<Flygning>(model));
-                });
+                }); */
             }
 
             return flygninger;

@@ -36,18 +36,6 @@ namespace Flybilletter.DAL.DBModel
             List<Kunde> kunder = null;
             using (var db = new DB())
             {
-                /*kunder = db.Kunder.Select(kunde => new Kunde()
-                {
-                    ID = kunde.ID,
-                    Fornavn = kunde.Fornavn,
-                    Etternavn = kunde.Etternavn,
-                    Adresse = kunde.Adresse,
-                    Postnummer = kunde.Poststed.Postnr,
-                    Poststed = kunde.Poststed.Poststed,
-                    Tlf = kunde.Tlf,
-                    EPost = kunde.EPost,
-                    Fodselsdag = kunde.Fodselsdag
-                }).ToList(); */
                 if (db.Kunder.Any())
                 {
                     kunder = new List<Kunde>();
@@ -70,57 +58,20 @@ namespace Flybilletter.DAL.DBModel
 
             return result;
         }
-
-        private static DBKunde KundeTilDBKunde(Kunde innKunde, out bool postnummerEksisterte)
-        {
-            DBKunde dbKunde = null;
-
-            using (var db = new DB())
-            {
-                dbKunde = new DBKunde()
-                {
-                    Fornavn = innKunde.Fornavn,
-                    Etternavn = innKunde.Etternavn,
-                    Adresse = innKunde.Adresse,
-                    Fodselsdag = innKunde.Fodselsdag,
-                    EPost = innKunde.EPost,
-                    Tlf = innKunde.Tlf
-                };
-
-                var poststed = db.Poststeder.Find(innKunde.Postnummer);
-
-                postnummerEksisterte = poststed != null;
-
-                if (!postnummerEksisterte) //Antar at posten har byttet postnummer på denne plassen
-                {
-                    postnummerEksisterte = false;
-                    poststed = new DBPoststed()
-                    {
-                        Postnr = innKunde.Postnummer,
-                        Poststed = ""
-                    };
-
-                }
-
-                dbKunde.Poststed = poststed;
-            }
-            return dbKunde;
-        }
-
+        
         public static bool LeggInn(Kunde innKunde)
         {
             try
             {
                 using (var db = new DB())
                 {
-                    var dbKunde = KundeTilDBKunde(innKunde, out bool postnummerIkkeEksisterte);
-
-                    if (postnummerIkkeEksisterte)
+                    var poststed = db.Poststeder.Find(innKunde.Postnummer);
+                    if (poststed == null) //if postnummerIkkeEksisterte
                     {
-                        db.Poststeder.Attach(dbKunde.Poststed);
+                        db.Poststeder.Attach(Mapper.Map<DBPoststed>(innKunde.Postnummer));
                     }
 
-                    db.Kunder.Add(dbKunde);
+                    db.Kunder.Add(Mapper.Map<DBKunde>(innKunde));
                     db.SaveChanges();
                 }
             }
@@ -136,11 +87,11 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                DBKunde kunde = db.Kunder.Find(innKunde.ID);
+                DBKunde kunde = db.Kunder.Where(k => k.Etternavn == innKunde.Etternavn && k.Fornavn == innKunde.Fornavn && k.Tlf == innKunde.Tlf).First();
                 if (kunde == null)
                 {
                     LeggInn(innKunde);
-                    kunde = db.Kunder.Find(innKunde.ID);
+                    kunde = db.Kunder.Where(k => k.Etternavn == innKunde.Etternavn && k.Fornavn == innKunde.Fornavn && k.Tlf == innKunde.Tlf).First();
                 }
 
                 db.Kunder.Attach(kunde);
@@ -152,23 +103,7 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbKunde = db.Kunder.Find(kundeID);
-                if (dbKunde == null)
-                {
-                    return null;
-                }
-
-                var kunde = new Kunde()
-                {
-                    ID = dbKunde.ID,
-                    Fornavn = dbKunde.Fornavn,
-                    Etternavn = dbKunde.Etternavn,
-                    Adresse = dbKunde.Adresse,
-                    Postnummer = dbKunde.Poststed.Postnr,
-                    Poststed = dbKunde.Poststed.Poststed
-                };
-
-                return kunde;
+                return Mapper.Map<Kunde>(db.Kunder.Find(kundeID));
             }
 
         }

@@ -30,11 +30,7 @@ namespace Flybilletter.DAL.DBModel
             {
                 using (var db = new DB())
                 {
-                    DBBestilling dbbestilling = db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault();
-                    if (dbbestilling != null)
-                    {
-                        bestilling = Mapper.Map<Bestilling>(dbbestilling);
-                    }
+                    bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault());
                 }
             }
             return bestilling;

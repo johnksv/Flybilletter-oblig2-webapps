@@ -1,4 +1,5 @@
-﻿using Flybilletter.Model.DomeneModel;
+﻿using AutoMapper;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,9 @@ namespace Flybilletter.DAL.DBModel
             List<Flyplass> flyplasser = null;
             using (var db = new DB())
             {
-                flyplasser = db.Flyplasser.Select(model => new Flyplass()
-                {
-                    ID = model.ID,
-                    By = model.By,
-                    Land = model.Land,
-                    Navn = model.Navn
-                }).ToList();
+                 flyplasser = Mapper.Map<List<Flyplass>>(db.Flyplasser.ToList());
             }
-
             return flyplasser;
-
         }
 
         public static Flyplass Hent(string tilFlyplassID)
@@ -37,10 +30,8 @@ namespace Flybilletter.DAL.DBModel
             Flyplass resultat = null;
             using (var db = new DB())
             {
-                DBFlyplass dbflyplass = db.Flyplasser.Find(tilFlyplassID);
-                resultat = AutoMapper.Mapper.Map<Flyplass>(dbflyplass);
+                resultat = Mapper.Map<Flyplass>(db.Flyplasser.Find(tilFlyplassID));
             }
-
             return resultat;
         }
     }

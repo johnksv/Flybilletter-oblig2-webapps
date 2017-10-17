@@ -1,4 +1,5 @@
-﻿using Flybilletter.Model.DomeneModel;
+﻿using AutoMapper;
+using Flybilletter.Model.DomeneModel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,12 +26,7 @@ namespace Flybilletter.DAL.DBModel
             {
                 using (var db = new DB())
                 {
-                    DBPoststed dbpoststed = db.Poststeder.FirstOrDefault(model => model.Postnr == postnummer);
-                    poststed = new Postnummer()
-                    {
-                        Postnr = dbpoststed.Postnr,
-                        Poststed = dbpoststed.Poststed
-                    };
+                    poststed = Mapper.Map<Postnummer>(db.Poststeder.FirstOrDefault(model => model.Postnr == postnummer));
                 }
             }
 
