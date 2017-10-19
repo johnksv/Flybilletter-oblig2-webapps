@@ -37,13 +37,13 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Postnummer, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Postnummer.Postnr, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-3">
-            @Html.EditorFor(model => model.Postnummer, new { htmlAttributes = new { @class = "form-control", autocomplete = "postal-code" } })
-            @Html.ValidationMessageFor(model => model.Postnummer, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Postnummer.Postnr, new { htmlAttributes = new { @class = "form-control", autocomplete = "postal-code" } })
+            @Html.ValidationMessageFor(model => model.Postnummer.Postnr, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-5" style="margin-top:0.5em;">
-            <span id="@Html.IdFor(model => model.Poststed)"> </span>
+            <span id="@Html.IdFor(model => model.Postnummer.Poststed)"> </span>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
             url: "/Home/HentPoststed",
             data: "postnummer=" + $(this).val()
         }).done(function (response) {
-            $("#@Html.IdFor(model => model.Poststed)").html(response);
+            $("#@Html.IdFor(model => model.Postnummer.Poststed)").html(response);
         });
     });
 

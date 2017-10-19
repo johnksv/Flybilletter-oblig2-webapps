@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBPoststed
+    public class DBPostnummer
     {
         [Key]
         public string Postnr { get; set; }

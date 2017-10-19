@@ -26,7 +26,7 @@ namespace Flybilletter.DAL
                 cfg.CreateMap<DBFlyplass, Model.DomeneModel.Flyplass>();
                 cfg.CreateMap<DBRute, Model.DomeneModel.Rute>();
                 cfg.CreateMap<DBKunde, Model.DomeneModel.Kunde>();
-                cfg.CreateMap<DBPoststed, Model.DomeneModel.Postnummer>();
+                cfg.CreateMap<DBPostnummer, Model.DomeneModel.Postnummer>();
                 cfg.CreateMap<DBReise, Model.DomeneModel.Reise>();
 
                 // Skjønner ikke hvorfor eller om vi i det hele tatt trenger å mappe begge veier (?)
@@ -36,7 +36,7 @@ namespace Flybilletter.DAL
                 cfg.CreateMap<Model.DomeneModel.Flyplass, DBFlyplass>();
                 cfg.CreateMap<Model.DomeneModel.Rute, DBRute>();
                 cfg.CreateMap<Model.DomeneModel.Kunde, DBKunde>();
-                cfg.CreateMap<Model.DomeneModel.Postnummer, DBPoststed>();
+                cfg.CreateMap<Model.DomeneModel.Postnummer, DBPostnummer>();
                 cfg.CreateMap<Model.DomeneModel.Reise, DBReise>();
             });
             
@@ -52,7 +52,7 @@ namespace Flybilletter.DAL
         public virtual DbSet<DBFlygning> Flygninger { get; set; }
         public virtual DbSet<DBFlyplass> Flyplasser { get; set; }
         public virtual DbSet<DBKunde> Kunder { get; set; }
-        public virtual DbSet<DBPoststed> Poststeder { get; set; }
+        public virtual DbSet<DBPostnummer> Poststeder { get; set; }
         public virtual DbSet<DBRute> Ruter { get; set; }
     }
 }

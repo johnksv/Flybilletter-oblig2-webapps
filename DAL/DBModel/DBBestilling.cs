@@ -2,6 +2,7 @@
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -30,7 +31,7 @@ namespace Flybilletter.DAL.DBModel
             {
                 using (var db = new DB())
                 {
-                    bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Poststed").Where(best => best.Referanse == referanse).FirstOrDefault());
+                    bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Postnummer").Where(best => best.Referanse == referanse).FirstOrDefault());
                 }
             }
             return bestilling;
@@ -41,11 +42,32 @@ namespace Flybilletter.DAL.DBModel
             using (var db = new DB())
             {
                 var dbbestilling = Mapper.Map<DBBestilling>(bestilling);
+                var a = db.Entry(dbbestilling);
 
+                List<DBKunde> kunder = new List<DBKunde>();
                 foreach (var kunde in bestilling.Passasjerer)
                 {
-                    DBKunde.LeggInnEllerHentDeretterAttach(kunde);
+                    kunder.Add(DBKunde.LeggInn(kunde));
                 }
+                dbbestilling.Passasjerer = kunder;
+
+                //MÅ mappes automatisk for å få riktig entity framework relasjon.... attach, samt mye annet ville ikke fungere...
+                List<DBFlygning> flygninger = new List<DBFlygning>();
+                foreach (var flygning in dbbestilling.FlygningerTur)
+                {
+                    flygninger.Add(db.Flygninger.Find(flygning.ID));
+                }
+                dbbestilling.FlygningerTur = flygninger;
+
+
+                flygninger = new List<DBFlygning>();
+                foreach (var flygning in dbbestilling.FlygningerRetur)
+                {
+                    flygninger.Add(db.Flygninger.Find(flygning.ID));
+                }
+                dbbestilling.FlygningerRetur = flygninger;
+
+                
                 db.Bestillinger.Add(dbbestilling);
                 db.SaveChanges();
             }
@@ -53,7 +75,7 @@ namespace Flybilletter.DAL.DBModel
 
         public static bool EksistererReferanse(string referanse)
         {
-            using(var db = new DB())
+            using (var db = new DB())
             {
                 return db.Bestillinger.Where(best => best.Referanse == referanse).Any();
             }

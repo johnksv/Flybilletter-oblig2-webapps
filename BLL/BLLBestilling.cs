@@ -62,7 +62,6 @@ namespace BLL
 
         public static Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende)
         {
-            BLLKunde.LeggInn(kunder);
             var bestilling = new Bestilling()
             {
                 BestillingsTidspunkt = DateTime.Now,

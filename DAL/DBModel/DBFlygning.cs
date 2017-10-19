@@ -50,7 +50,7 @@ namespace Flybilletter.DAL.DBModel
         {
             using(var db = new DB())
             {
-                var dbFlygning = db.Flygninger.Find(ID);
+                var dbFlygning = db.Flygninger.AsNoTracking().FirstOrDefault(fly => fly.ID == ID);
                 return Mapper.Map<Flygning>(dbFlygning);
             }
         }

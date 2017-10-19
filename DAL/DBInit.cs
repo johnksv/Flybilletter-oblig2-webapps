@@ -267,8 +267,8 @@ namespace Flybilletter.DAL
         }
 
         //Poststeder er hentet fra Difi: https://data.norge.no/data/posten-norge/postnummer-i-norge
-        private IEnumerable<DBPoststed> poststeder = new DBPoststed[] {
-            new DBPoststed() {Postnr = "0001", Poststed = "OSLO"},
+        private IEnumerable<DBPostnummer> poststeder = new DBPostnummer[] {
+            new DBPostnummer() {Postnr = "0001", Poststed = "OSLO"},
             /*new DBPoststed() {Postnr = "0010", Poststed = "OSLO"},
             new DBPoststed() {Postnr = "0015", Poststed = "OSLO"},
             new DBPoststed() {Postnr = "0018", Poststed = "OSLO"},
@@ -5122,7 +5122,7 @@ namespace Flybilletter.DAL
             new DBPoststed() {Postnr = "9981", Poststed = "BERLEVÅG"},
             new DBPoststed() {Postnr = "9982", Poststed = "KONGSFJORD"},
             new DBPoststed() {Postnr = "9990", Poststed = "BÅTSFJORD"}, */
-            new DBPoststed() {Postnr = "9991", Poststed = "BÅTSFJORD"}
+            new DBPostnummer() {Postnr = "9991", Poststed = "BÅTSFJORD"}
         };
     }
 }

@@ -13,7 +13,7 @@ namespace BLL
 
         public static string HentPoststed(string postnummer)
         {
-            Postnummer postnr = DBPoststed.HentPoststed(postnummer);
+            Postnummer postnr = DBPostnummer.HentPoststed(postnummer);
             return  postnr == null ? "UGYLDIG POSTNUMMER" : postnr.Poststed;
         }
 
@@ -25,7 +25,7 @@ namespace BLL
 
         public static bool LeggInn(Kunde innKunde)
         {
-            return DBKunde.LeggInn(innKunde);
+            return DBKunde.LeggInn(innKunde) != null;
         }
     }
 }
