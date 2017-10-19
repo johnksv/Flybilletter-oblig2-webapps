@@ -25,13 +25,13 @@ namespace Flybilletter.DAL.DBModel
 
         public string EPost { get; set; }
 
-        public virtual DBPostnummer Postnummer { get; set; }
+        public DBPostnummer Postnummer { get; set; }
 
         public virtual List<DBBestilling> Bestillinger { get; set; }
 
 
 
-        public static List<Kunde> hentAlle()
+        public static List<Kunde> HentAlle()
         {
             List<Kunde> kunder = null;
             using (var db = new DB())
@@ -79,12 +79,9 @@ namespace Flybilletter.DAL.DBModel
                 db.Kunder.Add(kunde);
 
                 var poststed = db.Poststeder.Find(innKunde.Postnummer.Postnr);
-                if (poststed == null)
+                
+                if (poststed != null) //Hvis postnummeret finnes attacher vi det med databasen.
                 {
-                    db.Poststeder.Attach(kunde.Postnummer);
-                }else
-                {
-                    kunde.Postnummer = poststed;
                     db.Poststeder.Attach(kunde.Postnummer);
                 }
 

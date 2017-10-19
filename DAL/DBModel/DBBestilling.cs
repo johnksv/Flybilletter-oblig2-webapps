@@ -48,6 +48,7 @@ namespace Flybilletter.DAL.DBModel
                 foreach (var kunde in bestilling.Passasjerer)
                 {
                     kunder.Add(DBKunde.LeggInn(kunde));
+                    db.Kunder.Attach(kunder.Last());
                 }
                 dbbestilling.Passasjerer = kunder;
 
