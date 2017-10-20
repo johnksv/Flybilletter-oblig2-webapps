@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -39,8 +40,9 @@ namespace Flybilletter.DAL.DBModel
                     LeggInn(kunde);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 return false;
             }
 
@@ -51,32 +53,45 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                DBKunde eksisterendeKunde = db.Kunder.Where(k => k.Etternavn == innKunde.Etternavn && k.Fornavn == innKunde.Fornavn && k.Tlf == innKunde.Tlf).FirstOrDefault();
-                if (eksisterendeKunde != null)
+                try
                 {
-                    return eksisterendeKunde;
+                    DBKunde eksisterendeKunde = db.Kunder.Where(k => k.Etternavn == innKunde.Etternavn && k.Fornavn == innKunde.Fornavn && k.Tlf == innKunde.Tlf).FirstOrDefault();
+
+                    if (eksisterendeKunde != null)
+                    {
+                        return eksisterendeKunde;
+                    }
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
-
-                DBKunde kunde = Mapper.Map<DBKunde>(innKunde);
-                db.Kunder.Add(kunde);
-
-                var poststed = db.Poststeder.Find(innKunde.Postnr);
-                
-                if (poststed == null) //Hvis postnummeret finnes attacher vi det med databasen.
+                try
                 {
-                    kunde.Postnummer = new DBPostnummer {
-                        Postnr = innKunde.Postnr,
-                        Poststed = ""
-                    };
-                    
-                }else
-                {
-                    kunde.Postnummer = poststed;
-                    db.Poststeder.Attach(poststed);
+                    DBKunde kunde = Mapper.Map<DBKunde>(innKunde);
+                    db.Kunder.Add(kunde);
+
+                    var poststed = db.Poststeder.Find(innKunde.Postnr);
+                    if (poststed == null) //Hvis postnummeret finnes attacher vi det med databasen.
+                    {
+                        kunde.Postnummer = new DBPostnummer
+                        {
+                            Postnr = innKunde.Postnr,
+                            Poststed = ""
+                        };
+                    }
+                    else
+                    {
+                        kunde.Postnummer = poststed;
+                        db.Poststeder.Attach(poststed);
+                    }
+                    db.SaveChanges();
+                    return kunde;
                 }
-
-                db.SaveChanges();
-                return kunde;
+                catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
         }
     }
