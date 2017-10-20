@@ -30,24 +30,6 @@ namespace Flybilletter.DAL.DBModel
         public virtual List<DBBestilling> Bestillinger { get; set; }
 
 
-
-        public static List<Kunde> HentAlle()
-        {
-            List<Kunde> kunder = null;
-            using (var db = new DB())
-            {
-                if (db.Kunder.Any())
-                {
-                    kunder = new List<Kunde>();
-                    db.Kunder.ToList().ForEach(kunde =>
-                    {
-                        kunder.Add(Mapper.Map<Kunde>(kunde));
-                    });
-                }
-            }
-            return kunder;
-        }
-
         public static bool LeggInn(IEnumerable<Kunde> kunder)
         {
             try
@@ -78,25 +60,24 @@ namespace Flybilletter.DAL.DBModel
                 DBKunde kunde = Mapper.Map<DBKunde>(innKunde);
                 db.Kunder.Add(kunde);
 
-                var poststed = db.Poststeder.Find(innKunde.Postnummer.Postnr);
+                var poststed = db.Poststeder.Find(innKunde.Postnr);
                 
-                if (poststed != null) //Hvis postnummeret finnes attacher vi det med databasen.
+                if (poststed == null) //Hvis postnummeret finnes attacher vi det med databasen.
                 {
-                    db.Poststeder.Attach(kunde.Postnummer);
+                    kunde.Postnummer = new DBPostnummer {
+                        Postnr = innKunde.Postnr,
+                        Poststed = ""
+                    };
+                    
+                }else
+                {
+                    kunde.Postnummer = poststed;
+                    db.Poststeder.Attach(poststed);
                 }
 
                 db.SaveChanges();
                 return kunde;
             }
-        }
-
-        public static Kunde HentKunde(int kundeID)
-        {
-            using (var db = new DB())
-            {
-                return Mapper.Map<Kunde>(db.Kunder.Find(kundeID));
-            }
-
         }
     }
 

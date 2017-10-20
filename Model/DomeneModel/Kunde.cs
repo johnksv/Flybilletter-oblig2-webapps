@@ -43,8 +43,9 @@ namespace Flybilletter.Model.DomeneModel
         public string EPost { get; set; }
 
         [Required]
-        public Postnummer Postnummer { get; set; }
-
+        [RegularExpression("^[0-9]{4}$", ErrorMessage = "Postnummer må være 4 siffer")]
+        public string Postnr { get; set; }
+        public string Poststed { get; set; }
 
     }
 }
