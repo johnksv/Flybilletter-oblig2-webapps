@@ -1,4 +1,5 @@
 ﻿using Flybilletter.DAL.DBModel;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
@@ -13,7 +14,17 @@ namespace BLL
     public class BLLBestilling : IBLLBestilling
     {
 
-        private DBBestilling dbBestilling = new DBBestilling();
+        private IDBBestilling dbBestilling;
+
+        public BLLBestilling()
+        {
+            dbBestilling = new DBBestilling();
+        }
+
+        public BLLBestilling(IDBBestilling stub)
+        {
+            this.dbBestilling = stub;
+        }
 
         public Bestilling FinnBestilling(string referanse)
         {

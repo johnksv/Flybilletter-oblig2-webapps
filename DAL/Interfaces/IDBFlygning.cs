@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBFlygning
     {
+        List<Flygning> HentFlygningerFra(Flyplass flyplass);
+        List<Flygning> HentFlygningerTil(Flyplass flyplass);
+        Flygning Finn(int ID);
     }
 }
