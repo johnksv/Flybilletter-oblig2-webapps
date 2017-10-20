@@ -11,6 +11,13 @@ namespace Flybilletter.DAL
     {
         protected override void Seed(DB context)
         {
+            var Root = new DBAdmin()
+            {
+                Username = "root",
+                Password = "9D8B7AB3203CF2D45ACE0924E485848E1AC1E131FC629A66574994FCE8DE6827", //Test1
+                Salt = "SALT"
+            };
+
             var OSL = new DBFlyplass()
             {
                 ID = "OSL",

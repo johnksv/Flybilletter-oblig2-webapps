@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomeneModel\Admin.cs" />
     <Compile Include="DomeneModel\Bestilling.cs" />
     <Compile Include="DomeneModel\Postnummer.cs" />
     <Compile Include="ViewModel\BestillingViewModel.cs" />

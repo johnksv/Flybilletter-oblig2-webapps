@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -18,40 +19,46 @@ namespace Flybilletter.DAL.DBModel
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
-            List<Flygning> flygninger = null;
             using (var db = new DB())
             {
-                flygninger = Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList());
-                /*db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList().ForEach(model =>
+                try
                 {
-                    flygninger.Add(Mapper.Map<Flygning>(model));
-                }); */
+                    return Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Fra.ID == flyplass.ID).ToList());
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
-
-            return flygninger;
         }
 
         public List<Flygning> HentFlygningerTil(Flyplass flyplass)
         {
-            List<Flygning> flygninger = null;
             using (var db = new DB())
             {
-                flygninger = Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList());
-                /*db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList().ForEach(model =>
+                try
                 {
-                    flygninger.Add(Mapper.Map<Flygning>(model));
-                }); */
+                    return Mapper.Map<List<Flygning>>(db.Flygninger.Include("Fly").Where(flygning => flygning.Rute.Til.ID == flyplass.ID).ToList());
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
-
-            return flygninger;
         }
 
         public Flygning Finn(int ID)
         {
             using(var db = new DB())
             {
-                var dbFlygning = db.Flygninger.AsNoTracking().FirstOrDefault(fly => fly.ID == ID);
-                return Mapper.Map<Flygning>(dbFlygning);
+                try
+                {
+                    return Mapper.Map<Flygning>(db.Flygninger.AsNoTracking().FirstOrDefault(fly => fly.ID == ID));
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
         }
     }

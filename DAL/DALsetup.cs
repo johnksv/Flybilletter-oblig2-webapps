@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class DALsetup
+    internal class DALsetup
     {
         public static void logFeilTilFil(string metodeNavn, Exception e)
         {
