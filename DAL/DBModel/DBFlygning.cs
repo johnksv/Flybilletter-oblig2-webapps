@@ -16,7 +16,7 @@ namespace Flybilletter.DAL.DBModel
         public DateTime AvgangsTid { get; set; }
         public DateTime AnkomstTid { get; set; }
 
-        public static List<Flygning> HentFlygningerFra(Flyplass flyplass)
+        public List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
             List<Flygning> flygninger = null;
             using (var db = new DB())
@@ -31,7 +31,7 @@ namespace Flybilletter.DAL.DBModel
             return flygninger;
         }
 
-        public static List<Flygning> HentFlygningerTil(Flyplass flyplass)
+        public List<Flygning> HentFlygningerTil(Flyplass flyplass)
         {
             List<Flygning> flygninger = null;
             using (var db = new DB())
@@ -46,7 +46,7 @@ namespace Flybilletter.DAL.DBModel
             return flygninger;
         }
 
-        public static Flygning Finn(int ID)
+        public Flygning Finn(int ID)
         {
             using(var db = new DB())
             {

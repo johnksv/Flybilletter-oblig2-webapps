@@ -13,9 +13,15 @@ namespace Flybilletter.Controllers
     public class HomeController : Controller
     {
 
+        private BLLFlyplass bllflyplass = new BLLFlyplass();
+        private BLLFlygning bllflygning = new BLLFlygning();
+        private BLLBestilling bllbestilling = new BLLBestilling();
+        private BLLKunde bllkunde = new BLLKunde();
+
         public ActionResult Sok()
         {
-            ViewBag.flyplasser = BLLFlyplass.HentAlle();
+            
+            ViewBag.flyplasser = bllflyplass.HentAlle();
 
             var model = new SokViewModel()
             {
@@ -39,8 +45,8 @@ namespace Flybilletter.Controllers
                 string fraFlyplass = innSok.Fra;
                 string tilFlyplass = innSok.Til;
 
-                List<Reise> flygningerTur = BLLFlygning.FinnReiseforslag(fraFlyplass, tilFlyplass, innSok.Avreise);
-                List<Reise> flygningerRetur = BLLFlygning.FinnReiseforslag(tilFlyplass, fraFlyplass, innSok.Retur);
+                List<Reise> flygningerTur = bllflygning.FinnReiseforslag(fraFlyplass, tilFlyplass, innSok.Avreise);
+                List<Reise> flygningerRetur = bllflygning.FinnReiseforslag(tilFlyplass, fraFlyplass, innSok.Retur);
 
                 reiser = new FlygningerViewModel()
                 {
@@ -55,7 +61,7 @@ namespace Flybilletter.Controllers
 
             }
 
-            ViewBag.flyplasser = BLLFlyplass.HentAlle();
+            ViewBag.flyplasser = bllflyplass.HentAlle();
             return PartialView("_Flygninger", reiser);
         }
 
@@ -119,7 +125,7 @@ namespace Flybilletter.Controllers
                 string CVCstring = ModelState["Kredittkort.CVC"].Value.AttemptedValue;
                 string utlop = ModelState["Kredittkort.Utlop"].Value.AttemptedValue;
                 string feilmelding;
-                bool gyldig = BLLBestilling.VerifiserKredittkort(CVCstring, utlop, out feilmelding);
+                bool gyldig = bllbestilling.VerifiserKredittkort(CVCstring, utlop, out feilmelding);
                 if (!gyldig)
                 {
                     ViewBag.Feilmelding = feilmelding;
@@ -132,7 +138,7 @@ namespace Flybilletter.Controllers
             //Denne inneholder informasjon om Tur- og Retur-property
             var gjeldende = (BestillingViewModel)Session["GjeldendeBestilling"];
 
-            TempData["bestilling"] = BLLBestilling.LeggInn(kunder, gjeldende);
+            TempData["bestilling"] = bllbestilling.LeggInn(kunder, gjeldende);
             return RedirectToAction("Kvittering");
         }
 
@@ -145,7 +151,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public ActionResult ReferanseSok(string referanse)
         {
-            Bestilling bestilling = BLLBestilling.FinnBestilling(referanse);
+            Bestilling bestilling = bllbestilling.FinnBestilling(referanse);
             return View("BestillingInformasjon", bestilling);
         }
 
@@ -163,7 +169,7 @@ namespace Flybilletter.Controllers
 
             if (isMatch)
             {
-                exists = BLLBestilling.EksistererReferanse(referanse);
+                exists = bllbestilling.EksistererReferanse(referanse);
                 if (exists) url = "/Home/ReferanseSok?referanse=" + referanse;
             }
 
@@ -174,7 +180,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public string HentPoststed(string postnummer)
         {
-            return BLLKunde.HentPoststed(postnummer);
+            return bllkunde.HentPoststed(postnummer);
         }
     }
 }

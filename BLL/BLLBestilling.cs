@@ -12,12 +12,15 @@ namespace BLL
 {
     public class BLLBestilling
     {
-        public static Bestilling FinnBestilling(string referanse)
+
+        private DBBestilling dbBestilling = new DBBestilling();
+
+        public Bestilling FinnBestilling(string referanse)
         {
-            return DBBestilling.FinnBestilling(referanse);
+            return dbBestilling.FinnBestilling(referanse);
         }
 
-        public static bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding)
+        public bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding)
         {
             feilmelding = "";
             int cvc = 0;
@@ -60,7 +63,7 @@ namespace BLL
             return resultat;
         }
 
-        public static Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende)
+        public Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende)
         {
             var bestilling = new Bestilling()
             {
@@ -73,12 +76,13 @@ namespace BLL
             do //Lag en unik UUID helt til det ikke finnes i databasen fra før.
             {
                 bestilling.Referanse = Guid.NewGuid().ToString().ToUpper().Substring(0, 6);
-            } while (DBBestilling.FinnBestilling(bestilling.Referanse) != null);
+            } while (dbBestilling.FinnBestilling(bestilling.Referanse) != null);
 
 
+            var dbflygning = new DBFlygning();
             foreach (var flygning in gjeldende.Tur.Flygninger)
             {
-                Flygning dbFlygning = DBFlygning.Finn(flygning.ID);
+                Flygning dbFlygning = dbflygning.Finn(flygning.ID);
                 if (dbFlygning == null) throw new InvalidOperationException("Ugyldig flygning"); //Det skjedde en feil
 
                 bestilling.FlygningerTur.Add(dbFlygning);
@@ -89,22 +93,22 @@ namespace BLL
                 bestilling.FlygningerRetur = new List<Flygning>();
                 foreach (var flygning in gjeldende.Retur.Flygninger)
                 {
-                    var dbFlygning = DBFlygning.Finn(flygning.ID);
+                    var dbFlygning = dbflygning.Finn(flygning.ID);
                     if (dbFlygning == null) throw new InvalidOperationException("Ugyldig flygning");
 
                     bestilling.FlygningerRetur.Add(dbFlygning);
                 }
             }
 
-            DBBestilling.LeggInn(bestilling);
+            dbBestilling.LeggInn(bestilling);
 
 
             return bestilling;
         }
 
-        public static bool EksistererReferanse(string referanse)
+        public bool EksistererReferanse(string referanse)
         {
-            return DBBestilling.EksistererReferanse(referanse);
+            return dbBestilling.EksistererReferanse(referanse);
         }
     }
 }

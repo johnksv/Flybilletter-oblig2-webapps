@@ -19,7 +19,7 @@ namespace Flybilletter.DAL.DBModel
         public DateTime BestillingsTidspunkt { get; set; }
         public double Totalpris { get; set; }
 
-        public static Bestilling FinnBestilling(string referanse)
+        public Bestilling FinnBestilling(string referanse)
         {
             Bestilling bestilling = null;
 
@@ -37,7 +37,7 @@ namespace Flybilletter.DAL.DBModel
             return bestilling;
         }
 
-        public static void LeggInn(Bestilling bestilling)
+        public void LeggInn(Bestilling bestilling)
         {
             using (var db = new DB())
             {
@@ -45,9 +45,10 @@ namespace Flybilletter.DAL.DBModel
                 var a = db.Entry(dbbestilling);
 
                 List<DBKunde> kunder = new List<DBKunde>();
+                DBKunde dbKunde = new DBKunde();
                 foreach (var kunde in bestilling.Passasjerer)
                 {
-                    kunder.Add(DBKunde.LeggInn(kunde));
+                    kunder.Add(dbKunde.LeggInn(kunde));
                     db.Kunder.Attach(kunder.Last());
                 }
                 dbbestilling.Passasjerer = kunder;
@@ -74,7 +75,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public static bool EksistererReferanse(string referanse)
+        public bool EksistererReferanse(string referanse)
         {
             using (var db = new DB())
             {

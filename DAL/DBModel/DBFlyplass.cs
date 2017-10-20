@@ -15,7 +15,7 @@ namespace Flybilletter.DAL.DBModel
         public string Land { get; set; }
         public virtual List<DBRute> Ruter { get; set; }
 
-        public static List<Flyplass> HentAlle()
+        public List<Flyplass> HentAlle()
         {
             List<Flyplass> flyplasser = null;
             using (var db = new DB())
@@ -25,7 +25,7 @@ namespace Flybilletter.DAL.DBModel
             return flyplasser;
         }
 
-        public static Flyplass Hent(string tilFlyplassID)
+        public Flyplass Hent(string tilFlyplassID)
         {
             Flyplass resultat = null;
             using (var db = new DB())

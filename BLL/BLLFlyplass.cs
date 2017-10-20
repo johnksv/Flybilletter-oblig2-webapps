@@ -10,10 +10,11 @@ namespace BLL
 {
     public class BLLFlyplass
     {
+        private DBFlyplass dbFlyplass= new DBFlyplass();
 
-        public static List<Flyplass> HentAlle()
+        public List<Flyplass> HentAlle()
         {
-            return DBFlyplass.HentAlle();
+            return dbFlyplass.HentAlle();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Flybilletter.DAL.DBModel
         public virtual List<DBBestilling> Bestillinger { get; set; }
 
 
-        public static bool LeggInn(IEnumerable<Kunde> kunder)
+        public bool LeggInn(IEnumerable<Kunde> kunder)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Flybilletter.DAL.DBModel
             return true;
         }
 
-        public static DBKunde LeggInn(Kunde innKunde)
+        public DBKunde LeggInn(Kunde innKunde)
         {
             using (var db = new DB())
             {

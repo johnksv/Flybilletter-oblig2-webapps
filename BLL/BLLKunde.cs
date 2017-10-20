@@ -10,22 +10,24 @@ namespace BLL
 {
     public class BLLKunde
     {
+        private DBKunde dbkunde = new DBKunde();
+        private DBPostnummer dbPostnummer = new DBPostnummer();
 
-        public static string HentPoststed(string postnummer)
+        public string HentPoststed(string postnummer)
         {
-            Postnummer postnr = DBPostnummer.HentPoststed(postnummer);
+            Postnummer postnr = dbPostnummer.HentPoststed(postnummer);
             return  postnr == null ? "UGYLDIG POSTNUMMER" : postnr.Poststed;
         }
 
 
-        public static bool LeggInn(IEnumerable<Kunde> kunder)
+        public bool LeggInn(IEnumerable<Kunde> kunder)
         {
-            return DBKunde.LeggInn(kunder);
+            return dbkunde.LeggInn(kunder);
         }
 
-        public static bool LeggInn(Kunde innKunde)
+        public bool LeggInn(Kunde innKunde)
         {
-            return DBKunde.LeggInn(innKunde) != null;
+            return dbkunde.LeggInn(innKunde) != null;
         }
     }
 }

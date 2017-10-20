@@ -10,21 +10,22 @@ namespace BLL
 {
     public class BLLFlygning
     {
+        private DBFlygning dbFlygning = new DBFlygning();
 
-        public static List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
+        public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
         {
             //TODO: Om vi implementerer quickgraph vil denne funksjonen være lettere
             List<Reise> reiseMuligheter = new List<Reise>();
 
-
-            var fraFlyplass = DBFlyplass.Hent(fraFlyplassID); // db.Flyplasser.Where(flyplass => flyplass.ID == fraFlyplassID).First(); //Hvis du tweaket i HTML-koden fortjener du ikke feilmelding
-            var tilFlyplass = DBFlyplass.Hent(tilFlyplassID); //db.Flyplasser.Where(flyplass => flyplass.ID == tilFlyplassID).First();
+            var dbflyplass = new DBFlyplass();
+            var fraFlyplass = dbflyplass.Hent(fraFlyplassID); // db.Flyplasser.Where(flyplass => flyplass.ID == fraFlyplassID).First(); //Hvis du tweaket i HTML-koden fortjener du ikke feilmelding
+            var tilFlyplass = dbflyplass.Hent(tilFlyplassID); //db.Flyplasser.Where(flyplass => flyplass.ID == tilFlyplassID).First();
 
             bool ugyldigAvreiseTidspunkt = avreiseDag.Date < DateTime.Now.Date;
             if (fraFlyplass == null || tilFlyplass == null || ugyldigAvreiseTidspunkt) return reiseMuligheter;
 
-            List<Flygning> fraListe = DBFlygning.HentFlygningerFra(fraFlyplass);
-            List<Flygning> tilListe = DBFlygning.HentFlygningerTil(tilFlyplass);
+            List<Flygning> fraListe = dbFlygning.HentFlygningerFra(fraFlyplass);
+            List<Flygning> tilListe = dbFlygning.HentFlygningerTil(tilFlyplass);
 
             foreach (Flygning fraFlygning in fraListe)
             {
