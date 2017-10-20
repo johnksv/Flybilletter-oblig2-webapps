@@ -4,6 +4,11 @@ Rammeverk vi har benyttet oss av:
     - jQuery v3.2.1 (jQuery Foundation)
     - jQuery Validate v1.16.0 (Jörn Zaeffer)
     - bootstrap v3.3.7 (Twitter, inc.)
+    - Z.EntityFramework.Extensions v3.13.5 (ZZZ Projects Inc.)
+    - Automapper v6.1.1 (Jimmy Bogard)
+
+Andre data vi har benyttes oss av:
+	- Postnummer i Norge - Publisert 27.02.2015 (https://data.norge.no/data/posten-norge/postnummer-i-norge)
 
 Anmerkelser:
     - Webapplikasjonen tar kun høyde for reiser med 0 eller 1 mellomlanding. Støtte for flere mellomlandinger kan løses ved å bruke rammeverket "QuickGraph". Dette ville blitt implementert som følger: Flyplasser angis som noder, og et graf-tre bygges rundt dette. Alle kanter mellom nodene representerer flyruter, og man angir en vekt på disse rutene. I vårt tilfelle ville denne vekten enten vært reisetid eller distanse. Basert på vår tolkning av oppgaveteksten, valgte vi å ikke implementere dette.
