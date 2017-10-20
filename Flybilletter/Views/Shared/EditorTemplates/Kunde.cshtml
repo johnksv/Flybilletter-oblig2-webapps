@@ -43,7 +43,7 @@
             @Html.ValidationMessageFor(model => model.Postnr, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-5" style="margin-top:0.5em;">
-            <span id="@Html.IdFor(model => model.Postnr)"> </span>
+            <span id="@Html.IdFor(model => model.Poststed)"> </span>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
             url: "/Home/HentPoststed",
             data: "postnummer=" + $(this).val()
         }).done(function (response) {
-            $("#@Html.IdFor(model => model.Postnr)").html(response);
+            $("#@Html.IdFor(model => model.Poststed)").html(response);
         });
     });
 
