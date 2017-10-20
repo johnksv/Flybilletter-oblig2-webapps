@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -17,22 +18,32 @@ namespace Flybilletter.DAL.DBModel
 
         public List<Flyplass> HentAlle()
         {
-            List<Flyplass> flyplasser = null;
             using (var db = new DB())
             {
-                 flyplasser = Mapper.Map<List<Flyplass>>(db.Flyplasser.ToList());
+                try
+                {
+                    return Mapper.Map<List<Flyplass>>(db.Flyplasser.ToList());
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
-            return flyplasser;
         }
 
         public Flyplass Hent(string tilFlyplassID)
         {
-            Flyplass resultat = null;
             using (var db = new DB())
             {
-                resultat = Mapper.Map<Flyplass>(db.Flyplasser.Find(tilFlyplassID));
+                try
+                {
+                    return Mapper.Map<Flyplass>(db.Flyplasser.Find(tilFlyplassID));
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return null;
+                }
             }
-            return resultat;
         }
     }
 }

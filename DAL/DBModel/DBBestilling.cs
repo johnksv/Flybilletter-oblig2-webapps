@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -26,14 +27,20 @@ namespace Flybilletter.DAL.DBModel
             referanse = referanse.ToUpper().Trim();
             var regex = new Regex("^[A-Z0-9]{6}$");
             bool isMatch = regex.IsMatch(referanse);
-
-            if (isMatch)
+            try
             {
-                using (var db = new DB())
+                if (isMatch)
                 {
-                    bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Postnummer").Where(best => best.Referanse == referanse).FirstOrDefault());
+                    using (var db = new DB())
+                    {
+                        bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Postnummer").Where(best => best.Referanse == referanse).FirstOrDefault());
+                    }
                 }
+            }catch(Exception e)
+            {
+                DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
             }
+            
             return bestilling;
         }
 
@@ -69,9 +76,15 @@ namespace Flybilletter.DAL.DBModel
                 }
                 dbbestilling.FlygningerRetur = flygninger;
 
-                
-                db.Bestillinger.Add(dbbestilling);
-                db.SaveChanges();
+                try
+                {
+                    db.Bestillinger.Add(dbbestilling);
+                    db.SaveChanges();
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                }
+
             }
         }
 
@@ -79,7 +92,14 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                return db.Bestillinger.Where(best => best.Referanse == referanse).Any();
+                try
+                {
+                    return db.Bestillinger.Where(best => best.Referanse == referanse).Any();
+                }catch(Exception e)
+                {
+                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                }
+                return false;
             }
         }
     }
