@@ -53,6 +53,7 @@
     <Compile Include="DALsetup.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="DBInit.cs" />
+    <Compile Include="DBModel\DBAdmin.cs" />
     <Compile Include="DBModel\DBKunde.cs" />
     <Compile Include="DBModel\DBBestilling.cs" />
     <Compile Include="DBModel\DBFly.cs" />

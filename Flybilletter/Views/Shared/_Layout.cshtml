@@ -30,6 +30,23 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target="#referansesok">Gå til referanse</a>
                     </li>
+                    <li>
+                        @{
+                            if (Session["LoggetInn"] == null)
+                            {
+                                <a href="#" data-toggle="modal" data-target="#login">Logg inn</a>
+                            }
+                            else
+                            {
+                                <ul class="dropdown">
+                                    <!--Her skal lenkene til adminsidene ligge-->
+                                    <li></li> <!--Administrer Fly-->
+                                    <li></li> <!--Administrer Kunde-->
+                                    <li></li> <!--Administrer Flyplass-->
+                                </ul>
+                            }
+                        }
+                    </li>
                 </ul>
             </div>
         </div>
@@ -46,6 +63,13 @@
                     @Html.Partial("_ReferanseSok")
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="login" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <!--Logg inn-->
             </div>
         </div>
     </div>
