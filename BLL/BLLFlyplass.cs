@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BLLFlyplass
+    public class BLLFlyplass : IBLLFlyplass
     {
         private DBFlyplass dbFlyplass= new DBFlyplass();
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BLLKunde
+    public class BLLKunde : IBLLKunde
     {
         private DBKunde dbkunde = new DBKunde();
         private DBPostnummer dbPostnummer = new DBPostnummer();

@@ -45,6 +45,11 @@
     <Compile Include="BLLFlygning.cs" />
     <Compile Include="BLLFlyplass.cs" />
     <Compile Include="BLLKunde.cs" />
+    <Compile Include="IBLLKunde.cs" />
+    <Compile Include="IBLLFlyplass.cs" />
+    <Compile Include="IBLLFlygning.cs" />
+    <Compile Include="IBLLBestilling.cs" />
+    <Compile Include="IBLLAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

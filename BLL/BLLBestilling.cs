@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BLLBestilling
+    public class BLLBestilling : IBLLBestilling
     {
 
         private DBBestilling dbBestilling = new DBBestilling();

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class BLLFlygning
+    public class BLLFlygning : IBLLFlygning
     {
         private DBFlygning dbFlygning = new DBFlygning();
 

@@ -13,10 +13,22 @@ namespace Flybilletter.Controllers
     public class HomeController : Controller
     {
 
-        private BLLFlyplass bllflyplass = new BLLFlyplass();
-        private BLLFlygning bllflygning = new BLLFlygning();
-        private BLLBestilling bllbestilling = new BLLBestilling();
-        private BLLKunde bllkunde = new BLLKunde();
+        private IBLLFlyplass bllflyplass = new BLLFlyplass();
+        private IBLLFlygning bllflygning = new BLLFlygning();
+        private IBLLBestilling bllbestilling = new BLLBestilling();
+        private IBLLKunde bllkunde = new BLLKunde();
+
+        public HomeController()
+        {
+        }
+
+        public HomeController(BLLFlyplass bllflyplass, BLLFlygning bllflygning, BLLBestilling bllbestilling, BLLKunde bllkunde)
+        {
+            this.bllflyplass = bllflyplass;
+            this.bllflygning = bllflygning;
+            this.bllbestilling = bllbestilling;
+            this.bllkunde = bllkunde;
+        }
 
         public ActionResult Sok()
         {
