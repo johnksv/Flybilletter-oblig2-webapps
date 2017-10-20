@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBFlygning
+    public class DBFlygning : IDBFlygning
     {
         public int ID { get; set; }
         public virtual List<DBBestilling> Bestillinger { get; set; }

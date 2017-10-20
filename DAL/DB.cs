@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using DAL.DBModel;
 using Flybilletter.DAL.DBModel;
-using Flybilletter.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
 
 namespace Flybilletter.DAL
 {
-    public class DB : DbContext
+    internal class DB : DbContext
     {
 
         public DB() : base("name=Flybilletter")

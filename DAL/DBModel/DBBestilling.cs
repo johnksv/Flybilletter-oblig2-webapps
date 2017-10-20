@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using DAL;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBBestilling
+    public class DBBestilling : IDBBestilling
     {
         public int ID { get; set; }
         public string Referanse { get; set; } //ID til bestillingen

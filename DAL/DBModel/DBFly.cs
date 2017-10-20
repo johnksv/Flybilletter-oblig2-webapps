@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Flybilletter.DAL.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBFly
+    public class DBFly : IDBFly
     {
         public int ID { get; set; }
         public string Modell { get; set; } //Modell-navn til flyet

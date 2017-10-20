@@ -62,9 +62,25 @@
     <Compile Include="DBModel\DBFly.cs" />
     <Compile Include="DBModel\DBFlygning.cs" />
     <Compile Include="DBModel\DBFlyplass.cs" />
-    <Compile Include="DBModel\DBPoststed.cs" />
+    <Compile Include="DBModel\DBPostnummer.cs" />
     <Compile Include="DBModel\DBRute.cs" />
+    <Compile Include="Interfaces\IDBAdmin.cs" />
+    <Compile Include="Interfaces\IDBBestilling.cs" />
+    <Compile Include="Interfaces\IDBFly.cs" />
+    <Compile Include="Interfaces\IDBFlygning.cs" />
+    <Compile Include="Interfaces\IDBFlyplass.cs" />
+    <Compile Include="Interfaces\IDBKunde.cs" />
+    <Compile Include="Interfaces\IDBPostnummer.cs" />
+    <Compile Include="Interfaces\IDBRute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stub\DBAdminStub.cs" />
+    <Compile Include="Stub\DBBestillingStub.cs" />
+    <Compile Include="Stub\DBFlygningStub.cs" />
+    <Compile Include="Stub\DBFlyplassStub.cs" />
+    <Compile Include="Stub\DBFlyStub.cs" />
+    <Compile Include="Stub\DBKundeStub.cs" />
+    <Compile Include="Stub\DBPostnummerStub.cs" />
+    <Compile Include="Stub\DBRuteStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
@@ -79,5 +95,6 @@
   <ItemGroup>
     <Content Include="flybilletter-log.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

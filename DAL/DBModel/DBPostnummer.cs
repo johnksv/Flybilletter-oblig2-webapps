@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBPostnummer
+    public class DBPostnummer : IDBPostnummer
     {
         [Key]
         public string Postnr { get; set; }

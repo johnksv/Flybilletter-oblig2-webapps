@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Flybilletter.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
-    public class DBRute
+    public class DBRute : IDBRute
     {
         public int ID { get; set; }
         public virtual DBFlyplass Fra { get; set; }
