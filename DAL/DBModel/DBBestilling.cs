@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL;
+using DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
@@ -78,7 +79,16 @@ namespace Flybilletter.DAL.DBModel
                 try
                 {
                     db.Bestillinger.Add(dbbestilling);
-                    db.SaveChanges();
+                    var endring = new DBEndring();
+                    if(endring.lagreEndring("La til bestilling: " + dbbestilling.Referanse))
+                    {
+                        db.Endringer.Add(endring);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception(); //TODO: dobbelsjekk effektivitet eller ryddighet på dette
+                    }
                 }catch(Exception e)
                 {
                     DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);

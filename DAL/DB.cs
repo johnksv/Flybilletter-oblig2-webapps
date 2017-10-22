@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DAL.DBModel;
 using Flybilletter.DAL.DBModel;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -47,5 +48,6 @@ namespace Flybilletter.DAL
         public virtual DbSet<DBPostnummer> Poststeder { get; set; }
         public virtual DbSet<DBRute> Ruter { get; set; }
         public virtual DbSet<DBAdmin> Administratorer { get; set; }
+        public virtual DbSet<DBEndring> Endringer { get; set; }
     }
 }
