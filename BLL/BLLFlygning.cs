@@ -13,15 +13,18 @@ namespace BLL
     public class BLLFlygning : IBLLFlygning
     {
         private IDBFlygning dbFlygning;
+        private IDBFlyplass dbflyplass;
 
         public BLLFlygning()
         {
             dbFlygning = new DBFlygning();
+            dbflyplass = new DBFlyplass();
         }
 
-        public BLLFlygning(IDBFlygning stub)
+        public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
         {
-            this.dbFlygning = stub;
+            dbFlygning = stub;
+            dbflyplass = flyplassStub;
         }
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
@@ -29,7 +32,7 @@ namespace BLL
             //TODO: Om vi implementerer quickgraph vil denne funksjonen være lettere
             List<Reise> reiseMuligheter = new List<Reise>();
 
-            var dbflyplass = new DBFlyplass();
+            
             var fraFlyplass = dbflyplass.Hent(fraFlyplassID); // db.Flyplasser.Where(flyplass => flyplass.ID == fraFlyplassID).First(); //Hvis du tweaket i HTML-koden fortjener du ikke feilmelding
             var tilFlyplass = dbflyplass.Hent(tilFlyplassID); //db.Flyplasser.Where(flyplass => flyplass.ID == tilFlyplassID).First();
 

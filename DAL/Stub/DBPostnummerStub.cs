@@ -10,9 +10,16 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBPostnummerStub : IDBPostnummer
     {
+        private List<Postnummer> gyldigePostnummer = new List<Postnummer>()
+        {
+            new Postnummer() {Postnr = "0001", Poststed = "OSLO"},
+            new Postnummer() {Postnr = "0010", Poststed = "OSLO"},
+            new Postnummer() {Postnr = "0015", Poststed = "OSLO"},
+            new Postnummer() {Postnr = "0018", Poststed = "OSLO"},
+        };
         public Postnummer HentPoststed(string postnummer)
         {
-            throw new NotImplementedException();
+            return gyldigePostnummer.FirstOrDefault(post => post.Postnr == postnummer);
         }
     }
 }

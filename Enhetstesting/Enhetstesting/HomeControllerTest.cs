@@ -7,6 +7,7 @@ using Flybilletter.DAL.Stub;
 using System.Web.Mvc;
 using Flybilletter.Model.DomeneModel;
 using System.Collections.Generic;
+using Flybilletter.Model.ViewModel;
 
 namespace Enhetstesting
 {
@@ -14,27 +15,65 @@ namespace Enhetstesting
     public class HomeControllerTest
     {
         [TestMethod]
-        public void SokTest()
+        public void SokSkalKunneHenteUtAlleFlyplasser()
         {
-            var sessionMock = new TestControllerBuilder();
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub());
-            var bllbestilling =new BLLBestilling(new DBBestillingStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
 
-            var resultat = (ViewResult) controller.Sok();
-            var a = resultat.ViewBag.flyplasser;
+            var faktisk = (ViewResult)controller.Sok();
+            var flyplasser = faktisk.ViewBag.flyplasser;
 
-            Assert.AreEqual(a.Count, 3);
+            Assert.AreEqual(flyplasser.Count, 3);
         }
 
         [TestMethod]
-        public void SokPostTest()
+        public void SokSkalKunneGiEnListeFlygningerOmGyldigModell()
         {
+            var model = new SokViewModel()
+            {
+                AntallBilletter = 1,
+                Avreise = new DateTime(2017, 10, 20, 12, 0, 0),
+                Fra = "OSL",
+                Til = "BOO"
+            };
 
+            var sessionMock = new TestControllerBuilder();
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            sessionMock.InitializeController(controller);
+            var faktisk = (PartialViewResult)controller.Sok(model);
+
+            Assert.AreEqual("_Flygninger", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+        }
+
+
+        [TestMethod]
+        public void SokMedFeilParameter()
+        {
+            var model = new SokViewModel();
+
+
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            var faktisk = (PartialViewResult)controller.Sok(model);
+
+            Assert.AreEqual("_Flygninger", faktisk.ViewName);
+            Assert.AreEqual(null, faktisk.Model);
         }
 
         [TestMethod]
@@ -75,9 +114,32 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void HentPoststedTest()
+        public void HentPoststedNaarEksiterer()
         {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            string faktisk = controller.HentPoststed("0001");
+
+            Assert.AreEqual("OSLO", faktisk);
+
+        }
+
+        [TestMethod]
+        public void HentPoststedNaarIkkeEksiterer()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            string faktisk = controller.HentPoststed("0000");
+
+            Assert.AreEqual("UGYLDIG POSTNUMMER", faktisk);
         }
 
     }

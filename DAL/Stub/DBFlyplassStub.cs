@@ -10,14 +10,8 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBFlyplassStub : IDBFlyplass
     {
-        public Flyplass Hent(string tilFlyplassID)
-        {
-            throw new NotImplementedException();
-        }
 
-        public List<Flyplass> HentAlle()
-        {
-            var resultat = new List<Flyplass>()
+        private List<Flyplass> flyplasser = new List<Flyplass>()
             {
              new Flyplass()
             {
@@ -45,7 +39,14 @@ namespace Flybilletter.DAL.Stub
             }
         };
 
-            return resultat;
+        public Flyplass Hent(string tilFlyplassID)
+        {
+            return flyplasser.FirstOrDefault(f => f.ID == tilFlyplassID);
+        }
+
+        public List<Flyplass> HentAlle()
+        {
+            return flyplasser;
         }
     }
 }
