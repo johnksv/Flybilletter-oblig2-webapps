@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.DomeneModel
 {//Teknisk sett view-modell også?
-    class Admin
+    public class Admin
     {
         //Testbruker: username="root", password="test"
         [Required(ErrorMessage = "Brukernavn må oppgis.")]

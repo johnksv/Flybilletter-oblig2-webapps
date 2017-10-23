@@ -186,5 +186,22 @@ namespace Flybilletter.Controllers
         {
             return bllkunde.HentPoststed(postnummer);
         }
+
+        [HttpPost]
+        public void LoginFailed()
+        {
+            
+        }
+
+        [HttpPost]
+        public void LoginAttempt(string username, string password)
+        {
+            BLLAdmin bllAdmin = new BLLAdmin();
+            if (bllAdmin.IsPassordGyldig(username, password))
+            {
+                // Login er gyldig, session variabel settes
+                Session["Login"] = true;
+            }
+        }
     }
 }

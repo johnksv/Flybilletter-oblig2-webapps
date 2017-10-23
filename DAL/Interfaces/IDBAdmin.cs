@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Flybilletter.DAL.DBModel;
+using Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBAdmin
     {
+        DBAdmin Hent(string username);
     }
 }

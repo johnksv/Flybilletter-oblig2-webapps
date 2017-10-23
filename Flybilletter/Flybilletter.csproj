@@ -155,6 +155,7 @@
     <Content Include="Views\Home\_Mellomlandinger.cshtml" />
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
+    <Content Include="Views\Home\_AdminLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
