@@ -1,4 +1,5 @@
 ﻿using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace BLL
     {
 
         List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag);
+        void FinnReisemuligheter(SokViewModel innSok, out FlygningerViewModel reiser, out List<Reise> flygningerTur, out List<Reise> flygningerRetur);
     }
 }

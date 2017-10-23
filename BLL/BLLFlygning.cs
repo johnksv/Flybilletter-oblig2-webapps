@@ -1,5 +1,6 @@
 ﻿using Flybilletter.DAL.DBModel;
 using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,22 @@ namespace BLL
             }
 
             return reiseMuligheter;
+        }
+
+        public void FinnReisemuligheter(SokViewModel innSok, out FlygningerViewModel reiser, out List<Reise> flygningerTur, out List<Reise> flygningerRetur)
+        {
+            string fraFlyplass = innSok.Fra;
+            string tilFlyplass = innSok.Til;
+
+            flygningerTur = FinnReiseforslag(fraFlyplass, tilFlyplass, innSok.Avreise);
+            flygningerRetur = FinnReiseforslag(tilFlyplass, fraFlyplass, innSok.Retur);
+
+            reiser = new FlygningerViewModel()
+            {
+                TurMuligheter = flygningerTur,
+                ReturMuligheter = flygningerRetur,
+                TurRetur = innSok.Retur >= innSok.Avreise
+            };
         }
     }
 }

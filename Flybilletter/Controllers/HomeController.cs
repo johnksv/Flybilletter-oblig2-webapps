@@ -52,24 +52,14 @@ namespace Flybilletter.Controllers
         [HttpPost]
         public ActionResult Sok(SokViewModel innSok)
         {
-            bool sammeTilOgFra = innSok.Til.Equals(innSok.Fra);
+            bool sammeTilOgFra = innSok.Til == innSok.Fra;
 
             FlygningerViewModel reiser = null;
 
             if (ModelState.IsValid && !sammeTilOgFra)
             {
-                string fraFlyplass = innSok.Fra;
-                string tilFlyplass = innSok.Til;
 
-                List<Reise> flygningerTur = bllflygning.FinnReiseforslag(fraFlyplass, tilFlyplass, innSok.Avreise);
-                List<Reise> flygningerRetur = bllflygning.FinnReiseforslag(tilFlyplass, fraFlyplass, innSok.Retur);
-
-                reiser = new FlygningerViewModel()
-                {
-                    TurMuligheter = flygningerTur,
-                    ReturMuligheter = flygningerRetur,
-                    TurRetur = innSok.Retur >= innSok.Avreise
-                };
+                bllflygning.FinnReisemuligheter(innSok, out reiser, out List<Reise> flygningerTur, out List<Reise> flygningerRetur);
 
                 Session["turListe"] = flygningerTur;
                 Session["returListe"] = flygningerRetur;
@@ -80,8 +70,6 @@ namespace Flybilletter.Controllers
             ViewBag.flyplasser = bllflyplass.HentAlle();
             return PartialView("_Flygninger", reiser);
         }
-
-
 
         [HttpPost]
         public ActionResult ValgtReise(string turIndeks, string returIndeks)
