@@ -79,17 +79,14 @@ namespace Flybilletter.DAL.DBModel
                 try
                 {
                     db.Bestillinger.Add(dbbestilling);
-                    var endring = new DBEndring();
-                    if(endring.lagreEndring("La til bestilling: " + dbbestilling.Referanse))
+                    var endring = new DBEndring()
                     {
-                        db.Endringer.Add(endring);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception(); //TODO: dobbelsjekk effektivitet eller ryddighet på dette
-                    }
-                }catch(Exception e)
+                        Tidspunkt = DateTime.Now,
+                        Endring = "La til bestilling: " + dbbestilling.Referanse
+                    };
+                    db.Endringer.Add(endring);
+                    db.SaveChanges();
+                } catch(Exception e)
                 {
                     DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }

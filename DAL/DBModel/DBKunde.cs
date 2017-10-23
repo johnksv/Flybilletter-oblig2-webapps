@@ -86,16 +86,13 @@ namespace Flybilletter.DAL.DBModel
                         kunde.Postnummer = poststed;
                         db.Poststeder.Attach(poststed);
                     }
-                    var endring = new DBEndring();
-                    if (endring.lagreEndring("La til kunde: " + kunde.ID))
+                    var endring = new DBEndring()
                     {
-                        db.Endringer.Add(endring);
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception(); //TODO: dobbelsjekk effektivitet eller ryddighet på dette
-                    }
+                        Tidspunkt = DateTime.Now,
+                        Endring = "La til kunde med ID: " + kunde.ID
+                    };
+                    db.Endringer.Add(endring);
+                    db.SaveChanges();
                     
                     return kunde;
                 }
