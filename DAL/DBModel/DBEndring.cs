@@ -15,16 +15,5 @@ namespace DAL.DBModel
         public int ID { get; set; }
         public string Endring { get; set; }
         public DateTime Tidspunkt { get; set; }
-
-        public bool lagreEndring(string endring)
-        {
-            if (endring != null)
-            {
-                Tidspunkt = DateTime.Now;
-                Endring = endring;
-                return true;
-            }
-            return false;
-        }
     }
 }
