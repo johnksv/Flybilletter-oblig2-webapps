@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flybilletter.Model.DomeneModel;
 
 namespace Flybilletter.DAL.Stub
 {
     public class DBPostnummerStub : IDBPostnummer
     {
-
+        public Postnummer HentPoststed(string postnummer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

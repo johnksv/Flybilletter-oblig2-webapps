@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBPostnummer
     {
+        Postnummer HentPoststed(string postnummer);
     }
 }

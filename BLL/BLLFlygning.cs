@@ -1,4 +1,5 @@
 ﻿using Flybilletter.DAL.DBModel;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
@@ -11,7 +12,17 @@ namespace BLL
 {
     public class BLLFlygning : IBLLFlygning
     {
-        private DBFlygning dbFlygning = new DBFlygning();
+        private IDBFlygning dbFlygning;
+
+        public BLLFlygning()
+        {
+            dbFlygning = new DBFlygning();
+        }
+
+        public BLLFlygning(IDBFlygning stub)
+        {
+            this.dbFlygning = stub;
+        }
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
         {

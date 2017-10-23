@@ -1,4 +1,5 @@
 ﻿using Flybilletter.DAL.DBModel;
+using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,17 @@ namespace BLL
 {
     public class BLLFlyplass : IBLLFlyplass
     {
-        private DBFlyplass dbFlyplass= new DBFlyplass();
+        private IDBFlyplass dbFlyplass;
+
+        public BLLFlyplass()
+        {
+            dbFlyplass = new DBFlyplass();
+        }
+
+        public BLLFlyplass(IDBFlyplass stub)
+        {
+            this.dbFlyplass = stub;
+        }
 
         public List<Flyplass> HentAlle()
         {

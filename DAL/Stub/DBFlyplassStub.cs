@@ -17,7 +17,35 @@ namespace Flybilletter.DAL.Stub
 
         public List<Flyplass> HentAlle()
         {
-            throw new NotImplementedException();
+            var resultat = new List<Flyplass>()
+            {
+             new Flyplass()
+            {
+                ID = "OSL",
+                By = "Oslo",
+                Land = "Norge",
+                Navn = "Gardermoen Lufthavn"
+
+            },
+                new Flyplass()
+            {
+                ID = "BOO",
+                By = "Bodø",
+                Land = "Norge",
+                Navn = "Bodø Lufthavn"
+
+            },
+             new Flyplass()
+            {
+                ID = "MXP",
+                By = "Milano",
+                Land = "Italia",
+                Navn = "Malpensa lufthavn"
+
+            }
+        };
+
+            return resultat;
         }
     }
 }
