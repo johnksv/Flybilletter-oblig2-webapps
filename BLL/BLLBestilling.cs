@@ -15,15 +15,18 @@ namespace BLL
     {
 
         private IDBBestilling dbBestilling;
+        private IDBFlygning dbflygning;
 
         public BLLBestilling()
         {
             dbBestilling = new DBBestilling();
+            dbflygning = new DBFlygning();
         }
 
-        public BLLBestilling(IDBBestilling stub)
+        public BLLBestilling(IDBBestilling stub, IDBFlygning flygningStub)
         {
-            this.dbBestilling = stub;
+            dbBestilling = stub;
+            dbflygning = flygningStub;
         }
 
         public Bestilling FinnBestilling(string referanse)
@@ -90,7 +93,6 @@ namespace BLL
             } while (dbBestilling.FinnBestilling(bestilling.Referanse) != null);
 
 
-            var dbflygning = new DBFlygning();
             foreach (var flygning in gjeldende.Tur.Flygninger)
             {
                 Flygning dbFlygning = dbflygning.Finn(flygning.ID);

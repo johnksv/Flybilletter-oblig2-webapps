@@ -10,24 +10,28 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBBestillingStub : IDBBestilling
     {
+        private List<Bestilling> bestillinger = new List<Bestilling>()
+        {
+            new Bestilling()
+            {
+                Referanse ="ARP123"
+            }
+        };
+
+
         public bool EksistererReferanse(string referanse)
         {
-            throw new NotImplementedException();
+            return FinnBestilling(referanse) != null;
         }
 
         public Bestilling FinnBestilling(string referanse)
         {
-            Bestilling bestilling = null;
-            if (referanse == null) return bestilling;
-
-            if (referanse.Length == 6) bestilling = new Bestilling();
-
-            return bestilling;
+            return bestillinger.FirstOrDefault(best => best.Referanse == referanse);
         }
 
         public void LeggInn(Bestilling bestilling)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

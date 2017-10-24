@@ -126,8 +126,8 @@ namespace Flybilletter.Controllers
             }
             else
             {
-                string CVCstring = ModelState["Kredittkort.CVC"].Value.AttemptedValue;
-                string utlop = ModelState["Kredittkort.Utlop"].Value.AttemptedValue;
+                string CVCstring = kredittkortInformasjon.Kredittkort.CVC + "";
+                string utlop = kredittkortInformasjon.Kredittkort.Utlop;
                 string feilmelding;
                 bool gyldig = bllbestilling.VerifiserKredittkort(CVCstring, utlop, out feilmelding);
                 if (!gyldig)

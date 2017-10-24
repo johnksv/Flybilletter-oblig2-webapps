@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Flybilletter.Model.DomeneModel;
 using System.Collections.Generic;
 using Flybilletter.Model.ViewModel;
+using System.Web.Helpers;
 
 namespace Enhetstesting
 {
@@ -19,7 +20,7 @@ namespace Enhetstesting
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -44,7 +45,7 @@ namespace Enhetstesting
             var sessionMock = new TestControllerBuilder();
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -65,7 +66,7 @@ namespace Enhetstesting
 
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -79,28 +80,142 @@ namespace Enhetstesting
         [TestMethod]
         public void ValgtReiseTest()
         {
-
+            Assert.Fail();
         }
 
         [TestMethod]
         public void KundePostTest()
         {
-
+            Assert.Fail();
         }
-
 
         [TestMethod]
-        public void GenererReferansePostTest()
+        public void GenererReferanseMedRiktigModell()
         {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+            var rute = new Rute()
+            {
+                Fra = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen"
+                },
+                Til = new Flyplass()
+                {
+                    ID = "BOO",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                BasePris = 1099
+            };
+
+            var flygning = new Flygning()
+            {
+                ID = 10,
+                Rute = rute,
+                AnkomstTid = DateTime.Now,
+                AvgangsTid = DateTime.Now.AddHours(1),
+                Fly = new Fly()
+                {
+                    Modell = "Boieng 737",
+                    AntallSeter = 150,
+                }
+               
+            };
+
+            //Bare-minimum object for at bestillingen skal gå gjennom. Med en ekte DB vil alle felter valideres.
+            controller.Session["GjeldendeBestilling"] = new BestillingViewModel()
+            {
+                Tur = new Reise(flygning)
+            };
+
+            var model = new BestillingViewModel()
+            {
+                Kredittkort = new KredittkortViewModel()
+                {
+                    CVC = 123,
+                    Kortholder ="Ola Nordmann",
+                    Kortnummer = 1234567891234567,
+                    Utlop = "11-21"
+                }
+            };
+            var faktisk = (RedirectToRouteResult) controller.GenererReferanse(model);
+
+            var tempData = (Bestilling)controller.TempData["bestilling"];
+
+            Assert.IsTrue(faktisk.RouteValues.ContainsKey("action"));
+            Assert.AreEqual("Kvittering", faktisk.RouteValues["action"]);
 
         }
+
+        [TestMethod]
+        public void GenererReferanseMedFeilModell()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            var model = new BestillingViewModel()
+            {
+                Kredittkort = new KredittkortViewModel()
+            };
+
+            controller.ViewData.ModelState.AddModelError("Kortholder", "Ikke oppgitt fornavn");
+
+            var faktisk = (ViewResult) controller.GenererReferanse(model);
+
+            Assert.AreEqual("BetalingFeilet", faktisk.ViewName);
+
+        }
+
+        [TestMethod]
+        public void GenererReferanseMedUgyldigKredittkort()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var model = new BestillingViewModel()
+            {
+                Kredittkort = new KredittkortViewModel()
+                {
+                    CVC = 123,
+                    Kortholder = "",
+                    Kortnummer = 1,
+                    Utlop = ""
+
+                }
+            };
+
+            var faktisk = (ViewResult)controller.GenererReferanse(model);
+
+            Assert.AreEqual("BetalingFeilet", faktisk.ViewName);
+            Assert.IsNotNull(faktisk.ViewBag.Feilmelding);
+        }
+
+
 
         [TestMethod]
         public void ReferanseSokDerReferanseEksisterer()
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -112,11 +227,17 @@ namespace Enhetstesting
         }
 
         [TestMethod]
+        public void KvitteringTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod]
         public void ReferanseSokDerReferanseIkkeEksisterer()
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -125,16 +246,40 @@ namespace Enhetstesting
             Assert.AreEqual(null, faktisk.Model);
         }
 
-        [TestMethod]
-        public void KvitteringTest()
-        {
+       
 
+        [TestMethod]
+        public void ReferanseEksisterer()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            string json = controller.ReferanseEksisterer("ARP123");
+            var faktisk = Json.Decode(json);
+
+            Assert.AreEqual("True", faktisk.Exists);
+            Assert.AreEqual("/Home/ReferanseSok?referanse=ARP123", faktisk.Url);
         }
 
         [TestMethod]
-        public void ReferanseEksistererTest()
+        public void ReferanseEksistererIkke()
         {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            string json = controller.ReferanseEksisterer(null);
+            var faktisk = Json.Decode(json);
+
+            Assert.AreEqual("False", faktisk.Exists);
+            Assert.AreEqual("", faktisk.Url);
         }
 
         [TestMethod]
@@ -142,7 +287,7 @@ namespace Enhetstesting
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
@@ -157,7 +302,7 @@ namespace Enhetstesting
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
             var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);

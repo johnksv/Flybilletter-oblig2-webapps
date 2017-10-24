@@ -12,7 +12,8 @@ namespace Flybilletter.DAL.Stub
     {
         public Flygning Finn(int ID)
         {
-            throw new NotImplementedException();
+            if (ID > 0) return new Flygning();
+            return null;
         }
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)
