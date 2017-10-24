@@ -149,5 +149,10 @@ namespace BLL
         {
             return dbBestilling.HentAlle();
         }
+
+        public bool Slett(string referanse)
+        {
+            return dbBestilling.Slett(referanse);
+        }
     }
 }

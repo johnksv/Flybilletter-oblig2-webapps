@@ -43,7 +43,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 return false;
             }
 
@@ -64,7 +64,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                 }catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
                 try
                 {
@@ -97,7 +97,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
             }

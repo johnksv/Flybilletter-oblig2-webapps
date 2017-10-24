@@ -16,5 +16,6 @@ namespace BLL
         Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende);
         string EksistererReferanse(string baseUrl, string referanse);
         List<Bestilling> HentAlle();
+        bool Slett(string referanse);
     }
 }

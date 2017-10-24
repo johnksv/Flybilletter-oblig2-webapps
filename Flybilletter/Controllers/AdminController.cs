@@ -54,22 +54,12 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult EndreBestilling(string referanse)
-        {
-            if (ErAdmin())
-            {
-                List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
         public ActionResult SlettBestilling(string referanse)
         {
             if (ErAdmin())
             {
-                List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
+               bllbestilling.Slett(referanse);
+               return RedirectToAction("Bestillinger");
             }
             return RedirectToAction("Sok", "Home");
         }

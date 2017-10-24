@@ -26,7 +26,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<List<Flyplass>>(db.Flyplasser.ToList());
                 }catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
             }
@@ -41,7 +41,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<Flyplass>(db.Flyplasser.Find(tilFlyplassID));
                 }catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
             }

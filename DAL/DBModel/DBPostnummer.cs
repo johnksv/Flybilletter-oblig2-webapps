@@ -32,7 +32,7 @@ namespace Flybilletter.DAL.DBModel
                         return Mapper.Map<Postnummer>(db.Poststeder.FirstOrDefault(model => model.Postnr == postnummer));
                     }catch(Exception e)
                     {
-                        DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                        DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                         return null;
                     }
                 }
