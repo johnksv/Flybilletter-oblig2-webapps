@@ -23,7 +23,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<Fly>(db.Fly.Find(iD));
                 } catch (Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
             }
@@ -38,7 +38,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<List<Fly>>(db.Fly);
                 } catch (Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
             }
@@ -58,7 +58,7 @@ namespace Flybilletter.DAL.DBModel
                     return true;
                 } catch (Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return false;
                 }
             }
