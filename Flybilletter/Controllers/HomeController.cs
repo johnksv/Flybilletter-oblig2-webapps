@@ -187,29 +187,6 @@ namespace Flybilletter.Controllers
             return bllkunde.HentPoststed(postnummer);
         }
 
-        [HttpPost]
-        public void LoginFailed()
-        {
-            //Brukes ikke
-        }
-
-        [HttpGet]
-        public string LoginAttempt(string username, string password)
-        {
-            string returString = "{{ \"exists\":\"{0}\", \"url\":\"{1}\" }}";
-            string url = "";
-            bool gyldig = false;
-            BLLAdmin bllAdmin = new BLLAdmin();
-
-            if (bllAdmin.IsPassordGyldig(username, password))
-            {
-                // Login er gyldig, session variabel settes
-                Session["Login"] = true;
-                gyldig = true;
-                url = "/Home/Sok";
-            }
-           
-            return string.Format(returString, gyldig, url); ;
-        }
+        
     }
 }

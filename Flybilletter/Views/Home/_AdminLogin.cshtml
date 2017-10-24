@@ -1,4 +1,4 @@
-﻿@using (Html.BeginForm("LoginFailed", "Home", FormMethod.Post, new { @class = "form-inline loginForm", autocomplete = "off" }))
+﻿@using (Html.BeginForm("LoginFailed", "Admin", FormMethod.Post, new { @class = "form-inline loginForm", autocomplete = "off" }))
 {
     <div class="form-group">
         <label>Logg inn</label>
@@ -19,12 +19,12 @@
 
             $.ajax({
                 type: "GET",
-                url: "/Home/LoginAttempt",
+                url: "/Admin/LoginAttempt",
                 data: $(this).serialize(),
                 dataType: "json"
             }).done(function (data) {
                 if (data.gyldig == "True") {
-                    window.location.href.url;
+                    window.location.href = data.url
                 } else {
                     $(".loginForm .hidden").removeClass("hidden");
                 }
