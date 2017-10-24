@@ -32,7 +32,7 @@
                     </li>
 
                     @{
-                        if (Session["Login"] != null && (bool)Session["Login"] == true)
+                        if (Session["Admin"] != null && (bool)Session["Admin"] == true)
                         {
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -47,7 +47,7 @@
                                         <a href="#">Kunde</a>
                                     </li>
                                     <li>
-                                        <a href="/Admin/Bestillinger">Bestilling</a>
+                                        <a href="/Admin/Bestillinger/Bestillinger">Bestilling</a>
                                     </li>
                                     <li>
                                         <a href="#">Fly/Flygninger/Flyplass</a>

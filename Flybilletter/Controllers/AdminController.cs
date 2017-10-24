@@ -35,7 +35,7 @@ namespace Flybilletter.Controllers
             if (bllAdmin.IsPassordGyldig(username, password))
             {
                 // Login er gyldig, session variabel settes
-                Session["Login"] = true;
+                Session["Admin"] = true;
                 gyldig = true;
                 url = "/Home/Sok";
             }
@@ -43,13 +43,41 @@ namespace Flybilletter.Controllers
             return string.Format(returString, gyldig, url); ;
         }
 
+        [HttpGet]
         public ActionResult Bestillinger()
         {
-            List<Bestilling> bestillinger = bllbestilling.HentAlle();
-            return View(bestillinger);
+            if (ErAdmin())
+            {
+                List<Bestilling> bestillinger = bllbestilling.HentAlle();
+                return View("BestillingListe", bestillinger);
+            }
+            return RedirectToAction("Sok", "Home");
         }
 
+        public ActionResult EndreBestilling(string referanse)
+        {
+            if (ErAdmin())
+            {
+                List<Bestilling> bestillinger = bllbestilling.HentAlle();
+                return View("BestillingListe", bestillinger);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
 
+        public ActionResult SlettBestilling(string referanse)
+        {
+            if (ErAdmin())
+            {
+                List<Bestilling> bestillinger = bllbestilling.HentAlle();
+                return View("BestillingListe", bestillinger);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        private bool ErAdmin()
+        {
+            return Session["Admin"] != null && (bool)Session["Admin"] == true;
+        }
 
     }
 }

@@ -161,7 +161,7 @@
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
     <Content Include="Views\Shared\_AdminLogin.cshtml" />
-    <Content Include="Views\Admin\Bestillinger.cshtml" />
+    <Content Include="Views\Admin\BestillingListe.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
