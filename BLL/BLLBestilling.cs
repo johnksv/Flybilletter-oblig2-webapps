@@ -152,7 +152,30 @@ namespace BLL
 
         public bool Slett(string referanse)
         {
-            return dbBestilling.Slett(referanse);
+            var best = dbBestilling.FinnBestilling(referanse);
+
+            bool flyHarIkkeFlydd = DateTime.Now < best.FlygningerTur.First().AvgangsTid;
+            if (flyHarIkkeFlydd)
+            {
+                return dbBestilling.Slett(referanse);
+            }
+            return false;
         }
+
+        public bool SlettSomKunde(string referanse)
+        {
+            var best = dbBestilling.FinnBestilling(referanse);
+            if(best != null)
+            {
+                var brukerSkalKunneSlette = (DateTime.Now - best.BestillingsTidspunkt) < new TimeSpan(48, 0, 0);
+                if (brukerSkalKunneSlette)
+                {
+                    return Slett(referanse);
+                }
+            }
+
+            return false;
+        }
+
     }
 }

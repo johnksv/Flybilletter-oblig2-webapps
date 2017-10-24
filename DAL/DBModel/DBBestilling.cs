@@ -136,7 +136,13 @@ namespace Flybilletter.DAL.DBModel
                 var dbbestilling = db.Bestillinger.Find(referanse);
                 if (dbbestilling != null)
                 {
-                    db.Entry(dbbestilling).State = EntityState.Deleted;
+                    db.Bestillinger.Remove(dbbestilling);
+                    var flygninger = db.Flygninger.Where(fly => fly.Bestillinger.Where(best => best.Referanse == dbbestilling.Referanse).Any()).ToList();
+                    foreach(var fly in flygninger)
+                    {
+                        fly.Bestillinger.Remove(dbbestilling);
+                    }
+                    
                     db.Endringer.Add(new DBEndring()
                     {
                         Endring = "Slett bestilling med referanse " + referanse,

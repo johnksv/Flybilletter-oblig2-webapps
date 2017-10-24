@@ -107,14 +107,14 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult SlettBestilling(string referanse)
+        public bool SlettBestilling(string referanse)
         {
             if (ErAdmin())
             {
-               bllbestilling.Slett(referanse);
-               return RedirectToAction("Bestillinger");
+               return bllbestilling.Slett(referanse);
+               
             }
-            return RedirectToAction("Sok", "Home");
+            return false;
         }
 
         public ActionResult Kunder()

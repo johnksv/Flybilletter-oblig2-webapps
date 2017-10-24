@@ -17,5 +17,6 @@ namespace BLL
         string EksistererReferanse(string baseUrl, string referanse);
         List<Bestilling> HentAlle();
         bool Slett(string referanse);
+        bool SlettSomKunde(string referanse);
     }
 }

@@ -169,6 +169,12 @@ namespace Flybilletter.Controllers
             return bllbestilling.EksistererReferanse("/Home/ReferanseSok?referanse=", referanse);
         }
 
+        public bool SlettBestilling(string referanse)
+        {
+            return bllbestilling.SlettSomKunde(referanse);
+        }
+
+
         [HttpGet]
         public string HentPoststed(string postnummer)
         {

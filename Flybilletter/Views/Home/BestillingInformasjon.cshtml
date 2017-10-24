@@ -36,7 +36,7 @@
             </div>
         }
     </div>
-    
+
 
     @if (Model.FlygningerRetur != null && Model.FlygningerRetur.Count > 0)
     {
@@ -68,4 +68,54 @@
             </div>
         }
     </div>
+
+    @{
+        var erAdmin = Session["Admin"] != null && (bool)Session["Admin"] == true;
+        var flyHarIkkeFlydd = DateTime.Now < Model.FlygningerTur.First().AvgangsTid;
+        var brukerSkalKunneSlette = (DateTime.Now - Model.BestillingsTidspunkt) < new TimeSpan(48, 0, 0);
+    }
+    @if (erAdmin && flyHarIkkeFlydd)
+    {
+        @Html.ActionLink(
+                linkText: "Kanseller",
+                actionName: "SlettBestilling",
+                controllerName: "Admin",
+                routeValues: new { referanse = Model.Referanse },
+                htmlAttributes: new { @class = "btn btn-danger", id = "kanseller", data_url = Url.Action("Bestillinger","Admin")   })
+    }
+    else if (brukerSkalKunneSlette && flyHarIkkeFlydd)
+    {
+            @Html.ActionLink(
+                linkText: "Avbestill",
+                actionName: "SlettBestilling",
+                controllerName: "Home",
+                routeValues: new { referanse = Model.Referanse },
+                htmlAttributes: new { @class = "btn btn-danger", id="kanseller", data_url = Url.Action("Sok", "Home") })
+    }
+    else {
+        <p>Kan ikke kansellere. Flyet har alerede hatt avgang eller tidsvinduet for å kansellere har utløpt.</p>
+    }
+
+    @if ((erAdmin && flyHarIkkeFlydd) || brukerSkalKunneSlette)
+    {
+        <script>
+            $(function () {
+                $("#kanseller").click(function (event) {
+                    event.preventDefault();
+                    var that = $(this);
+                    $.ajax({
+                        type: "POST",
+                        url: that.attr("href")
+                    }).done(function (response) {
+                        if (response == "True") {
+                            window.location.href = that.data("url");
+                        } else {
+                            alert("En feil oppsto. Kan ikke slette");
+                        }
+                    });
+
+                });
+            });
+        </script>
+    }
 </div>
