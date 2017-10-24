@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Kunde>
+
+@{
+    ViewBag.Title = "KundeListe";
+}
+
+<h2>KundeListe</h2>
+
+<p>
+    @Html.ActionLink("Lag ny kunde", "LagKunde")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Fornavn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Etternavn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fodselsdag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adresse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tlf)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EPost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Postnr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Poststed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fornavn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Etternavn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fodselsdag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adresse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tlf)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EPost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Postnr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Poststed)
+        </td>
+        <td>
+            @Html.ActionLink("Endre", "EndreKunde", new { id=item.ID }) |
+            @Html.ActionLink("Detaljer", "DetaljerKunde", new { id=item.ID }) |
+            @Html.ActionLink("Slett", "SlettKunde", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
