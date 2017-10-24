@@ -13,17 +13,22 @@ namespace Flybilletter.Controllers
     public class AdminController : Controller
     {
         private IBLLBestilling bllbestilling;
+        private IBLLFly bllfly;
         private IBLLKunde bllkunde;
+
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
+
+            bllfly = new BLLFly();
             bllkunde = new BLLKunde();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling, IBLLKunde ibllkunde)
+        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub, IBLLKunde ibllkunde)
         {
             bllbestilling = ibllbestilling;
+            bllfly = flystub;
             bllkunde = ibllkunde;
         }
 
@@ -57,11 +62,47 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+
+        public ActionResult Fly()
+        {
+            if (ErAdmin())
+            {
+                List<Fly> fly = bllfly.HentAlle();
+                return View("FlyListe", fly);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         public ActionResult SeDetaljerBestilling(string referanse)
         {
             if (ErAdmin())
             {
                 return RedirectToAction("ReferanseSok", "Home", new { referanse = referanse });
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult RedigerFly(int ID)
+        {
+            if (ErAdmin())
+            {
+                var fly = bllfly.Hent(ID);
+                if (fly == null) RedirectToAction("Sok", "Home");
+                return View("RedigerFly", fly);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult RedigerFly(Fly fly)
+        {
+            if (ErAdmin())
+            {
+                if (bllfly.Oppdater(fly))
+                {
+                    List<Fly> flyListe = bllfly.HentAlle();
+                    return RedirectToAction("Fly", flyListe);
+                }
             }
             return RedirectToAction("Sok", "Home");
         }

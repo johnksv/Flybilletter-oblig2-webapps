@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="BLLAdmin.cs" />
     <Compile Include="BLLBestilling.cs" />
+    <Compile Include="BLLFly.cs" />
     <Compile Include="BLLFlygning.cs" />
     <Compile Include="BLLFlyplass.cs" />
     <Compile Include="BLLKunde.cs" />
+    <Compile Include="IBLLFly.cs" />
     <Compile Include="IBLLKunde.cs" />
     <Compile Include="IBLLFlyplass.cs" />
     <Compile Include="IBLLFlygning.cs" />

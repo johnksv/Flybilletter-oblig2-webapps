@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flybilletter.DAL.Interfaces
+namespace BLL
 {
-    public interface IDBFly
+    public interface IBLLFly
     {
         List<Fly> HentAlle();
         bool Oppdater(Fly fly);
