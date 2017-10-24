@@ -54,6 +54,15 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+        public ActionResult SeDetaljerBestilling(string referanse)
+        {
+            if (ErAdmin())
+            {
+                return RedirectToAction("ReferanseSok", "Home", new { referanse = referanse });
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         public ActionResult SlettBestilling(string referanse)
         {
             if (ErAdmin())

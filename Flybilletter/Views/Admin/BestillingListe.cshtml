@@ -33,8 +33,8 @@
                 @Html.DisplayFor(modelItem => item.Totalpris)
             </td>
             <td>
-                @Html.ActionLink("Detaljer", "Details", new { referanse = item.Referanse })
-                @Html.ActionLink("Kanseller", "SlettBestilling", new { referanse = item.Referanse })
+                @Html.ActionLink("Detaljer", "SeDetaljerBestilling", new { referanse = item.Referanse }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Kanseller", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }
