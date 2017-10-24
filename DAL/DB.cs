@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DAL.DBModel;
 using Flybilletter.DAL.DBModel;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;

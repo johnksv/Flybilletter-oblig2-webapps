@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.DBModel
+namespace Flybilletter.DAL.DBModel
 {
     //Lagrer endringer i databasen
     public class DBEndring

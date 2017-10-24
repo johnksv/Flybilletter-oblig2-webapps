@@ -1,0 +1,37 @@
+﻿@using (Html.BeginForm("LoginFailed", "Admin", FormMethod.Post, new { @class = "form-inline loginForm", autocomplete = "off" }))
+{
+    <div class="form-group">
+        <label>Logg inn</label>
+        <input type="text" class="form-control" placeholder="Username" name="Username">
+        <input type="password" class="form-control" placeholder="Password" name="Password">
+        <button type="submit" class="btn btn-success">Logg inn</button>
+    </div>
+    <hr />
+    <div class="alert alert-warning hidden" role="alert">
+        <strong>Feil!</strong> Feil kombinasjon av brukernavn og password.
+    </div>
+}
+
+<script>
+    $(function () {
+        $(".loginForm").submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/LoginAttempt",
+                data: $(this).serialize(),
+                dataType: "json"
+            }).done(function (data) {
+                if (data.gyldig == "True") {
+                    window.location.href = data.url
+                } else {
+                    $(".loginForm .hidden").removeClass("hidden");
+                }
+            });
+
+        });
+
+    });
+
+</script>
