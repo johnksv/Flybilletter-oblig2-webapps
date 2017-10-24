@@ -43,7 +43,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 return false;
             }
 
@@ -64,7 +64,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                 }catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
                 try
                 {
@@ -97,9 +97,31 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch(Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return null;
                 }
+            }
+        }
+
+        public List<Kunde> HentAlle()
+        {
+            using(var db = new DB())
+            {
+                var dbkunder = db.Kunder.ToList();
+                var kunder = new List<Kunde>();
+                foreach (var kunde in dbkunder)
+                {
+                    kunder.Add(Mapper.Map<Kunde>(kunde));
+                }
+                return kunder;
+            }
+        }
+
+        public Kunde HentEnKunde(int id)
+        {
+            using(var db = new DB())
+            {
+                return Mapper.Map<Kunde>(db.Kunder.Find(id));
             }
         }
     }

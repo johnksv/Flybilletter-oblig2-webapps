@@ -4,6 +4,8 @@ using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -11,7 +13,7 @@ namespace Flybilletter.DAL.DBModel
 {
     public class DBBestilling : IDBBestilling
     {
-        public int ID { get; set; }
+        [Key]
         public string Referanse { get; set; } //ID til bestillingen
         public virtual List<DBKunde> Passasjerer { get; set; } //Passasjerer knyttet til en bestilling
         public virtual List<DBFlygning> FlygningerTur { get; set; }
@@ -39,7 +41,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
             }
 
             return bestilling;
@@ -90,7 +92,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
 
             }
@@ -106,7 +108,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
                 return false;
             }
@@ -124,6 +126,37 @@ namespace Flybilletter.DAL.DBModel
                 }
 
                 return bestillinger;
+            }
+        }
+
+        public bool Slett(string referanse)
+        {
+            using (var db = new DB())
+            {
+                var dbbestilling = db.Bestillinger.Find(referanse);
+                if (dbbestilling != null)
+                {
+                    db.Entry(dbbestilling).State = EntityState.Deleted;
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = "Slett bestilling med referanse " + referanse,
+                        Tidspunkt = DateTime.Now
+                    });
+                                            
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        DALsetup.LogFeilTilFil("DBBestilling:Slett", e);
+                        return false;
+                    }
+
+                    return true;
+                }
+                return false;
+
             }
         }
     }

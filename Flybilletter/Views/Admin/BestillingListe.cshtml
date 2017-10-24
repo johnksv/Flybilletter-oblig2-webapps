@@ -20,23 +20,23 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Referanse)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BestillingsTidspunkt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Totalpris)
-        </td>
-        <td>
-            @Html.ActionLink("Endre", "EndreBestilling", new { id=item.Referanse }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Referanse }) |
-            @Html.ActionLink("Slett", "SlettBestilling", new { id=item.Referanse })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Referanse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BestillingsTidspunkt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Totalpris)
+            </td>
+            <td>
+                @Html.ActionLink("Detaljer", "SeDetaljerBestilling", new { referanse = item.Referanse }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Kanseller", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

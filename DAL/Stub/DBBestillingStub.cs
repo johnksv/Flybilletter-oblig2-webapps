@@ -38,5 +38,10 @@ namespace Flybilletter.DAL.Stub
         {
             
         }
+
+        public bool Slett(string referanse)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

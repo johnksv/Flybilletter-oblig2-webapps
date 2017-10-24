@@ -14,17 +14,22 @@ namespace Flybilletter.Controllers
     {
         private IBLLBestilling bllbestilling;
         private IBLLFly bllfly;
+        private IBLLKunde bllkunde;
+
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
+
             bllfly = new BLLFly();
+            bllkunde = new BLLKunde();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub)
+        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub, IBLLKunde ibllkunde)
         {
             bllbestilling = ibllbestilling;
             bllfly = flystub;
+            bllkunde = ibllkunde;
         }
 
         [HttpGet]
@@ -57,6 +62,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+
         public ActionResult Fly()
         {
             if (ErAdmin())
@@ -67,12 +73,11 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult EndreBestilling(string referanse)
+        public ActionResult SeDetaljerBestilling(string referanse)
         {
             if (ErAdmin())
             {
-                List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
+                return RedirectToAction("ReferanseSok", "Home", new { referanse = referanse });
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -106,8 +111,51 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
+               bllbestilling.Slett(referanse);
+               return RedirectToAction("Bestillinger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult Kunder()
+        {
+            if (ErAdmin())
+            {
+                List<Kunde> kunder = bllkunde.HentAlle();
+                return View("KundeListe", kunder);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult LagKunde()
+        {
+            if (ErAdmin())
+            {
+                return View("LagKunde");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagreKunde(Kunde kunde)
+        {
+            if (bllkunde.LeggInn(kunde))
+                return Kunder();
+            else return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult EndreKunde()
+        {
+            if (ErAdmin())
+            {
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult DetaljerKunde()
+        {
+            if (ErAdmin())
+            {
+
             }
             return RedirectToAction("Sok", "Home");
         }

@@ -12,5 +12,7 @@ namespace BLL
         string HentPoststed(string postnummer);
         bool LeggInn(IEnumerable<Kunde> kunder);
         bool LeggInn(Kunde innKunde);
+        List<Kunde> HentAlle();
+        Kunde HentEnKunde(int id);
     }
 }
