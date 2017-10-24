@@ -7,14 +7,14 @@ using System.Web;
 
 namespace Flybilletter.DAL
 {
-    internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
+    internal class DBInit : DropCreateDatabaseAlways<DB>
     {
         protected override void Seed(DB context)
         {
             var Root = new DBAdmin()
             {
                 Username = "root",
-                Password = "9D8B7AB3203CF2D45ACE0924E485848E1AC1E131FC629A66574994FCE8DE6827", //Test1
+                Password = { 176, 8, 140, 157, 12, 97, 118, 245, 184, 235, 48, 205, 145, 148, 170, 174, 75, 103, 52, 48, 50, 164, 158, 113, 185, 24, 148, 120, 4, 140, 106, 45 }, //Test1
                 Salt = "SALT"
             };
 
@@ -245,6 +245,7 @@ namespace Flybilletter.DAL
                 context.Flygninger.Add(flygningCPHOSL);
             }
 
+
             context.Flyplasser.Add(OSL);
             context.Flyplasser.Add(BOO);
             context.Flyplasser.Add(MXP);
@@ -268,6 +269,9 @@ namespace Flybilletter.DAL
             context.Fly.Add(Boeing737_3);
             context.Fly.Add(AirbusA380_1);
             context.Fly.Add(AirbusA380_2);
+
+            context.Administratorer.Add(Root);
+
 
             context.Poststeder.AddRange(poststeder);
             context.BulkSaveChanges();

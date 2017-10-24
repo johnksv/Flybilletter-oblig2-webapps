@@ -2,8 +2,8 @@
 {
     <div class="form-group">
         <label>Logg inn</label>
-        <input type="text" class="form-control" name="Username">
-        <input type="text" class="form-control" name="Password">
+        <input type="text" class="form-control" placeholder="Username" name="Username">
+        <input type="password" class="form-control" placeholder="Password" name="Password">
         <button type="submit" class="btn btn-success">Logg inn</button>
     </div>
     <hr />
@@ -18,13 +18,13 @@
             event.preventDefault();
 
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "/Home/LoginAttempt",
                 data: $(this).serialize(),
                 dataType: "json"
             }).done(function (data) {
-                if (data.exists == "True") {
-                    window.location.href = data.url
+                if (data.gyldig == "True") {
+                    window.location.href.url;
                 } else {
                     $(".loginForm .hidden").removeClass("hidden");
                 }

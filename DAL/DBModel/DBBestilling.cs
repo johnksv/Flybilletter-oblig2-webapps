@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DAL;
-using DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;

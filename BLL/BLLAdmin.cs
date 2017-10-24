@@ -1,5 +1,6 @@
 ﻿using Flybilletter.DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
+using Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,17 +29,27 @@ namespace BLL
             if (admin != null)
             {
                 var cipherText = HashPassord(PwAttempt, admin.Salt);
-                if (cipherText == admin.Password) return true;
+                var i = 0;
+                foreach (byte b in cipherText)
+                {
+                    if (!b.Equals(admin.Password[i])) return false;
+                    i++;
+                }
+                return true;
             }
             return false;
         }
 
-        private string HashPassord(string password, string salt)
+        public void LeggInn(Admin admin)
         {
-            var algorithm = System.Security.Cryptography.SHA256.Create();
-            byte[] str = Encoding.ASCII.GetBytes(String.Concat(password, salt));
+            dbAdmin.LeggInn(admin);
+        }
 
-            return Encoding.Default.GetString(algorithm.ComputeHash(str));
+
+
+        private byte[] HashPassord(string password, string salt)
+        {
+            return dbAdmin.HashPassord(password, salt);
         }
     }
 }
