@@ -102,6 +102,28 @@ namespace Flybilletter.DAL.DBModel
                 }
             }
         }
+
+        public List<Kunde> HentAlle()
+        {
+            using(var db = new DB())
+            {
+                var dbkunder = db.Kunder.ToList();
+                var kunder = new List<Kunde>();
+                foreach (var kunde in dbkunder)
+                {
+                    kunder.Add(Mapper.Map<Kunde>(kunde));
+                }
+                return kunder;
+            }
+        }
+
+        public Kunde HentEnKunde(int id)
+        {
+            using(var db = new DB())
+            {
+                return Mapper.Map<Kunde>(db.Kunder.Find(id));
+            }
+        }
     }
 
 }
