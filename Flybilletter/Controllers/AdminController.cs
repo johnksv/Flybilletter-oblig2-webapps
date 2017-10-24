@@ -13,15 +13,18 @@ namespace Flybilletter.Controllers
     public class AdminController : Controller
     {
         private IBLLBestilling bllbestilling;
+        private IBLLFly bllfly;
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
+            bllfly = new BLLFly();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling)
+        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub)
         {
             bllbestilling = ibllbestilling;
+            bllfly = flystub;
         }
 
         [HttpGet]
@@ -54,12 +57,47 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+        public ActionResult Fly()
+        {
+            if (ErAdmin())
+            {
+                List<Fly> fly = bllfly.HentAlle();
+                return View("FlyListe", fly);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         public ActionResult EndreBestilling(string referanse)
         {
             if (ErAdmin())
             {
                 List<Bestilling> bestillinger = bllbestilling.HentAlle();
                 return View("BestillingListe", bestillinger);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult RedigerFly(int ID)
+        {
+            if (ErAdmin())
+            {
+                var fly = bllfly.Hent(ID);
+                if (fly == null) RedirectToAction("Sok", "Home");
+                return View("RedigerFly", fly);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult RedigerFly(Fly fly)
+        {
+            if (ErAdmin())
+            {
+                if (bllfly.Oppdater(fly))
+                {
+                    List<Fly> flyListe = bllfly.HentAlle();
+                    return RedirectToAction("Fly", flyListe);
+                }
             }
             return RedirectToAction("Sok", "Home");
         }

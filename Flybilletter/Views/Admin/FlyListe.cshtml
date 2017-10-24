@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Fly>
+
+@{
+    ViewBag.Title = "Administrer fly";
+}
+
+<h2>FlyListe</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Modell)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AntallSeter)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modell)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AntallSeter)
+        </td>
+        <td>
+            @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }) |
+            @Html.ActionLink("Detaljer", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Slett", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

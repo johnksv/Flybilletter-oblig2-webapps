@@ -162,6 +162,8 @@
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
     <Content Include="Views\Shared\_AdminLogin.cshtml" />
     <Content Include="Views\Admin\BestillingListe.cshtml" />
+    <Content Include="Views\Admin\FlyListe.cshtml" />
+    <Content Include="Views\Admin\RedigerFly.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
