@@ -133,22 +133,18 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbbestilling = db.Bestillinger.Find(referanse);
+                var dbbestilling = db.Bestillinger.Include("FlygningerTur").Include("FlygningerRetur").FirstOrDefault(best => best.Referanse == referanse);
                 if (dbbestilling != null)
                 {
                     db.Bestillinger.Remove(dbbestilling);
-                    var flygninger = db.Flygninger.Where(fly => fly.Bestillinger.Where(best => best.Referanse == dbbestilling.Referanse).Any()).ToList();
-                    foreach(var fly in flygninger)
-                    {
-                        fly.Bestillinger.Remove(dbbestilling);
-                    }
-                    
+
                     db.Endringer.Add(new DBEndring()
                     {
                         Endring = "Slett bestilling med referanse " + referanse,
                         Tidspunkt = DateTime.Now
                     });
-                                            
+
+
                     try
                     {
                         db.SaveChanges();
