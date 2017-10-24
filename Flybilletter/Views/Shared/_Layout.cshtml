@@ -30,25 +30,47 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target="#referansesok">Gå til referanse</a>
                     </li>
-                    <li>
-                        @{
-                            if (Session["Login"] != null && (bool)Session["Login"] == true)
-                            {
-                                <a href="#">
-                                    <ul class="dropdown">
-                                        <!--Her skal lenkene til adminsidene ligge-->
-                                        <li></li> <!--Administrer Fly-->
-                                        <li></li> <!--Administrer Kunde-->
-                                        <li></li> <!--Administrer Flyplass-->
-                                    </ul>
+
+                    @{
+                        if (Session["Login"] != null && (bool)Session["Login"] == true)
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    Administrer <span class="caret"></span>
                                 </a>
-                            }
-                            else
-                            {
-                                <a href="#" data-toggle="modal" data-target="#login">Logg inn</a>
-                            }
+                                <ul class="dropdown-menu">
+                                    <!--Her skal lenkene til adminsidene ligge-->
+                                    <li></li> <!--Administrer Fly-->
+                                    <li></li> <!--Administrer Kunde-->
+                                    <li></li> <!--Administrer Flyplass-->
+                                    <li>
+                                        <a href="#">Kunde</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Bestilling</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fly/Flygninger/Flyplass</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Administratorer</a>
+                                    </li>
+                                    <li role="separator" class="divider">
+
+                                    </li>
+                                    <li>
+                                        <a href="#">Logg ut</a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
-                    </li>
+                        else
+                        {
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#login">Logg inn</a>
+                            </li>
+                        }
+                    }
                 </ul>
             </div>
         </div>
