@@ -2,10 +2,26 @@
 
 
 <h2>Lag Kunde</h2>
-@using (Html.BeginForm("LagreKunde", "Admin", FormMethod.Post, new { @class = "form-inline lagKunde", autocomplete = "on" }))
+@using (Html.BeginForm("LagreKunde", "Admin", FormMethod.Post, new { @class = "lagKunde", autocomplete = "false" }))
 {
-    @Html.EditorFor(model => model, new { htmlAttributes = new { @class = "form-control" } })
-    <div>
-        <button type="submit" class="btn btn-success">Lagre Kunde</button>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Passasjer</h3>
+                </div>
+
+                <div class="panel-body">
+                    @Html.EditorFor(model => model, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Lagre</button>
+        </div>
     </div>
+    <br/>
+    <div>
+        @Html.ActionLink("Tilbake til listen", "KundeListe", new { },  new { @class = "btn btn-default" })
+    </div>
+
 }

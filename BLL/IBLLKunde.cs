@@ -14,5 +14,6 @@ namespace BLL
         bool LeggInn(Kunde innKunde);
         List<Kunde> HentAlle();
         Kunde HentEnKunde(int id);
+        bool Oppdater(Kunde kunde);
     }
 }

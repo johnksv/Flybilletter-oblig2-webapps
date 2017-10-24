@@ -45,6 +45,11 @@ namespace BLL
             return dbkunde.LeggInn(innKunde) != null;
         }
 
+        public bool Oppdater(Kunde kunde)
+        {
+            return dbkunde.Oppdater(kunde);
+        }
+        
         public List<Kunde> HentAlle()
         {
             return dbkunde.HentAlle();

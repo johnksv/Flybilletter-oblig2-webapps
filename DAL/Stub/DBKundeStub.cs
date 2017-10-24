@@ -30,5 +30,10 @@ namespace Flybilletter.DAL.Stub
         {
             throw new NotImplementedException();
         }
+
+        public bool Oppdater(Kunde kunde)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

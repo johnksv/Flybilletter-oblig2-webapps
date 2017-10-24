@@ -65,9 +65,9 @@
             @Html.DisplayFor(modelItem => item.Poststed)
         </td>
         <td>
-            @Html.ActionLink("Endre", "EndreKunde", new { id=item.ID }) |
-            @Html.ActionLink("Detaljer", "DetaljerKunde", new { id=item.ID }) |
-            @Html.ActionLink("Slett", "SlettKunde", new { id=item.ID })
+            @Html.ActionLink("Endre", "EndreKunde", new { id=item.ID }, new { @class = "btn btn-default" }) |
+            @Html.ActionLink("Detaljer", "DetaljerKunde", new { id=item.ID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Slett", "SlettKunde", new { id=item.ID }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

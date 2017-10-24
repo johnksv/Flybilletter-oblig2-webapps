@@ -143,14 +143,26 @@ namespace Flybilletter.Controllers
             else return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult EndreKunde()
+        public ActionResult EndreKunde(int id)
         {
             if (ErAdmin())
             {
-
+                var kunde = bllkunde.HentEnKunde(id);
+                return View("RedigerKunde", kunde);
             }
             return RedirectToAction("Sok", "Home");
         }
+
+        public ActionResult OppdaterKunde(Kunde kunde)
+        {
+            if (ErAdmin())
+            {
+                bllkunde.Oppdater(kunde);
+                return Kunder();
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         public ActionResult DetaljerKunde()
         {
             if (ErAdmin())

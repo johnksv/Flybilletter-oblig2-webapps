@@ -111,7 +111,8 @@ namespace Flybilletter.DAL.DBModel
                 var kunder = new List<Kunde>();
                 foreach (var kunde in dbkunder)
                 {
-                    kunder.Add(Mapper.Map<Kunde>(kunde));
+                    var domenekunde = Mapper.Map<Kunde>(kunde);                   
+                    kunder.Add(domenekunde);
                 }
                 return kunder;
             }
@@ -122,6 +123,37 @@ namespace Flybilletter.DAL.DBModel
             using(var db = new DB())
             {
                 return Mapper.Map<Kunde>(db.Kunder.Find(id));
+            }
+        }
+
+        public bool Oppdater(Kunde kunde)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    // DB oppdater
+                    var dbkundeEntitet = db.Kunder.Find(kunde.ID);
+                    dbkundeEntitet.Fornavn = kunde.Fornavn;
+                    dbkundeEntitet.Etternavn = kunde.Etternavn;
+                    dbkundeEntitet.Fodselsdag = kunde.Fodselsdag;
+                    dbkundeEntitet.Tlf = kunde.Tlf;
+                    dbkundeEntitet.Adresse = kunde.Adresse;
+                    dbkundeEntitet.EPost= kunde.EPost;
+                    dbkundeEntitet.Postnummer = db.Poststeder.Find(kunde.Postnr);
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Endret på kunde med ID: " + kunde.ID
+                    });
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
             }
         }
     }
