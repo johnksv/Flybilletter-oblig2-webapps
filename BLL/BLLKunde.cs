@@ -44,5 +44,15 @@ namespace BLL
         {
             return dbkunde.LeggInn(innKunde) != null;
         }
+
+        public List<Kunde> HentAlle()
+        {
+            return dbkunde.HentAlle();
+        }
+
+        public Kunde HentEnKunde(int id)
+        {
+            return dbkunde.HentEnKunde(id);
+        }
     }
 }

@@ -13,15 +13,18 @@ namespace Flybilletter.Controllers
     public class AdminController : Controller
     {
         private IBLLBestilling bllbestilling;
+        private IBLLKunde bllkunde;
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
+            bllkunde = new BLLKunde();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling)
+        public AdminController(IBLLBestilling ibllbestilling, IBLLKunde ibllkunde)
         {
             bllbestilling = ibllbestilling;
+            bllkunde = ibllkunde;
         }
 
         [HttpGet]
@@ -69,6 +72,49 @@ namespace Flybilletter.Controllers
             {
                bllbestilling.Slett(referanse);
                return RedirectToAction("Bestillinger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult Kunder()
+        {
+            if (ErAdmin())
+            {
+                List<Kunde> kunder = bllkunde.HentAlle();
+                return View("KundeListe", kunder);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult LagKunde()
+        {
+            if (ErAdmin())
+            {
+                return View("LagKunde");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagreKunde(Kunde kunde)
+        {
+            if (bllkunde.LeggInn(kunde))
+                return Kunder();
+            else return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult EndreKunde()
+        {
+            if (ErAdmin())
+            {
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult DetaljerKunde()
+        {
+            if (ErAdmin())
+            {
+
             }
             return RedirectToAction("Sok", "Home");
         }

@@ -11,6 +11,16 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBKundeStub : IDBKunde
     {
+        public List<Kunde> HentAlle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Kunde HentEnKunde(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool LeggInn(IEnumerable<Kunde> kunder)
         {
             throw new NotImplementedException();
