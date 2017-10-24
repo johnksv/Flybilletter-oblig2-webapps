@@ -28,7 +28,7 @@ namespace Enhetstesting
             var faktisk = (ViewResult)controller.Sok();
             var flyplasser = faktisk.ViewBag.flyplasser;
 
-            Assert.AreEqual(flyplasser.Count, 3);
+            Assert.AreEqual(3, flyplasser.Count);
         }
 
         [TestMethod]
@@ -77,10 +77,109 @@ namespace Enhetstesting
             Assert.AreEqual(null, faktisk.Model);
         }
 
+
         [TestMethod]
-        public void ValgtReiseUgyldigTurIndekse()
+        public void ValgtReiseGyldigeParametre()
         {
-            Assert.Fail();
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+
+          var reiseliste = new List<Reise>()
+            {
+                GenererNyReise()
+            };
+
+            controller.Session["returListe"] = controller.Session["turListe"] = reiseliste;
+            controller.Session["antallbilletter"] = 1;
+
+
+            var faktisk = (ViewResult) controller.ValgtReise("0", "0");
+            var faktiskModel = (BestillingViewModel) faktisk.Model;
+
+
+            Assert.AreEqual("BestillingDetaljer", faktisk.ViewName);
+            Assert.AreEqual(reiseliste[0], faktiskModel.Tur);
+        }
+
+        [TestMethod]
+        public void ValgtReiseUgyldigeParametre()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+
+            controller.Session["turListe"] = new List<Reise>()
+            {
+                GenererNyReise()
+            };
+
+
+            var faktisk = (RedirectToRouteResult)controller.ValgtReise("-1", "-1");
+
+            Assert.IsTrue(faktisk.RouteValues.ContainsKey("action"));
+            Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void ValgtReiseUgyldigTurIndeks()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+
+              controller.Session["turListe"] = new List<Reise>()
+            {
+                GenererNyReise()
+            };
+            controller.Session["returListe"] = new List<Reise>();
+
+
+            var faktisk = (RedirectToRouteResult) controller.ValgtReise("-1", "-1");
+
+            Assert.IsTrue(faktisk.RouteValues.ContainsKey("action"));
+            Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void ValgtReiseUgyldigReturIndeks()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+
+       
+
+            controller.Session["returListe"] = controller.Session["turListe"] = new List<Reise>()
+            {
+                GenererNyReise()
+            };
+
+
+            var faktisk = (RedirectToRouteResult)controller.ValgtReise("0", "1");
+
+            Assert.IsTrue(faktisk.RouteValues.ContainsKey("action"));
+            Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
         }
 
 
@@ -154,43 +253,11 @@ namespace Enhetstesting
             var sessionMock = new TestControllerBuilder();
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
             sessionMock.InitializeController(controller);
-            var rute = new Rute()
-            {
-                Fra = new Flyplass()
-                {
-                    ID = "OSL",
-                    By = "Oslo",
-                    Land = "Norge",
-                    Navn = "Gardermoen"
-                },
-                Til = new Flyplass()
-                {
-                    ID = "BOO",
-                    By = "Bodø",
-                    Land = "Norge",
-                    Navn = "Bodø Lufthavn"
-                },
-                BasePris = 1099
-            };
+           
 
-            var flygning = new Flygning()
-            {
-                ID = 10,
-                Rute = rute,
-                AnkomstTid = DateTime.Now,
-                AvgangsTid = DateTime.Now.AddHours(1),
-                Fly = new Fly()
-                {
-                    Modell = "Boieng 737",
-                    AntallSeter = 150,
-                }
-
-            };
-
-            //Bare-minimum object for at bestillingen skal gå gjennom. Med en ekte DB vil alle felter valideres.
             controller.Session["GjeldendeBestilling"] = new BestillingViewModel()
             {
-                Tur = new Reise(flygning)
+                Tur = GenererNyReise()
             };
 
             var model = new BestillingViewModel()
@@ -281,12 +348,6 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void KvitteringTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
         public void ReferanseSokDerReferanseIkkeEksisterer()
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
@@ -363,6 +424,45 @@ namespace Enhetstesting
             string faktisk = controller.HentPoststed("0000");
 
             Assert.AreEqual("UGYLDIG POSTNUMMER", faktisk);
+        }
+
+        private static Reise GenererNyReise()
+        {
+            var rute = new Rute()
+            {
+                Fra = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen"
+                },
+                Til = new Flyplass()
+                {
+                    ID = "BOO",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                BasePris = 1099
+            };
+
+            var flygning = new Flygning()
+            {
+                ID = 10,
+                Rute = rute,
+                AnkomstTid = DateTime.Now,
+                AvgangsTid = DateTime.Now.AddHours(1),
+                Fly = new Fly()
+                {
+                    Modell = "Boieng 737",
+                    AntallSeter = 150,
+                }
+
+            };
+
+
+            return new Reise(flygning);
         }
 
     }

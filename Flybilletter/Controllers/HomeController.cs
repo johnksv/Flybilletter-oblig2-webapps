@@ -71,6 +71,7 @@ namespace Flybilletter.Controllers
             return PartialView("_Flygninger", reiser);
         }
 
+
         [HttpPost]
         public ActionResult ValgtReise(string turIndeks, string returIndeks)
         {
@@ -80,7 +81,7 @@ namespace Flybilletter.Controllers
             if (turListe == null || returListe == null) return RedirectToAction("Sok");
 
             int turIndeksInt = int.Parse(turIndeks);
-            int returIndeksInt = -1;
+            int returIndeksInt = -1; //Hvis returindeks er -1 antar vi at man kun skal ha en-veis-tur
             if (returIndeks != null) returIndeksInt = int.Parse(returIndeks);
 
             if (turIndeksInt < 0 || turIndeksInt >= turListe.Count) return RedirectToAction("Sok");
