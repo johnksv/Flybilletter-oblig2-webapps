@@ -144,5 +144,10 @@ namespace BLL
 
             return string.Format(returString, exists, url);
         }
+
+        public List<Bestilling> HentAlle()
+        {
+            return dbBestilling.HentAlle();
+        }
     }
 }

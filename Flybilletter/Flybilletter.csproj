@@ -154,13 +154,14 @@
     <Content Include="Views\Shared\DisplayTemplates\Kunde.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Flygning.cshtml" />
     <Content Include="Views\Home\Kvittering.cshtml" />
-    <Content Include="Views\Home\_ReferanseSok.cshtml" />
+    <Content Include="Views\Shared\_ReferanseSok.cshtml" />
     <Content Include="Views\Home\BestillingInformasjon.cshtml" />
     <Content Include="Views\Home\_Flygninger.cshtml" />
     <Content Include="Views\Home\_Mellomlandinger.cshtml" />
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
-    <Content Include="Views\Home\_AdminLogin.cshtml" />
+    <Content Include="Views\Shared\_AdminLogin.cshtml" />
+    <Content Include="Views\Admin\Bestillinger.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

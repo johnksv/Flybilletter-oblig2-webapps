@@ -12,6 +12,18 @@ namespace Flybilletter.Controllers
 {
     public class AdminController : Controller
     {
+        private IBLLBestilling bllbestilling;
+
+        public AdminController()
+        {
+            bllbestilling = new BLLBestilling();
+        }
+
+        public AdminController(IBLLBestilling ibllbestilling)
+        {
+            bllbestilling = ibllbestilling;
+        }
+
         [HttpGet]
         public string LoginAttempt(string username, string password)
         {
@@ -30,6 +42,14 @@ namespace Flybilletter.Controllers
 
             return string.Format(returString, gyldig, url); ;
         }
+
+        public ActionResult Bestillinger()
+        {
+            List<Bestilling> bestillinger = bllbestilling.HentAlle();
+            return View(bestillinger);
+        }
+
+
 
     }
 }

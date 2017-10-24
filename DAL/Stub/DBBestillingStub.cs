@@ -29,6 +29,11 @@ namespace Flybilletter.DAL.Stub
             return bestillinger.FirstOrDefault(best => best.Referanse == referanse);
         }
 
+        public List<Bestilling> HentAlle()
+        {
+            throw new NotImplementedException();
+        }
+
         public void LeggInn(Bestilling bestilling)
         {
             

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Bestilling>
+
+@{
+    ViewBag.Title = "Bestillinger";
+}
+
+<h2>Bestillinger</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Referanse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BestillingsTidspunkt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Totalpris)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Referanse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BestillingsTidspunkt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Totalpris)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

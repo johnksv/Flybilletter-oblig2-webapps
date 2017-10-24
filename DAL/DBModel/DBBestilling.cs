@@ -36,11 +36,12 @@ namespace Flybilletter.DAL.DBModel
                         bestilling = Mapper.Map<Bestilling>(db.Bestillinger.Include("Passasjerer.Postnummer").Where(best => best.Referanse == referanse).FirstOrDefault());
                     }
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
             }
-            
+
             return bestilling;
         }
 
@@ -86,7 +87,8 @@ namespace Flybilletter.DAL.DBModel
                     };
                     db.Endringer.Add(endring);
                     db.SaveChanges();
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
@@ -101,11 +103,27 @@ namespace Flybilletter.DAL.DBModel
                 try
                 {
                     return db.Bestillinger.Where(best => best.Referanse == referanse).Any();
-                }catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     DALsetup.logFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                 }
                 return false;
+            }
+        }
+
+        public List<Bestilling> HentAlle()
+        {
+            using (var db = new DB())
+            {
+                var dbbestillinger = db.Bestillinger.ToList();
+                var bestillinger = new List<Bestilling>();
+                foreach (var best in dbbestillinger)
+                {
+                    bestillinger.Add(Mapper.Map<Bestilling>(best));
+                }
+
+                return bestillinger;
             }
         }
     }

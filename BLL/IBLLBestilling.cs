@@ -15,6 +15,6 @@ namespace BLL
         bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding);
         Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende);
         string EksistererReferanse(string baseUrl, string referanse);
-
+        List<Bestilling> HentAlle();
     }
 }

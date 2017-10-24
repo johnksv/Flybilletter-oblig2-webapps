@@ -13,5 +13,6 @@ namespace Flybilletter.DAL.Interfaces
         Bestilling FinnBestilling(string referanse);
         void LeggInn(Bestilling bestilling);
         bool EksistererReferanse(string referanse);
+        List<Bestilling> HentAlle();
     }
 }
