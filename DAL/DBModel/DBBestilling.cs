@@ -18,7 +18,7 @@ namespace Flybilletter.DAL.DBModel
         public virtual List<DBKunde> Passasjerer { get; set; } //Passasjerer knyttet til en bestilling
         public virtual List<DBFlygning> FlygningerTur { get; set; }
         public virtual List<DBFlygning> FlygningerRetur { get; set; }
-        public DateTime BestillingsTidspunkt { get; set; }
+        public DateTime Bestillingstidspunkt { get; set; }
         public double Totalpris { get; set; }
 
         public Bestilling FinnBestilling(string referanse)

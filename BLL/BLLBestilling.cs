@@ -81,7 +81,7 @@ namespace BLL
         {
             var bestilling = new Bestilling()
             {
-                BestillingsTidspunkt = DateTime.Now,
+                Bestillingstidspunkt = DateTime.Now,
                 FlygningerTur = new List<Flygning>(),
                 Passasjerer = kunder,
                 Totalpris = gjeldende.Totalpris
@@ -167,7 +167,7 @@ namespace BLL
             var best = dbBestilling.FinnBestilling(referanse);
             if(best != null)
             {
-                var brukerSkalKunneSlette = (DateTime.Now - best.BestillingsTidspunkt) < new TimeSpan(48, 0, 0);
+                var brukerSkalKunneSlette = (DateTime.Now - best.Bestillingstidspunkt) < new TimeSpan(48, 0, 0);
                 if (brukerSkalKunneSlette)
                 {
                     return Slett(referanse);

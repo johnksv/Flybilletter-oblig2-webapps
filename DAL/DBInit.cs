@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Flybilletter.DAL
 {
-    internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
+    internal class DBInit : DropCreateDatabaseAlways<DB>
     {
         protected override void Seed(DB context)
         {

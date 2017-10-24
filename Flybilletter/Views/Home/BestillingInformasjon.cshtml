@@ -10,15 +10,14 @@
 @{
     var fraFlyplass = Model.FlygningerTur.First().Rute.Fra;
     var tilFlyplass = Model.FlygningerTur.Last().Rute.Til;
-    var bestillingsTidspunkt = Model.BestillingsTidspunkt;
+    var bestillingsTidspunkt = Model.Bestillingstidspunkt;
 }
-
 <div>
     <h3>Referanse: @Html.DisplayFor(model => model.Referanse)</h3>
     <h4>Din reise fra @fraFlyplass.By (@fraFlyplass.ID) til @tilFlyplass.By (@tilFlyplass.ID)</h4>
     <div>
         <label>Tidspunkt for bestilling: </label>
-        @Html.DisplayFor(model => model.BestillingsTidspunkt)
+        @Html.DisplayFor(model => model.Bestillingstidspunkt)
     </div>
     <div>
         <label>Betalt: </label>
@@ -72,7 +71,7 @@
     @{
         var erAdmin = Session["Admin"] != null && (bool)Session["Admin"] == true;
         var flyHarIkkeFlydd = DateTime.Now < Model.FlygningerTur.First().AvgangsTid;
-        var brukerSkalKunneSlette = (DateTime.Now - Model.BestillingsTidspunkt) < new TimeSpan(48, 0, 0);
+        var brukerSkalKunneSlette = (DateTime.Now - Model.Bestillingstidspunkt) < new TimeSpan(48, 0, 0);
     }
     @if (erAdmin && flyHarIkkeFlydd)
     {
@@ -94,6 +93,11 @@
     }
     else {
         <p>Kan ikke kansellere. Flyet har alerede hatt avgang eller tidsvinduet for å kansellere har utløpt.</p>
+    }
+
+    @if (erAdmin)
+    {
+        <a href="/Admin/Bestillinger" class="btn btn-primary">Til liste av bestillinger</a>
     }
 
     @if ((erAdmin && flyHarIkkeFlydd) || brukerSkalKunneSlette)
