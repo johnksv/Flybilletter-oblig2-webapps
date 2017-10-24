@@ -117,9 +117,30 @@ namespace BLL
             return bestilling;
         }
 
-        public bool EksistererReferanse(string referanse)
+        /// <summary>
+        /// Returnerer et json formatert objekt med følgende felter:
+        /// exists: Eksisterer referansen
+        /// url: url til hvor man skal omdirigeres for å se informasjon om referansen
+        /// </summary>
+        public string EksistererReferanse(string baseUrl, string referanse)
         {
-            return dbBestilling.EksistererReferanse(referanse);
+            string returString = "{{ \"exists\":\"{0}\", \"url\":\"{1}\" }}";
+            if (referanse == null) return string.Format(returString, false, null);
+
+            referanse = referanse.ToUpper().Trim();
+            var regex = new Regex("^[A-Z0-9]{6}$");
+            bool isMatch = regex.IsMatch(referanse);
+            bool exists = false;
+            string url = "";
+
+            if (isMatch)
+            {
+                exists = dbBestilling.EksistererReferanse(referanse);
+                if (exists) url = baseUrl + referanse;
+            }
+
+
+            return string.Format(returString, exists, url);
         }
     }
 }

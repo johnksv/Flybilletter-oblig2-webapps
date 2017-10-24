@@ -23,6 +23,7 @@ namespace Flybilletter.DAL.DBModel
         public Bestilling FinnBestilling(string referanse)
         {
             Bestilling bestilling = null;
+            if (referanse == null) return bestilling;
 
             referanse = referanse.ToUpper().Trim();
             var regex = new Regex("^[A-Z0-9]{6}$");

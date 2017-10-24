@@ -96,9 +96,33 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void ReferanseSokTest()
+        public void ReferanseSokDerReferanseEksisterer()
         {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            var faktisk = (ViewResult)controller.ReferanseSok("ARP123");
+
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.IsTrue(faktisk.Model is Bestilling, "Model er ikke av type Bestilling");
+        }
+
+        [TestMethod]
+        public void ReferanseSokDerReferanseIkkeEksisterer()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var faktisk = (ViewResult) controller.ReferanseSok(null);
+
+            Assert.AreEqual(null, faktisk.Model);
         }
 
         [TestMethod]

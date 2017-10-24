@@ -17,7 +17,12 @@ namespace Flybilletter.DAL.Stub
 
         public Bestilling FinnBestilling(string referanse)
         {
-            throw new NotImplementedException();
+            Bestilling bestilling = null;
+            if (referanse == null) return bestilling;
+
+            if (referanse.Length == 6) bestilling = new Bestilling();
+
+            return bestilling;
         }
 
         public void LeggInn(Bestilling bestilling)

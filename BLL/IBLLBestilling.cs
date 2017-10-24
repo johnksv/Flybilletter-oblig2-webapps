@@ -14,7 +14,7 @@ namespace BLL
         Bestilling FinnBestilling(string referanse);
         bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding);
         Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende);
-        bool EksistererReferanse(string referanse);
+        string EksistererReferanse(string baseUrl, string referanse);
 
     }
 }

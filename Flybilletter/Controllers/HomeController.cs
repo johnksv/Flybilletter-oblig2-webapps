@@ -137,7 +137,6 @@ namespace Flybilletter.Controllers
                 }
             }
 
-
             var kunder = (List<Kunde>)Session["KunderBestilling"];
             //Denne inneholder informasjon om Tur- og Retur-property
             var gjeldende = (BestillingViewModel)Session["GjeldendeBestilling"];
@@ -162,23 +161,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public string ReferanseEksisterer(string referanse)
         {
-            string returString = "{{ \"exists\":\"{0}\", \"url\":\"{1}\" }}";
-            if (referanse == null) return string.Format(returString, false, null);
-
-            referanse = referanse.ToUpper().Trim();
-            var regex = new Regex("^[A-Z0-9]{6}$");
-            bool isMatch = regex.IsMatch(referanse);
-            bool exists = false;
-            string url = "";
-
-            if (isMatch)
-            {
-                exists = bllbestilling.EksistererReferanse(referanse);
-                if (exists) url = "/Home/ReferanseSok?referanse=" + referanse;
-            }
-
-
-            return string.Format(returString, exists, url);
+            return bllbestilling.EksistererReferanse("/Home/ReferanseSok?referanse=", referanse);
         }
 
         [HttpGet]
