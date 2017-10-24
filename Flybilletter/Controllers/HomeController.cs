@@ -110,10 +110,14 @@ namespace Flybilletter.Controllers
         [ValidateAntiForgeryToken]
         public string Kunde(List<Kunde> Kunder)
         {
-            //Hadde vi tatt høyde for kundehåndtering (som er oblig 2) hadde vi håndtert om kunden allerede eksisterte i databasen.
             //Ved kall på denne metoden vet vi at det umidelbart kommer et kall til generer referanse
-            Session["KunderBestilling"] = Kunder;
-            return "Success";
+            
+            if (ModelState.IsValid)
+            {
+                Session["KunderBestilling"] = Kunder;
+                return "success";
+            }
+            return "En eller flere kunder har ugyldig state. Sjekk informasjonen på nytt.";
         }
 
         [HttpPost]

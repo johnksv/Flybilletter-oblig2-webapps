@@ -78,16 +78,70 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void ValgtReiseTest()
+        public void ValgtReiseUgyldigTurIndekse()
         {
             Assert.Fail();
         }
 
+
         [TestMethod]
-        public void KundePostTest()
+        public void UgyldigeKunder()
         {
-            Assert.Fail();
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+
+            var kunder = new List<Kunde>()
+            {
+                new Kunde ()
+            };
+
+            controller.ViewData.ModelState.AddModelError("Kunde.Fornavn", "Ikke oppgitt fornavn");
+            string faktisk = controller.Kunde(kunder);
+            string forventet = "En eller flere kunder har ugyldig state. Sjekk informasjonen på nytt.";
+
+            Assert.AreEqual(forventet, faktisk);
         }
+
+
+        [TestMethod]
+        public void GyldigeKunder()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var sessionMock = new TestControllerBuilder();
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+
+            var kunder = new List<Kunde>()
+            {
+                new Kunde ()
+                {
+                    Fornavn = "Ola",
+                    Etternavn = "Nordmann",
+                    Adresse ="Osloveien 11",
+                    EPost ="Ola@nordmann.no",
+                    Fodselsdag = new DateTime(1984,1,2,0,0,0),
+                    Postnr = "0001",
+                    Poststed ="Oslo",
+                    Tlf = "12345678"
+                }
+            };
+
+            string faktisk = controller.Kunde(kunder);
+            var faktiskKunder = controller.Session["KunderBestilling"];
+
+            Assert.AreEqual("success", faktisk);
+            Assert.AreEqual(kunder, faktiskKunder);
+        }
+
 
         [TestMethod]
         public void GenererReferanseMedRiktigModell()
@@ -130,7 +184,7 @@ namespace Enhetstesting
                     Modell = "Boieng 737",
                     AntallSeter = 150,
                 }
-               
+
             };
 
             //Bare-minimum object for at bestillingen skal gå gjennom. Med en ekte DB vil alle felter valideres.
@@ -144,12 +198,12 @@ namespace Enhetstesting
                 Kredittkort = new KredittkortViewModel()
                 {
                     CVC = 123,
-                    Kortholder ="Ola Nordmann",
+                    Kortholder = "Ola Nordmann",
                     Kortnummer = 1234567891234567,
                     Utlop = "11-21"
                 }
             };
-            var faktisk = (RedirectToRouteResult) controller.GenererReferanse(model);
+            var faktisk = (RedirectToRouteResult)controller.GenererReferanse(model);
 
             var tempData = (Bestilling)controller.TempData["bestilling"];
 
@@ -175,7 +229,7 @@ namespace Enhetstesting
 
             controller.ViewData.ModelState.AddModelError("Kortholder", "Ikke oppgitt fornavn");
 
-            var faktisk = (ViewResult) controller.GenererReferanse(model);
+            var faktisk = (ViewResult)controller.GenererReferanse(model);
 
             Assert.AreEqual("BetalingFeilet", faktisk.ViewName);
 
@@ -241,12 +295,12 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            var faktisk = (ViewResult) controller.ReferanseSok(null);
+            var faktisk = (ViewResult)controller.ReferanseSok(null);
 
             Assert.AreEqual(null, faktisk.Model);
         }
 
-       
+
 
         [TestMethod]
         public void ReferanseEksisterer()

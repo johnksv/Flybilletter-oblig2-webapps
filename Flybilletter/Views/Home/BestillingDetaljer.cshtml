@@ -21,9 +21,14 @@
                     type: "POST",
                     url: "/Home/Kunde",
                     data: $("#kundeConfirmForm").serialize()
-                }).done(function () {
-                    $("#kreditkortform").unbind("submit");
-                    $("#kreditkortform").submit();
+                }).done(function (response) {
+                    if (response === "success") {
+                        $("#kreditkortform").unbind("submit");
+                        $("#kreditkortform").submit();
+                    } else {
+                        alert(response);
+                    }
+                    
                 });
             }
         });
