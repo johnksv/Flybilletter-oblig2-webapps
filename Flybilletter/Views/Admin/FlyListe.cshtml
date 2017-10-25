@@ -29,9 +29,8 @@
             @Html.DisplayFor(modelItem => item.AntallSeter)
         </td>
         <td>
-            @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }) |
-            @Html.ActionLink("Detaljer", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Slett", "Delete", new { id=item.ID })
+            @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }, new { @class = "btn btn-default" }) |
+            @Html.ActionLink("Slett", "Delete", new { id=item.ID }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

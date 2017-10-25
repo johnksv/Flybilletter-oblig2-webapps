@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Kunde>
 
 @{
-    ViewBag.Title = "KundeListe";
+    ViewBag.Title = "Kunde Liste";
 }
 
 <h2>KundeListe</h2>
 
-<p>
-    @Html.ActionLink("Lag ny kunde", "LagKunde")
-</p>
+<div class="pull-right">
+    <p>
+        @Html.ActionLink("Lag ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
+    </p>
+</div>
 <table class="table">
     <tr>
         <th>
@@ -65,11 +67,22 @@
             @Html.DisplayFor(modelItem => item.Poststed)
         </td>
         <td>
-            @Html.ActionLink("Endre", "EndreKunde", new { id=item.ID }, new { @class = "btn btn-default" }) |
-            @Html.ActionLink("Detaljer", "DetaljerKunde", new { id=item.ID }, new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Endre", "EndreKunde", new { id=item.ID }, new { @class = "btn btn-default" }) 
             @Html.ActionLink("Slett", "SlettKunde", new { id=item.ID }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }
 
 </table>
+@{
+    if (Model.Count() >= 8)
+    {
+        <div class="pull-right">
+            <p>
+                @Html.ActionLink("Lag ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+
+    }
+}
+

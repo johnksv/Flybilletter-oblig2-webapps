@@ -107,12 +107,17 @@ namespace Flybilletter.DAL.DBModel
         {
             using(var db = new DB())
             {
-                var dbkunder = db.Kunder.ToList();
+                var dbkunder = db.Kunder.Include("Postnummer").ToList();
                 var kunder = new List<Kunde>();
                 foreach (var kunde in dbkunder)
                 {
-                    var domenekunde = Mapper.Map<Kunde>(kunde);                   
+                    var domenekunde = Mapper.Map<Kunde>(kunde);
+
+                    domenekunde.Postnr = kunde.Postnummer.Postnr;
+                    domenekunde.Poststed = kunde.Postnummer.Poststed;
+
                     kunder.Add(domenekunde);
+                    
                 }
                 return kunder;
             }
@@ -122,7 +127,12 @@ namespace Flybilletter.DAL.DBModel
         {
             using(var db = new DB())
             {
-                return Mapper.Map<Kunde>(db.Kunder.Find(id));
+                var dbkunde = db.Kunder.Include("Postnummer").Where(kunde => kunde.ID == id).FirstOrDefault();
+                Kunde kund = Mapper.Map<Kunde>(dbkunde);
+                kund.Postnr = dbkunde.Postnummer.Postnr;
+                kund.Poststed = dbkunde.Postnummer.Poststed;
+                return kund;
+                
             }
         }
 
