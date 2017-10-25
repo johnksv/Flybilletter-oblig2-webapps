@@ -82,5 +82,20 @@ namespace BLL
                 TurRetur = innSok.Retur >= innSok.Avreise
             };
         }
+
+        public List<Flygning> HentAlle(DateTime dateTime)
+        {
+            return dbFlygning.HentAlle(dateTime);
+        }
+
+        public Flygning HentEnFlygning(int id)
+        {
+            return dbFlygning.HentEnFlygning(id);
+        }
+
+        public bool OppdaterFlygning(Flygning flygning)
+        {
+            return dbFlygning.OppdaterFlygning(flygning);
+        }
     }
 }

@@ -167,6 +167,8 @@
     <Content Include="Views\Admin\KundeListe.cshtml" />
     <Content Include="Views\Admin\LagKunde.cshtml" />
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
+    <Content Include="Views\Admin\ListFlygning.cshtml" />
+    <Content Include="Views\Admin\RedigerFlygning.cshtml" />
     <Content Include="Views\Admin\LagFly.cshtml" />
     <Content Include="Views\Admin\ListFlyplasser.cshtml" />
     <Content Include="Views\Admin\EndreFlyplass.cshtml" />

@@ -46,12 +46,12 @@
     <Compile Include="BLLFlygning.cs" />
     <Compile Include="BLLFlyplass.cs" />
     <Compile Include="BLLKunde.cs" />
-    <Compile Include="IBLLFly.cs" />
-    <Compile Include="IBLLKunde.cs" />
-    <Compile Include="IBLLFlyplass.cs" />
-    <Compile Include="IBLLFlygning.cs" />
-    <Compile Include="IBLLBestilling.cs" />
-    <Compile Include="IBLLAdmin.cs" />
+    <Compile Include="Interfaces\IBLLFly.cs" />
+    <Compile Include="Interfaces\IBLLKunde.cs" />
+    <Compile Include="Interfaces\IBLLFlyplass.cs" />
+    <Compile Include="Interfaces\IBLLFlygning.cs" />
+    <Compile Include="Interfaces\IBLLBestilling.cs" />
+    <Compile Include="Interfaces\IBLLAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

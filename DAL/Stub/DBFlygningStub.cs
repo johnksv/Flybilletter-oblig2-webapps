@@ -16,12 +16,32 @@ namespace Flybilletter.DAL.Stub
             return null;
         }
 
+        public List<Flygning> HentAlle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Flygning> HentAlle(DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Flygning HentEnFlygning(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
             throw new NotImplementedException();
         }
 
         public List<Flygning> HentFlygningerTil(Flyplass flyplass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool OppdaterFlygning(Flygning flygning)
         {
             throw new NotImplementedException();
         }

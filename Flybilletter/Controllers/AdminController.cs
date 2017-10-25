@@ -15,6 +15,7 @@ namespace Flybilletter.Controllers
         private IBLLBestilling bllbestilling;
         private IBLLFly bllfly;
         private IBLLKunde bllkunde;
+        private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
 
         public AdminController()
@@ -22,14 +23,17 @@ namespace Flybilletter.Controllers
             bllbestilling = new BLLBestilling();
             bllfly = new BLLFly();
             bllkunde = new BLLKunde();
+            bllflygning = new BLLFlygning();
             bllflyplass = new BLLFlyplass();
         }
 
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub)
+
         {
             bllbestilling = bestillingstub;
             bllfly = flystub;
             bllkunde = kundestub;
+            bllflygning = flygningstub;
             bllflyplass = flyplasstub;
         }
 
@@ -258,7 +262,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 bllkunde.Oppdater(kunde);
-                return Kunder();
+                return RedirectToAction("Kunder");
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -270,6 +274,37 @@ namespace Flybilletter.Controllers
                 bllkunde.SlettKunde(id);
             }
             return Kunder();
+        }
+
+        public ActionResult Flygninger()
+        {
+            if (ErAdmin())
+            {
+                var flygninger = bllflygning.HentAlle(DateTime.Now);
+                return View("ListFlygning", flygninger);
+            }
+
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult EndreFlygning(int id)
+        {
+            if (ErAdmin())
+            {
+                var flygning = bllflygning.HentEnFlygning(id);
+                return View("RedigerFlygning", flygning);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult OppdaterFlygning(Flygning flygning)
+        {
+            if (ErAdmin())
+            {
+                bllflygning.OppdaterFlygning(flygning);
+                return RedirectToAction("Flygninger");
+            }
+            return RedirectToAction("Sok", "Home");
         }
 
         private bool ErAdmin()
