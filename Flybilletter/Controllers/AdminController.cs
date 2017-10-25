@@ -175,14 +175,6 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult SlettFlyplass(string id)
-        {
-            if (ErAdmin())
-            {
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
         public ActionResult Kunder()
         {
             if (ErAdmin())
