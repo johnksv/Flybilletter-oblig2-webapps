@@ -17,7 +17,6 @@ namespace Flybilletter.Controllers
         private IBLLKunde bllkunde;
         private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
-        private IBLLEndring bllendring;
 
         public AdminController()
         {
@@ -26,16 +25,16 @@ namespace Flybilletter.Controllers
             bllkunde = new BLLKunde();
             bllflygning = new BLLFlygning();
             bllflyplass = new BLLFlyplass();
-            bllendring = new BLLEndring();
         }
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLEndring endringstub, IBLLFlygning flygningstub)
+
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub)
+
         {
             bllbestilling = bestillingstub;
             bllfly = flystub;
             bllkunde = kundestub;
             bllflygning = flygningstub;
             bllflyplass = flyplasstub;
-            bllendring = endringstub;
         }
 
         [HttpGet]
@@ -74,7 +73,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Fly> fly = bllfly.HentAlle();
-                return View("FlyListe", fly);
+                return View("ListFly", fly);
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -221,21 +220,13 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
-        public ActionResult Endringer()
-        {
-            if (ErAdmin())
-            {
-                List<Endring> endringer = bllendring.Hent();
-                return View("Administrator", endringer);
-            }
-            return RedirectToAction("Sok", "Home");
-        }
+
         public ActionResult Kunder()
         {
             if (ErAdmin())
             {
                 List<Kunde> kunder = bllkunde.HentAlle();
-                return View("KundeListe", kunder);
+                return View("ListKunder", kunder);
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -252,7 +243,7 @@ namespace Flybilletter.Controllers
         public ActionResult LagreKunde(Kunde kunde)
         {
             if (bllkunde.LeggInn(kunde))
-                return Kunder();
+                return RedirectToAction("Kunder");
             else return RedirectToAction("Sok", "Home");
         }
 
@@ -282,7 +273,7 @@ namespace Flybilletter.Controllers
             {
                 bllkunde.SlettKunde(id);
             }
-            return Kunder();
+            return RedirectToAction("Kunder");
         }
 
         public ActionResult Flygninger()
@@ -315,6 +306,8 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
+
+        
 
         private bool ErAdmin()
         {

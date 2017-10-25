@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Fly>
+
+@{
+    ViewBag.Title = "Administrer fly";
+}
+
+<h2>FlyListe</h2>
+
+<p>
+    @Html.ActionLink("Legg til nytt fly", "LagFly")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Modell)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AntallSeter)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modell)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AntallSeter)
+        </td>
+        <td>
+            @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }, new { @class = "btn btn-default" }) |
+            @Html.ActionLink("Slett", "SlettFly", new { id=item.ID }, new { @id = "slettfly", @class = "kanseller btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div class="modal" id="sikkersletting" role="dialog">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">slette</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Er du sikker på at du vil slette?</label>
+                    <button type="submit" id="slette" class="btn btn-success" value="true">Ja</button>
+                    <button type="submit" id="ikkeslett" class="btn btn-danger" value="false">Nei</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#slettfly").click(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            $("#sikkersletting").modal("show");
+            $("#slette").click(function (event2) {
+                window.location.href = that.attr("href");
+            });
+            $("#ikkeslett").click(function (event3) {
+                $("#sikkersletting").modal("hide");
+                that = null;
+            });
+        });
+
+        
+    
+    
+        $(".kanseller").click(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            $.ajax({
+                type: "POST",
+                url: that.attr("href")
+            }).done(function (response) {
+                if (response == "True") {
+                    that.parents("tr").remove();
+                } else {
+                    alert("En feil oppsto. Kan ikke slette");
+                }
+            });
+
+        });
+
+
+    });
+</script>
