@@ -12,5 +12,8 @@ namespace Flybilletter.DAL.Interfaces
         List<Flygning> HentFlygningerFra(Flyplass flyplass);
         List<Flygning> HentFlygningerTil(Flyplass flyplass);
         Flygning Finn(int ID);
+        List<Flygning> HentAlle(DateTime dateTime);
+        Flygning HentEnFlygning(int id);
+        bool OppdaterFlygning(Flygning flygning);
     }
 }

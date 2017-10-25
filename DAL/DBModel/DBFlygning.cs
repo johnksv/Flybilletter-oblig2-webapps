@@ -62,5 +62,49 @@ namespace Flybilletter.DAL.DBModel
                 }
             }
         }
+
+        public List<Flygning> HentAlle(DateTime dateTime)
+        {
+            using(var db = new DB())
+            {
+
+                var dbflygninger = db.Flygninger.Include("Fly").Where(flyg => flyg.AvgangsTid > dateTime).ToList();
+                List<Flygning> flygninger = new List<Flygning>();
+                foreach(var flygning in dbflygninger)
+                {
+                    flygninger.Add(Mapper.Map<Flygning>(flygning));
+                }
+                return flygninger;
+            }
+        }
+
+        public Flygning HentEnFlygning(int id)
+        {
+            using(var db = new DB())
+            {
+                var dbflygning = db.Flygninger.Include("Fly").Where(item => item.ID == id).FirstOrDefault();
+                return Mapper.Map<Flygning>(dbflygning);
+            }
+        }
+
+        public bool OppdaterFlygning(Flygning flygning)
+        {
+            using(var db = new DB())
+            {
+                var dbflygning = db.Flygninger.Find(flygning.ID);
+                dbflygning.AnkomstTid = flygning.AnkomstTid;
+                dbflygning.AvgangsTid = flygning.AvgangsTid;
+
+                try
+                {
+                    db.SaveChanges();
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

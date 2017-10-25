@@ -163,6 +163,8 @@
     <Content Include="Views\Admin\KundeListe.cshtml" />
     <Content Include="Views\Admin\LagKunde.cshtml" />
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
+    <Content Include="Views\Admin\ListFlygning.cshtml" />
+    <Content Include="Views\Admin\RedigerFlygning.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
