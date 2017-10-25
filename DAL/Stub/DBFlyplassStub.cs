@@ -48,5 +48,17 @@ namespace Flybilletter.DAL.Stub
         {
             return flyplasser;
         }
+
+        public bool LeggInn(Flyplass flyplass)
+        {
+
+            if(flyplass != null && flyplass.By != null && flyplass.ID != null && flyplass.Land != null && flyplass.Navn != null)
+            {
+                flyplasser.Add(flyplass);
+                return true;
+
+            }
+            return false;
+        }
     }
 }

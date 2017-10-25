@@ -11,6 +11,6 @@ namespace Flybilletter.DAL.Interfaces
     {
         List<Flyplass> HentAlle();
         Flyplass Hent(string tilFlyplassID);
-
+        bool LeggInn(Flyplass flyplass);
     }
 }

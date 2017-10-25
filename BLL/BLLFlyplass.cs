@@ -27,5 +27,10 @@ namespace BLL
         {
             return dbFlyplass.HentAlle();
         }
+
+        public bool LeggInn(Flyplass flyplass)
+        {
+            return dbFlyplass.LeggInn(flyplass);
+        }
     }
 }

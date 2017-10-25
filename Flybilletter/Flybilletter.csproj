@@ -163,6 +163,9 @@
     <Content Include="Views\Admin\KundeListe.cshtml" />
     <Content Include="Views\Admin\LagKunde.cshtml" />
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
+    <Content Include="Views\Admin\ListFlyplasser.cshtml" />
+    <Content Include="Views\Admin\EndreFlyplass.cshtml" />
+    <Content Include="Views\Admin\NyFlyplass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,21 +15,22 @@ namespace Flybilletter.Controllers
         private IBLLBestilling bllbestilling;
         private IBLLFly bllfly;
         private IBLLKunde bllkunde;
-
+        private IBLLFlyplass bllflyplass;
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
-
             bllfly = new BLLFly();
             bllkunde = new BLLKunde();
+            bllflyplass = new BLLFlyplass();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub, IBLLKunde ibllkunde)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub)
         {
-            bllbestilling = ibllbestilling;
+            bllbestilling = bestillingstub;
             bllfly = flystub;
-            bllkunde = ibllkunde;
+            bllkunde = kundestub;
+            bllflyplass = flyplasstub;
         }
 
         [HttpGet]
@@ -111,10 +112,64 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-               return bllbestilling.Slett(referanse);
-               
+                return bllbestilling.Slett(referanse);
+
             }
             return false;
+        }
+
+        public ActionResult Flyplasser()
+        {
+            if (ErAdmin())
+            {
+                var model = bllflyplass.HentAlle();
+                return View("ListFlyplasser", model);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult LagFlyplasser()
+        {
+            if (ErAdmin())
+            {
+                return View("NyFlyplass");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagFlyplasser(Flyplass flyplass)
+        {
+            if (ErAdmin())
+            {
+                if (bllflyplass.LeggInn(flyplass))
+                    return RedirectToAction("Flyplasser");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult EndreFlyplass(string id)
+        {
+            if (ErAdmin())
+            {
+                return View("EndreFlyplass");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult OppdaterFlyplass(Flyplass flyplass)
+        {
+            if (ErAdmin())
+            {
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult SlettFlyplass(string id)
+        {
+            if (ErAdmin())
+            {
+            }
+            return RedirectToAction("Sok", "Home");
         }
 
         public ActionResult Kunder()
