@@ -26,5 +26,10 @@ namespace BLL
         {
             return dbRute.HentAlle();
         }
+
+        public bool Slett(int id)
+        {
+            return dbRute.Slett(id);
+        }
     }
 }

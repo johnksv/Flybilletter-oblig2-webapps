@@ -10,5 +10,6 @@ namespace BLL
     public interface IBLLRute
     {
         List<Rute> HentAlle();
+        bool Slett(int id);
     }
 }

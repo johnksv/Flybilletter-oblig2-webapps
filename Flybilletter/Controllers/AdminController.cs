@@ -232,7 +232,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -241,15 +241,24 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
+                if (ModelState.IsValid) 
+                {
 
+                }
+                return View(rute);
             }
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult SlettRuter(int id)
+        public ActionResult SlettRute(int id)
         {
             if (ErAdmin())
             {
+                if (bllrute.Slett(id))
+                {
+                    return RedirectToAction("Ruter");
+                }
+                ViewBag.Feilmelding = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
 
             }
             return RedirectToAction("Sok", "Home");

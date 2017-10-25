@@ -10,5 +10,6 @@ namespace Flybilletter.DAL.Interfaces
     public interface IDBRute
     {
         List<Rute> HentAlle();
+        bool Slett(int id);
     }
 }

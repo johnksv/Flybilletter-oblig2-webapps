@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using Flybilletter.Model.DomeneModel;
 using AutoMapper;
+using DAL;
 
 namespace Flybilletter.DAL.DBModel
 {
@@ -18,15 +19,43 @@ namespace Flybilletter.DAL.DBModel
 
         public List<Rute> HentAlle()
         {
-            using(var db = new DB())
+            using (var db = new DB())
             {
                 var dbruter = db.Ruter.Include("Fra").Include("Til").ToList();
                 var ruter = new List<Rute>();
-                foreach(var dbrute in dbruter)
+                foreach (var dbrute in dbruter)
                 {
                     ruter.Add(Mapper.Map<Rute>(dbrute));
                 }
                 return ruter;
+            }
+        }
+
+        public bool Slett(int id)
+        {
+            using (var db = new DB())
+            {
+                var rute = db.Ruter.FirstOrDefault(r => r.ID == id);
+                if (rute != null)
+                {
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = $"Fjernet rute med ID: {rute.ID}",
+                        Tidspunkt = DateTime.Now
+                    });
+                    db.Ruter.Remove(rute);
+
+                    try
+                    {
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception exception)
+                    {
+                        DALsetup.LogFeilTilFil("DBRute:Slett", exception);
+                    }
+                }
+                return false;
             }
         }
     }
