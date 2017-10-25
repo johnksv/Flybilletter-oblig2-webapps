@@ -1,0 +1,17 @@
+﻿@model Flybilletter.Model.DomeneModel.Flyplass
+
+@{
+    ViewBag.Title = "Endre flyplass";
+}
+
+<h2>Endre flyplass</h2>
+
+@using (Html.BeginForm("EndreFlygning"))
+{
+    @Html.AntiForgeryToken()
+    @Html.EditorFor(model => model)
+}
+
+<div>
+    @Html.ActionLink("Tilbake til listen", "Flyplasser", new { }, new { @class = "btn btn-primary" })
+</div>

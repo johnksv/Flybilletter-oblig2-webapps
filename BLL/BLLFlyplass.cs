@@ -23,9 +23,19 @@ namespace BLL
             this.dbFlyplass = stub;
         }
 
+        public Flyplass Hent(string id)
+        {
+            return dbFlyplass.Hent(id);
+        }
+
         public List<Flyplass> HentAlle()
         {
             return dbFlyplass.HentAlle();
+        }
+
+        public bool LeggInn(Flyplass flyplass)
+        {
+            return dbFlyplass.LeggInn(flyplass);
         }
     }
 }

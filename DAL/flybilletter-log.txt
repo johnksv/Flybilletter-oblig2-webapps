@@ -52,4 +52,6 @@ The statement has been terminated.
    ved System.Data.Entity.Core.Objects.ObjectContext.SaveChangesToStore(SaveOptions options, IDbExecutionStrategy executionStrategy, Boolean startLocalTransaction)
    ved System.Data.Entity.Core.Objects.ObjectContext.<>c__DisplayClass2a.<SaveChangesInternal>b__27()
    ved System.Data.Entity.SqlServer.DefaultSqlExecutionStrategy.Execute[TResult](Func`1 operation)
-   ved System.Data.Entity.Core.Ob
+   ved System.Data.Entity.Core.Ob25.10.2017 11.35.11: LeggInn - 
+25.10.2017 11.35.51: LeggInn - 
+25.10.2017 11.35.57: LeggInn - 

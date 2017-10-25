@@ -15,21 +15,22 @@ namespace Flybilletter.Controllers
         private IBLLBestilling bllbestilling;
         private IBLLFly bllfly;
         private IBLLKunde bllkunde;
-
+        private IBLLFlyplass bllflyplass;
 
         public AdminController()
         {
             bllbestilling = new BLLBestilling();
-
             bllfly = new BLLFly();
             bllkunde = new BLLKunde();
+            bllflyplass = new BLLFlyplass();
         }
 
-        public AdminController(IBLLBestilling ibllbestilling, IBLLFly flystub, IBLLKunde ibllkunde)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub)
         {
-            bllbestilling = ibllbestilling;
+            bllbestilling = bestillingstub;
             bllfly = flystub;
-            bllkunde = ibllkunde;
+            bllkunde = kundestub;
+            bllflyplass = flyplasstub;
         }
 
         [HttpGet]
@@ -153,10 +154,67 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-               return bllbestilling.Slett(referanse);
-               
+                return bllbestilling.Slett(referanse);
+
             }
             return false;
+        }
+
+        public ActionResult Flyplasser()
+        {
+            if (ErAdmin())
+            {
+                var model = bllflyplass.HentAlle();
+                return View("ListFlyplasser", model);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult NyFlyplass()
+        {
+            if (ErAdmin())
+            {
+                return View("NyFlyplass");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult NyFlyplass(Flyplass flyplass)
+        {
+            if (ErAdmin())
+            {
+                if (ModelState.IsValid)
+                {
+                    bllflyplass.LeggInn(flyplass);
+                }   
+                return RedirectToAction("Flyplasser");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult EndreFlyplass(string id)
+        {
+            if (ErAdmin())
+            {
+                var model = bllflyplass.Hent(id);
+                if(model != null)
+                {
+                    return View("EndreFlyplass", model);
+                }
+                ViewBag.Feilmelding = "Fant ikke flyplass med ID " + id + " i databasen";
+                //TODO: redirect til feilmelding
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult EndreFlyplass(Flyplass flyplass)
+        {
+            if (ErAdmin())
+            {
+            }
+            return RedirectToAction("Sok", "Home");
         }
 
         public ActionResult Kunder()

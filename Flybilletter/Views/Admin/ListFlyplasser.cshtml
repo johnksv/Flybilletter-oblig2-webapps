@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Flyplass>
+
+@{
+    ViewBag.Title = "Flyplasser";
+}
+
+<h2>Flyplasser</h2>
+
+<p>
+    @Html.ActionLink("Legg til ny flyplass", "NyFlyplass", new { }, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Navn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.By)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Land)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Navn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.By)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Land)
+        </td>
+        <td>
+            @Html.ActionLink("Endre", "EndreFlyplass", new { id=item.ID }, new { @class = "btn btn-primary" }) 
+        </td>
+    </tr>
+}
+
+</table>
