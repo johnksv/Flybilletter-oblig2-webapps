@@ -18,7 +18,7 @@
 
 <script>
     $(function () {
-        $("#slettKnapp").click(function (event) {
+        $(".slettKnapp").click(function (event) {
             event.preventDefault();
             var that = $(this);
             $("#sikkersletting").modal("show");
@@ -26,11 +26,10 @@
             $("#slette").click(function (event2) {
                 window.location.href = that.attr("href");
             });
+        });
 
-            $("#ikkeslett").click(function (event3) {
-                $("#sikkersletting").modal("hide");
-                that = null;
-            });
+        $("#ikkeslett").click(function (event) {
+            $("#sikkersletting").modal("hide");
 
         });
 

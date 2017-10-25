@@ -69,7 +69,7 @@
             </td>
             <td>
                 @Html.ActionLink("Endre", "EndreKunde", new { id = item.ID }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @id = "slettKnapp", @class = "btn btn-danger" })
+                @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
             </td>
         </tr>
     }
@@ -87,41 +87,4 @@
     }
 }
 
-<div class="modal" id="sikkersletting" role="dialog">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Slette</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Er du sikker på at du vil slette?</label>
-                    <button type="submit" id="slette" class="btn btn-success" value="true">Ja</button>
-                    <button type="submit" id="ikkeslett" class="btn btn-danger" value="false">Nei</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $("#slettKnapp").click(function (event) {
-            event.preventDefault();
-            var that = $(this);
-            $("#sikkersletting").modal("show");
-            $("#slette").click(function (event2) {
-                window.location.href = that.attr("href");
-            });
-            $("#ikkeslett").click(function (event3) {
-                $("#sikkersletting").modal("hide");
-                that = null;
-            });
-
-        });
-
-        
-    });
-
-</script>
+@Html.Partial("_SlettElementModal")
