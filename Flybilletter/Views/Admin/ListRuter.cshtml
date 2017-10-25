@@ -23,24 +23,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fra.ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Til.ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BasePris)
-        </td>
-        <td>
-            @Html.ActionLink("Endre", "Edit", new { id=item.ID })
-            @Html.ActionLink("Slett", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @{
+        int i = 0;
+    }
+    @foreach (var item in Model)
+    {
+        <tr class="row-@i">
+            <td>
+                @Html.DisplayFor(modelItem => item.Fra.ID)
+                @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new {@class ="hidden" }  })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Til.ID)
+                @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden" } })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BasePris)
+                @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden" } })
+            </td>
+            <td>
+                @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { id = i, @class = "btn btn-default" })
+                @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+            </td>
+        </tr>
+        i++;
+    }
 
 </table>
 
-@Html.RenderPartial("_SlettElementModal")
+@Html.Partial("_SlettElementModal")

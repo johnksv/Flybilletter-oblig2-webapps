@@ -47,6 +47,7 @@
     <Compile Include="BLLFlygning.cs" />
     <Compile Include="BLLFlyplass.cs" />
     <Compile Include="BLLKunde.cs" />
+    <Compile Include="BLLRute.cs" />
     <Compile Include="Interfaces\IBLLFly.cs" />
     <Compile Include="Interfaces\IBLLKunde.cs" />
     <Compile Include="Interfaces\IBLLFlyplass.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Interfaces\IBLLBestilling.cs" />
     <Compile Include="Interfaces\IBLLAdmin.cs" />
     <Compile Include="Interfaces\IBLLEndring.cs" />
+    <Compile Include="Interfaces\IBLLRute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

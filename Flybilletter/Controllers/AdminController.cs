@@ -17,17 +17,13 @@ namespace Flybilletter.Controllers
         private IBLLKunde bllkunde;
         private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
+        private IBLLRute bllrute;
 
-        public AdminController()
+        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute())
         {
-            bllbestilling = new BLLBestilling();
-            bllfly = new BLLFly();
-            bllkunde = new BLLKunde();
-            bllflygning = new BLLFlygning();
-            bllflyplass = new BLLFlyplass();
         }
 
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub)
 
         {
             bllbestilling = bestillingstub;
@@ -35,6 +31,7 @@ namespace Flybilletter.Controllers
             bllkunde = kundestub;
             bllflygning = flygningstub;
             bllflyplass = flyplasstub;
+            bllrute = rutestub;
         }
 
         [HttpGet]
@@ -220,6 +217,44 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
+
+        public ActionResult Ruter()
+        {
+            if (ErAdmin())
+            {
+                var model = bllrute.HentAlle();
+                return View("ListRuter", model);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult LagRute()
+        {
+            if (ErAdmin())
+            {
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        [HttpPost]
+        public ActionResult LagreRute(Rute rute)
+        {
+            if (ErAdmin())
+            {
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult SlettRuter(int id)
+        {
+            if (ErAdmin())
+            {
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+      
 
         public ActionResult Kunder()
         {

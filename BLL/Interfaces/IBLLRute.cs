@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Flybilletter.Model.DomeneModel;
 
-namespace Flybilletter.DAL.Interfaces
+namespace BLL
 {
-    public interface IDBRute
+    public interface IBLLRute
     {
         List<Rute> HentAlle();
     }
