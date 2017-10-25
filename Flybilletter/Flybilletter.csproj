@@ -165,7 +165,7 @@
     <Content Include="Views\Admin\ListFly.cshtml" />
     <Content Include="Views\Admin\RedigerFly.cshtml" />
     <Content Include="Views\Admin\ListKunder.cshtml" />
-    <Content Include="Views\Admin\LagKunder.cshtml" />
+    <Content Include="Views\Admin\LagKunde.cshtml" />
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
     <Content Include="Views\Admin\ListFlygning.cshtml" />
     <Content Include="Views\Admin\RedigerFlygning.cshtml" />
