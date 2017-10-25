@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BLLAdmin.cs" />
     <Compile Include="BLLBestilling.cs" />
+    <Compile Include="BLLEndring.cs" />
     <Compile Include="BLLFly.cs" />
     <Compile Include="BLLFlygning.cs" />
     <Compile Include="BLLFlyplass.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Interfaces\IBLLFlygning.cs" />
     <Compile Include="Interfaces\IBLLBestilling.cs" />
     <Compile Include="Interfaces\IBLLAdmin.cs" />
+    <Compile Include="Interfaces\IBLLEndring.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

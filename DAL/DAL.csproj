@@ -67,6 +67,7 @@
     <Compile Include="DBModel\DBRute.cs" />
     <Compile Include="Interfaces\IDBAdmin.cs" />
     <Compile Include="Interfaces\IDBBestilling.cs" />
+    <Compile Include="Interfaces\IDBEndring.cs" />
     <Compile Include="Interfaces\IDBFly.cs" />
     <Compile Include="Interfaces\IDBFlygning.cs" />
     <Compile Include="Interfaces\IDBFlyplass.cs" />

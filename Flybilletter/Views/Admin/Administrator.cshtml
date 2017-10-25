@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Endring>
+
+@{
+    ViewBag.Title = "Administrator";
+}
+
+<h2>Administrator</h2>
+<h4>Endringer lagret i database:</h4>
+<table class="table">
+    <tr>
+        <th>
+            Endring
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tidspunkt)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndringString)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tidspunkt)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.ID }, new { @class = "btn btn-primary" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -17,6 +17,7 @@ namespace Flybilletter.Controllers
         private IBLLKunde bllkunde;
         private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
+        private IBLLEndring bllendring;
 
         public AdminController()
         {
@@ -25,16 +26,16 @@ namespace Flybilletter.Controllers
             bllkunde = new BLLKunde();
             bllflygning = new BLLFlygning();
             bllflyplass = new BLLFlyplass();
+            bllendring = new BLLEndring();
         }
-
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub)
-
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLEndring endringstub, IBLLFlygning flygningstub)
         {
             bllbestilling = bestillingstub;
             bllfly = flystub;
             bllkunde = kundestub;
             bllflygning = flygningstub;
             bllflyplass = flyplasstub;
+            bllendring = endringstub;
         }
 
         [HttpGet]
@@ -220,7 +221,15 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
-
+        public ActionResult Endringer()
+        {
+            if (ErAdmin())
+            {
+                List<Endring> endringer = bllendring.Hent();
+                return View("Administrator", endringer);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
         public ActionResult Kunder()
         {
             if (ErAdmin())

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DomeneModel\Admin.cs" />
     <Compile Include="DomeneModel\Bestilling.cs" />
+    <Compile Include="DomeneModel\Endring.cs" />
     <Compile Include="DomeneModel\Postnummer.cs" />
     <Compile Include="ViewModel\BestillingViewModel.cs" />
     <Compile Include="DomeneModel\Fly.cs" />

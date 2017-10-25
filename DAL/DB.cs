@@ -22,6 +22,7 @@ namespace Flybilletter.DAL
                 cfg.CreateMap<DBRute, Model.DomeneModel.Rute>();
                 cfg.CreateMap<DBKunde, Model.DomeneModel.Kunde>();
                 cfg.CreateMap<DBPostnummer, Model.DomeneModel.Postnummer>();
+                cfg.CreateMap<DBEndring, Model.DomeneModel.Endring>().ForMember(endring => endring.EndringString, opt => opt.MapFrom(src => src.Endring));
 
                 cfg.CreateMap<Model.DomeneModel.Bestilling, DBBestilling>();
                 cfg.CreateMap<Model.DomeneModel.Fly, DBFly>();
@@ -30,6 +31,7 @@ namespace Flybilletter.DAL
                 cfg.CreateMap<Model.DomeneModel.Rute, DBRute>();
                 cfg.CreateMap<Model.DomeneModel.Kunde, DBKunde>();
                 cfg.CreateMap<Model.DomeneModel.Postnummer, DBPostnummer>();
+                cfg.CreateMap<Model.DomeneModel.Endring, DBEndring>().ForMember(endring => endring.Endring, opt => opt.MapFrom(src => src.EndringString));
             });
             
         }
