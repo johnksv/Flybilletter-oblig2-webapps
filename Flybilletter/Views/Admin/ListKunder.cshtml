@@ -69,7 +69,7 @@
             </td>
             <td>
                 @Html.ActionLink("Endre", "EndreKunde", new { id = item.ID }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @id = "slettKunde", @class = "btn btn-danger" })
+                @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @id = "slettKnapp", @class = "btn btn-danger" })
             </td>
         </tr>
     }
@@ -107,7 +107,7 @@
 
 <script>
     $(function () {
-        $("#slettKunde").click(function (event) {
+        $("#slettKnapp").click(function (event) {
             event.preventDefault();
             var that = $(this);
             $("#sikkersletting").modal("show");

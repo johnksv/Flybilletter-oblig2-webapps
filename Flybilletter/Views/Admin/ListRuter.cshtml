@@ -1,16 +1,22 @@
 ﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Rute>
 
 @{
-    ViewBag.Title = "ListRuter";
+    ViewBag.Title = "Ruter";
 }
 
-<h2>ListRuter</h2>
+<h2>Ruter</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Fra.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Til.ID)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.BasePris)
         </th>
@@ -20,14 +26,21 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Fra.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Til.ID)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.BasePris)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Endre", "Edit", new { id=item.ID })
+            @Html.ActionLink("Slett", "Delete", new { id=item.ID })
         </td>
     </tr>
 }
 
 </table>
+
+@Html.RenderPartial("_SlettElementModal")
