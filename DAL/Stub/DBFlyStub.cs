@@ -20,7 +20,17 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
+        public bool LeggTil(Fly fly)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Oppdater(Fly fly)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Slett(int ID)
         {
             throw new NotImplementedException();
         }

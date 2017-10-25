@@ -10,5 +10,7 @@ namespace BLL
     public interface IBLLFlyplass
     {
         List<Flyplass> HentAlle();
+        bool LeggInn(Flyplass flyplass);
+        Flyplass Hent(string id);
     }
 }

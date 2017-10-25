@@ -7,7 +7,7 @@
 <h2>FlyListe</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Legg til nytt fly", "LagFly")
 </p>
 <table class="table">
     <tr>
@@ -30,9 +30,31 @@
         </td>
         <td>
             @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }, new { @class = "btn btn-default" }) |
-            @Html.ActionLink("Slett", "Delete", new { id=item.ID }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Slett", "SlettFly", new { id=item.ID }, new { @class = "kanseller btn btn-danger" })
         </td>
     </tr>
 }
 
 </table>
+
+<script>
+    $(function () {
+        $(".kanseller").click(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            $.ajax({
+                type: "POST",
+                url: that.attr("href")
+            }).done(function (response) {
+                if (response == "True") {
+                    that.parents("tr").remove();
+                } else {
+                    alert("En feil oppsto. Kan ikke slette");
+                }
+            });
+
+        });
+
+
+    });
+</script>

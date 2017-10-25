@@ -23,9 +23,9 @@ namespace BLL
             dbFly = stub;
         }
 
-        public Fly Hent(int iD)
+        public Fly Hent(int ID)
         {
-            return dbFly.Hent(iD);
+            return dbFly.Hent(ID);
         }
 
         public List<Fly> HentAlle()
@@ -33,9 +33,19 @@ namespace BLL
             return dbFly.HentAlle();
         }
 
+        public bool LeggTil(Fly fly)
+        {
+            return dbFly.LeggTil(fly);
+        }
+
         public bool Oppdater(Fly fly)
         {
             return dbFly.Oppdater(fly);
+        }
+
+        public bool Slett(int ID)
+        {
+            return dbFly.Slett(ID);
         }
     }
 }

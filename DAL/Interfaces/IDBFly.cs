@@ -11,6 +11,8 @@ namespace Flybilletter.DAL.Interfaces
     {
         List<Fly> HentAlle();
         bool Oppdater(Fly fly);
-        Fly Hent(int iD);
+        Fly Hent(int ID);
+        bool Slett(int ID);
+        bool LeggTil(Fly fly);
     }
 }

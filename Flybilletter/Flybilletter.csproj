@@ -95,6 +95,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\FlybilletterDatabase.mdf" />
+    <Content Include="App_Data\FlybilletterDatabase_log.ldf">
+      <DependentUpon>FlybilletterDatabase.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -165,6 +169,11 @@
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
     <Content Include="Views\Admin\ListFlygning.cshtml" />
     <Content Include="Views\Admin\RedigerFlygning.cshtml" />
+    <Content Include="Views\Admin\LagFly.cshtml" />
+    <Content Include="Views\Admin\ListFlyplasser.cshtml" />
+    <Content Include="Views\Admin\EndreFlyplass.cshtml" />
+    <Content Include="Views\Admin\NyFlyplass.cshtml" />
+    <Content Include="Views\Admin\EditorTemplates\Flyplass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -173,7 +182,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
