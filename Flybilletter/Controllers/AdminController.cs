@@ -277,5 +277,11 @@ namespace Flybilletter.Controllers
             return Session["Admin"] != null && (bool)Session["Admin"] == true;
         }
 
+        public ActionResult LoggUt()
+        {
+            Session["Admin"] = null;
+            return RedirectToAction("Sok", "Home");
+        }
+
     }
 }
