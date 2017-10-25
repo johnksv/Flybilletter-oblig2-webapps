@@ -128,7 +128,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult LagFlyplasser()
+        public ActionResult NyFlyplass()
         {
             if (ErAdmin())
             {
@@ -138,12 +138,15 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult LagFlyplasser(Flyplass flyplass)
+        public ActionResult NyFlyplass(Flyplass flyplass)
         {
             if (ErAdmin())
             {
-                if (bllflyplass.LeggInn(flyplass))
-                    return RedirectToAction("Flyplasser");
+                if (ModelState.IsValid)
+                {
+                    bllflyplass.LeggInn(flyplass);
+                }   
+                return RedirectToAction("Flyplasser");
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -152,11 +155,19 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return View("EndreFlyplass");
+                var model = bllflyplass.Hent(id);
+                if(model != null)
+                {
+                    return View("EndreFlyplass", model);
+                }
+                ViewBag.Feilmelding = "Fant ikke flyplass med ID " + id + " i databasen";
+                //TODO: redirect til feilmelding
             }
             return RedirectToAction("Sok", "Home");
         }
-        public ActionResult OppdaterFlyplass(Flyplass flyplass)
+
+        [HttpPost]
+        public ActionResult EndreFlyplass(Flyplass flyplass)
         {
             if (ErAdmin())
             {

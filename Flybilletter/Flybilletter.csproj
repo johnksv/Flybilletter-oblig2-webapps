@@ -166,6 +166,7 @@
     <Content Include="Views\Admin\ListFlyplasser.cshtml" />
     <Content Include="Views\Admin\EndreFlyplass.cshtml" />
     <Content Include="Views\Admin\NyFlyplass.cshtml" />
+    <Content Include="Views\Admin\EditorTemplates\Flyplass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

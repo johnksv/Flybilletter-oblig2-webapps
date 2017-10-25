@@ -60,8 +60,9 @@ namespace Flybilletter.DAL.DBModel
             {
                 try
                 {
+                    
                     var dbflyplass = Mapper.Map<DBFlyplass>(flyplass);
-                    if (! db.Flyplasser.Contains(dbflyplass))
+                    if (db.Flyplasser.FirstOrDefault(fly => fly.ID == dbflyplass.ID) == null)
                     {
                         db.Flyplasser.Add(dbflyplass);
                         db.SaveChanges();
