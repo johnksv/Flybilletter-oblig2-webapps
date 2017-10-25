@@ -166,6 +166,29 @@ namespace Flybilletter.DAL.DBModel
                 }
             }
         }
+
+        public bool SlettKunde(int id)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    var kunde = db.Kunder.Include("Postnummer").Where(kund => kund.ID == id).FirstOrDefault();
+                    if (kunde != null)
+                    {
+                        db.Kunder.Remove(kunde);
+                        db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
+                
+            }
+        }
     }
 
 }

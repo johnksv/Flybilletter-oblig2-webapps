@@ -35,5 +35,10 @@ namespace Flybilletter.DAL.Stub
         {
             throw new NotImplementedException();
         }
+
+        public bool SlettKunde(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

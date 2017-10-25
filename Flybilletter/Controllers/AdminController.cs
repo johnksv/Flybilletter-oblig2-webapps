@@ -163,6 +163,15 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+        public ActionResult SlettKunde(int id)
+        {
+            if (ErAdmin())
+            {
+                bllkunde.SlettKunde(id);
+            }
+            return Kunder();
+        }
+
         private bool ErAdmin()
         {
             return Session["Admin"] != null && (bool)Session["Admin"] == true;

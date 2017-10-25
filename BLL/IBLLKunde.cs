@@ -15,5 +15,6 @@ namespace BLL
         List<Kunde> HentAlle();
         Kunde HentEnKunde(int id);
         bool Oppdater(Kunde kunde);
+        bool SlettKunde(int id);
     }
 }

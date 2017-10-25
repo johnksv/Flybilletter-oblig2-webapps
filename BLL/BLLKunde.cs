@@ -59,5 +59,10 @@ namespace BLL
         {
             return dbkunde.HentEnKunde(id);
         }
+
+        public bool SlettKunde(int id)
+        {
+            return dbkunde.SlettKunde(id);
+        }
     }
 }
