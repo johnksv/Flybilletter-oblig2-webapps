@@ -9,6 +9,7 @@
 <p>
     @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -30,19 +31,19 @@
     {
         <tr class="row-@i">
             <td>
-                @Html.DisplayFor(modelItem => item.Fra.ID)
-                @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new {@class ="hidden" }  })
+                <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
+                @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new {@class = "hidden editRute" }  })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Til.ID)
-                @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden" } })
+                <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
+                @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BasePris)
-                @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden" } })
+                <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
+                @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute" } })
             </td>
             <td>
-                @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { id = i, @class = "btn btn-default" })
+                @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { id = i, @class = "endreKnapp btn btn-default" })
                 @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
             </td>
         </tr>
@@ -52,3 +53,17 @@
 </table>
 
 @Html.Partial("_SlettElementModal")
+
+<script>
+    $(function () {
+        $(".endreKnapp").click(function (event) {
+            event.preventDefault();
+            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+        });
+
+
+    });
+
+
+</script>
