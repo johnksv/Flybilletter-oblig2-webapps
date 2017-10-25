@@ -140,7 +140,11 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (bllfly.LeggTil(fly)) return Fly();
+                if (bllfly.LeggTil(fly))
+                {
+                    List<Fly> alleFly = bllfly.HentAlle();
+                    return RedirectToAction("Fly");
+                }
             }
             return RedirectToAction("Sok", "Home");
         }
