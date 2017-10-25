@@ -87,8 +87,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var fly = bllfly.Hent(ID);
-                if (fly == null) RedirectToAction("Sok", "Home");
-                return View("RedigerFly", fly);
+                if (fly != null) return View("RedigerFly", fly);
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -103,6 +102,45 @@ namespace Flybilletter.Controllers
                     List<Fly> flyListe = bllfly.HentAlle();
                     return RedirectToAction("Fly", flyListe);
                 }
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult SlettFly(int ID)
+        {
+            if (ErAdmin())
+            {
+                var fly = bllfly.Hent(ID);
+                if (fly != null) return View("SlettFly", fly);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public bool SlettFly(int ID, Fly fly)
+        {
+            if (ErAdmin())
+            {
+                return bllfly.Slett(ID);
+            }
+            return false;
+        }
+
+        public ActionResult LagFly()
+        {
+            if (ErAdmin())
+            {
+                return View();
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagFly(Fly fly)
+        {
+            if (ErAdmin())
+            {
+                if (bllfly.LeggTil(fly)) return Fly();
             }
             return RedirectToAction("Sok", "Home");
         }
