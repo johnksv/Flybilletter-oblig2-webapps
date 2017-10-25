@@ -14,13 +14,13 @@ namespace Flybilletter.DAL.DBModel
         public int AntallSeter { get; set; }
         public virtual List<DBFlygning> Flygninger { get; set; }
 
-        public Fly Hent(int iD)
+        public Fly Hent(int ID)
         {
             using (var db = new DB())
             {
                 try
                 {
-                    return Mapper.Map<Fly>(db.Fly.Find(iD));
+                    return Mapper.Map<Fly>(db.Fly.Find(ID));
                 } catch (Exception e)
                 {
                     DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
@@ -54,6 +54,13 @@ namespace Flybilletter.DAL.DBModel
                     var dbflyentitet = db.Fly.Find(fly.ID);
                     dbflyentitet.Modell = fly.Modell;
                     dbflyentitet.AntallSeter = fly.AntallSeter;
+
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = "Oppdaterer fly med id " + ID + ". Flymodell er " + dbflyentitet.Modell + ", antall seter er " + dbflyentitet.AntallSeter,
+                        Tidspunkt = DateTime.Now
+                    });
+
                     db.SaveChanges();
                     return true;
                 } catch (Exception e)
@@ -61,6 +68,61 @@ namespace Flybilletter.DAL.DBModel
                     DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
                     return false;
                 }
+            }
+        }
+
+        public bool Slett(int ID)
+        {
+            using (var db = new DB())
+            {
+                var fly = db.Fly.Find(ID);
+
+                if (fly != null)
+                {
+                    db.Fly.Remove(fly);
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = "Slett fly med id " + ID,
+                        Tidspunkt = DateTime.Now
+                    });
+                    try
+                    {
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                        return false;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public bool LeggTil(Fly fly)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    DBFly dbFly = Mapper.Map<DBFly>(fly);
+                    db.Fly.Add(dbFly);
+                    var endring = new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "La til fly med ID: " + fly.ID
+                    };
+                    db.Endringer.Add(endring);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
+
             }
         }
     }
