@@ -6,6 +6,12 @@
 
 <h2>Ruter</h2>
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
 <p>
     @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
