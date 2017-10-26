@@ -351,7 +351,15 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        
+        public ActionResult OppdaterStatusFlygning(int id)
+        {
+            if (ErAdmin())
+            {
+                bllflygning.OppdaterStatus(id);
+                return RedirectToAction("Flygninger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
 
         private bool ErAdmin()
         {

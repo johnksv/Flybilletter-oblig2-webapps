@@ -52,46 +52,34 @@
         </td>
         <td>
             @Html.ActionLink("Endre", "EndreFlygning", new { id=item.ID }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Slett", "SlettFlygning", new { id=item.ID }, new { @id = "slettflygning",@class = "btn btn-danger" })
+
+            @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
+            {
+                @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "kanseller btn btn-danger"})
+            }
+            else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
+            {
+                @Html.ActionLink("Aktiver", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success" })
+            }
+            else
+            {
+                if(item.Kansellert == true)
+                {
+                    <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke aktivere" data-toggle="tooltip">Aktiver</a>
+                }
+                else
+                {
+                    <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Kanseller</a>
+                }
+            }
         </td>
     </tr>
 }
 
 </table>
 
-<div class="modal" id="sikkersletting" role="dialog">
-
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Slette</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Er du sikker på at du vil slette?</label>
-                    <button type="submit" id="slette" class="btn btn-success" value="true">Ja</button>
-                    <button type="submit" id="ikkeslett" class="btn btn-danger" value="false">Nei</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
     $(function () {
-        $("#slettflygning").click(function (event) {
-            event.preventDefault();
-            var that = $(this);
-            $("#sikkersletting").modal("show");
-            $("#slette").click(function (event2) {
-                window.location.href = that.attr("href");
-            });
-            $("#ikkeslett").click(function (event3) {
-                $("#sikkersletting").modal("hide");
-                that = null;
-            });
-        });
+        $('[data-toggle="tooltip"]').tooltip();
     });
-
 </script>
-

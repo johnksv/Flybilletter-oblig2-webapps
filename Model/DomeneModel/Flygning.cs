@@ -12,6 +12,8 @@ namespace Flybilletter.Model.DomeneModel
         public Rute Rute { get; set; }
         public Fly Fly { get; set; }
 
+        public bool Kansellert { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]

@@ -47,7 +47,7 @@ namespace BLL
                 bool direkteFlygning = fraFlygning.Rute.Til.ID == tilFlyplass.ID;
                 if (direkteFlygning)
                 {
-                    if (fraFlygning.AvgangsTid.Date == avreiseDag.Date)
+                    if (fraFlygning.AvgangsTid.Date == avreiseDag.Date && fraFlygning.Kansellert == false)
                         reiseMuligheter.Add(new Reise(fraFlygning));
                 }
                 else
@@ -55,7 +55,7 @@ namespace BLL
                     foreach (Flygning tilFlygning in tilListe)
                     {
                         if (fraFlygning.Rute.Til.ID == tilFlygning.Rute.Fra.ID && fraFlygning.AvgangsTid.Date == avreiseDag.Date &&
-                            (tilFlygning.AvgangsTid - fraFlygning.AnkomstTid) >= new TimeSpan(1, 0, 0))
+                            (tilFlygning.AvgangsTid - fraFlygning.AnkomstTid) >= new TimeSpan(1, 0, 0) && tilFlygning.Kansellert == false)
                         {
                             reiseMuligheter.Add(new Reise(fraFlygning, tilFlygning));
                             break;
@@ -96,6 +96,11 @@ namespace BLL
         public bool OppdaterFlygning(Flygning flygning)
         {
             return dbFlygning.OppdaterFlygning(flygning);
+        }
+
+        public bool OppdaterStatus(int id)
+        {
+            return dbFlygning.OppdaterStatus(id);
         }
     }
 }
