@@ -13,6 +13,7 @@ namespace Flybilletter.Model.DomeneModel
         public Flyplass Til { get; set; }
         [Required]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = false)]
         public double BasePris { get; set; } //faktor for å regne ut total pris for turen
         [Required]
         [DataType(DataType.Date)]

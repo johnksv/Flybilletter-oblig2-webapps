@@ -27,7 +27,7 @@
                 Sorter etter pris
             </button>
         </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Search" />
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
     </div>
 
 
@@ -56,15 +56,15 @@
                     <tr>
                         <td class="fraID">
                             <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
-                            @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
+                            @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
                         </td>
                         <td class="tilID">
                             <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
-                            @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
+                            @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
                         </td>
                         <td class="pris">
                             <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                            @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute" } })
+                            @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
                         </td>
                         <td>
                             @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
