@@ -53,7 +53,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception exception)
                     {
-                        DALsetup.LogFeilTilFil("DBRute:Slett", exception);
+                        DALsetup.LogFeilTilFil("DBRute.Slett", exception, "En feil oppsto da metoden prøvde å slette rute med ID " + id);
                     }
                 }
                 return false;

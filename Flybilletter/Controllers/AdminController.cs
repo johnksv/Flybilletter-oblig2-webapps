@@ -3,6 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,12 +19,13 @@ namespace Flybilletter.Controllers
         private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
         private IBLLRute bllrute;
+        private IBLLEndring bllendring;
 
-        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute())
+        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring())
         {
         }
 
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub, IBLLEndring endringstub)
 
         {
             bllbestilling = bestillingstub;
@@ -32,6 +34,7 @@ namespace Flybilletter.Controllers
             bllflygning = flygningstub;
             bllflyplass = flyplasstub;
             bllrute = rutestub;
+            bllendring = endringstub;
         }
 
         [HttpGet]
@@ -350,12 +353,22 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+<<<<<<< Updated upstream
         public ActionResult OppdaterStatusFlygning(int id)
         {
             if (ErAdmin())
             {
                 bllflygning.OppdaterStatus(id);
                 return RedirectToAction("Flygninger");
+=======
+        public ActionResult Administrator()
+        {
+            if (ErAdmin())
+            {
+                ViewBag.FeilFraFil = bllendring.ParseFeil(@"..\DAL\flybilletter-log.txt");
+                ViewBag.Endringer = bllendring.Hent();
+                return View();
+>>>>>>> Stashed changes
             }
             return RedirectToAction("Sok", "Home");
         }

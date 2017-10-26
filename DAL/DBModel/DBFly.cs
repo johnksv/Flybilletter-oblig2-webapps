@@ -23,7 +23,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<Fly>(db.Fly.Find(ID));
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente fly med ID "+ ID);
                     return null;
                 }
             }
@@ -38,7 +38,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<List<Fly>>(db.Fly);
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente alle fly");
                     return null;
                 }
             }
@@ -65,7 +65,7 @@ namespace Flybilletter.DAL.DBModel
                     return true;
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere fly");
                     return false;
                 }
             }
@@ -92,7 +92,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                        DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å slette fly med ID " + ID);
                         return false;
                     }
                 }
@@ -119,7 +119,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge til et nytt fly");
                     return false;
                 }
 

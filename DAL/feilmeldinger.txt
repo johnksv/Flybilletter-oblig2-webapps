@@ -1,1 +1,0 @@
-﻿19.10.2017 11.20.43Error: En feil oppstod når TEST ble kalt.
