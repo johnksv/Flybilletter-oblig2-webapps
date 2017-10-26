@@ -9,9 +9,8 @@
 
 <h2>Legg til ny flygning</h2>
 
-@using (Html.BeginForm("LagreFlygning","Admin", new { ruteid="#Rute_ID", flyid="#fly" }, FormMethod.Post))
+@using (Html.BeginForm("LagreFlygning","Admin", FormMethod.Post, new { id = "lagreForm"}))
 {
-    @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <hr />
@@ -19,20 +18,20 @@
         <div class="form-group">
             <div class="col-md-10">
                 <label>Rute (Fra - Til)</label>
-                <select id="Ruter_ID" class="form-control"> </select>
+                <select id="RuterID" class="form-control" name="RuterID"> </select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
                 <label>Fly (Antall seter)</label>
-                <select id="fly" class="form-control"> </select>
+                <select id="FlyID" class="form-control" name="FlyID"> </select>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-10">
                 <label>Avgangstid</label>
-                @Html.EditorFor(model => model.AvgangsTid, new { htmlAttributes = new { type = "datetime-local", @class = "form-control" } })
+                @Html.EditorFor(model => model.AvgangsTid, new { htmlAttributes = new { id = "avgang", type = "datetime-local", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AvgangsTid, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,8 +51,7 @@
     var fly = JSON.parse('@Html.Raw(jsonFly)');
     var ruter = JSON.parse('@Html.Raw(jsonRuter)');
 
-    function populerFlySelectMedOptions(htmlElementID)
-    {
+    function populerFlySelectMedOptions(htmlElementID) {
         var utStreng = "";
         for (var i in fly) {
             var f = fly[i];
@@ -72,10 +70,25 @@
 
         $(htmlElementID).empty().append(utStreng);
     }
+    $("#lagreForm").submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "/Admin/LagreFlygning",
+            method: "POST",
+            data: {
+                RuteID: $("#RuterID").val(),
+                FlyID: $("#FlyID").val(),
+                AvgangsTid: $("#avgang").val()
+            }
+
+        });
+    });
 
     $(document).ready(function () {
-        populerFlySelectMedOptions("#fly");
-        populerRuterSelectMedOptions("#Ruter_ID");
+        populerFlySelectMedOptions("#FlyID");
+        populerRuterSelectMedOptions("#RuterID");
     });
 
 </script>
+<!--jQuery("#Ruter_ID").val(),-->

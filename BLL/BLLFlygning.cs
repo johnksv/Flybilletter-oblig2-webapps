@@ -14,11 +14,15 @@ namespace BLL
     {
         private IDBFlygning dbFlygning;
         private IDBFlyplass dbflyplass;
+        private IDBRute dbrute;
+        private IDBFly dbfly;
 
         public BLLFlygning()
         {
             dbFlygning = new DBFlygning();
             dbflyplass = new DBFlyplass();
+            dbrute = new DBRute();
+            dbfly = new DBFly();
         }
 
         public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)

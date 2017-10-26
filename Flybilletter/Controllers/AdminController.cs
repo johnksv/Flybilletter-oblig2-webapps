@@ -362,12 +362,10 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult LagreFlygning(Flygning flygning, int ruteID, int flyID)
+        public ActionResult LagreFlygning(Flygning flygning)
         {
             if (ErAdmin())
             {
-                bllfly.Hent(flyID);
-                bllrute.Hent(ruteID);
                 bllflygning.LeggInnFlygning(flygning);
                 return RedirectToAction("Flygninger");
             }
