@@ -16,7 +16,6 @@ namespace Flybilletter.DAL.DBModel
         public virtual DBRute Rute { get; set; }
         public virtual DBFly Fly { get; set; }
         public DateTime AvgangsTid { get; set; }
-        public DateTime AnkomstTid { get; set; }
         public bool Kansellert { get; set; }
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)

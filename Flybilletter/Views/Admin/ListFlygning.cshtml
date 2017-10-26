@@ -55,7 +55,7 @@
 
             @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
             {
-                @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "kanseller btn btn-danger"})
+                @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger"})
             }
             else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
             {
@@ -77,6 +77,48 @@
 }
 
 </table>
+
+<!--TODO: fiks dette til å bli dynamisk i forhold til hva som trykkes (Kanseller/Aktiver)-->
+<div class="modal" id="sikkersletting" role="dialog">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Kansellere/Aktivere</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Er du sikker på at du vil kansellere eller aktivere?</label>
+                    <button type="submit" id="slette" class="btn btn-success" value="true">Ja</button>
+                    <button type="submit" id="ikkeslett" class="btn btn-danger" value="false">Nei</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $(".slettKnapp").click(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            $("#sikkersletting").modal("show");
+
+            $("#slette").click(function (event2) {
+                window.location.href = that.attr("href");
+            });
+        });
+
+        $("#ikkeslett").click(function (event) {
+            $("#sikkersletting").modal("hide");
+
+        });
+
+        
+
+    });
+
+</script>
 
 <script>
     $(function () {

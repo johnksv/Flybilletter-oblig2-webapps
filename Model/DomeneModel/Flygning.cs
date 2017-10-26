@@ -11,7 +11,6 @@ namespace Flybilletter.Model.DomeneModel
         public int ID { get; set; }
         public Rute Rute { get; set; }
         public Fly Fly { get; set; }
-
         public bool Kansellert { get; set; }
 
         [Required]
