@@ -58,19 +58,19 @@
         <tbody class="list">
             @foreach (var rute in Model)
             {
-                    string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
-                
+                string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
+
                 <tr>
                     <td class="fraID">
                         <div class="displayRute">@rute.Fra.ID</div>
-                        @Html.EditorFor(modelrute => rute.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        @Html.EditorFor(modelrute => rute.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
                     </td>
                     <td class="fraInfo">
                         @rute.Fra.Navn - @rute.Fra.By, @rute.Fra.Land
                     </td>
                     <td class="tilID">
                         <div class="displayRute">@rute.Til.ID</div>
-                        @Html.EditorFor(modelrute => rute.Til.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        @Html.EditorFor(modelrute => rute.Til.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
                     </td>
                     <td class="tilInfo">
                         <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
@@ -80,7 +80,7 @@
                     </td>
                     <td class="pris">
                         <div class="displayRute">@Html.DisplayFor(modelrute => rute.BasePris)</div>
-                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style= "max-width: 55px;" } })
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
@@ -137,7 +137,7 @@
 
         //Data for list.js
         var options = {
-            valueNames: ['fraID', 'fraInfo', 'tilID', 'tilInfo', 'reisetid','pris'],
+            valueNames: ['fraID', 'fraInfo', 'tilID', 'tilInfo', 'reisetid', 'pris'],
             searchClass: "sokListe",
             sortClass: "sortListe"
         };
