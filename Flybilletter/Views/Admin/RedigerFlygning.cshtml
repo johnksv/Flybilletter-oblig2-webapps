@@ -19,16 +19,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AvgangsTid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AvgangsTid, new { htmlAttributes = new { @type = "date", @class = "form-control" } })
+                @Html.EditorFor(model => model.AvgangsTid, new { htmlAttributes = new { @type = "datetime-locale", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AvgangsTid, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AnkomstTid, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AnkomstTid, new { htmlAttributes = new { @type = "date", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AnkomstTid, "", new { @class = "text-danger" })
             </div>
         </div>
 
