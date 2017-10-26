@@ -50,7 +50,7 @@ namespace Flybilletter.Controllers
                 // Login er gyldig, session variabel settes
                 Session["Admin"] = true;
                 gyldig = true;
-                url = "/Home/Sok";
+                url = "/Admin/Administrator";
             }
 
             return string.Format(returString, gyldig, url); ;

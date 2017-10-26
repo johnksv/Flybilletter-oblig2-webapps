@@ -6,6 +6,10 @@
 
 <h2>Administrator</h2>
 <!--TODO: Oppdater passord på admin.-->
+<h4>Innlogget side for administrator.</h4>
+<p class="text-info">I menybaren/navbaren over har du tilgang til sider for å gjennomføre CRUD operasjoner på entiteter som Fly, Flyplass, Kunde, Rute, og mye mer.</p>
+<p class="text-info">Under vises alle endringer som lagres i databasen, samt alle feil som er logget.</p>
+<br />
 <div><!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
