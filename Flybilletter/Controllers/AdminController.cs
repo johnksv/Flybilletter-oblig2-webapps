@@ -237,7 +237,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
         [HttpPost]
-        public ActionResult LagreRute(Rute rute)
+        public bool LagreRute(Rute rute)
         {
             if (ErAdmin())
             {
@@ -245,9 +245,8 @@ namespace Flybilletter.Controllers
                 {
 
                 }
-                return View(rute);
             }
-            return RedirectToAction("Sok", "Home");
+            return false;
         }
 
         public ActionResult SlettRute(int id)

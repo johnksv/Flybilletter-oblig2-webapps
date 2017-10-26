@@ -23,6 +23,11 @@
             </button>
         </span>
         <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="reisetid" style="margin-right: 0.5em;">
+                Sorter etter reisetid
+            </button>
+        </span>
+        <span class="input-group-btn">
             <button class="sortListe btn btn-sm btn-info" data-sort="pris" style="margin-right: 0.5em;">
                 Sorter etter pris
             </button>
@@ -41,6 +46,7 @@
                 <th colspan="2">
                     Til flyplass
                 </th>
+                <th>Reisetid</th>
                 <th>
                     Pris
                 </th>
@@ -50,31 +56,36 @@
 
 
         <tbody class="list">
-            @foreach (var item in Model)
+            @foreach (var rute in Model)
             {
+                    string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
+                
                 <tr>
                     <td class="fraID">
-                        <div class="displayRute">@item.Fra.ID</div>
-                        @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="displayRute">@rute.Fra.ID</div>
+                        @Html.EditorFor(modelrute => rute.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
                     </td>
                     <td class="fraInfo">
-                        @item.Fra.Navn - @item.Fra.By, @item.Fra.Land
+                        @rute.Fra.Navn - @rute.Fra.By, @rute.Fra.Land
                     </td>
                     <td class="tilID">
-                        <div class="displayRute">@item.Til.ID</div>
-                        @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="displayRute">@rute.Til.ID</div>
+                        @Html.EditorFor(modelrute => rute.Til.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
                     </td>
                     <td class="tilInfo">
-                        <div >@item.Til.Navn  - @item.Til.By, @item.Til.Land</div>
+                        <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
+                    </td>
+                    <td class="reisetid">
+                        @reisetid
                     </td>
                     <td class="pris">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                        @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="displayRute">@Html.DisplayFor(modelrute => rute.BasePris)</div>
+                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
                     </td>
                     <td>
-                        @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
-                        @Html.ActionLink("Lagre", "LagreRute", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
-                        @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                        @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
+                        @Html.ActionLink("Lagre", "LagreRute", new { id = rute.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
+                        @Html.ActionLink("Slett", "SlettRute", new { id = rute.ID }, new { @class = "slettKnapp btn btn-danger" })
                     </td>
                 </tr>
             }
@@ -103,14 +114,30 @@
                 $(this).data("status", "avbryt");
             } else {
                 $(this).text("Endre");
-                $(this).data("status" , "endre");
+                $(this).data("status", "endre");
             }
+        });
 
+
+        $(".lagreKnapp").click(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).parents("tr").find(".editRute").serialize();
+
+            $.ajax({
+                url: "/Admin/LagreRute",
+                method: "POST",
+                data: formData,
+            }).done(function (response) {
+                alert(response);
+            });
 
         });
 
+
+        //Data for list.js
         var options = {
-            valueNames: ['fraID', 'fraInfo' , 'tilID', 'tilInfo', 'pris'],
+            valueNames: ['fraID', 'fraInfo', 'tilID', 'tilInfo', 'reisetid','pris'],
             searchClass: "sokListe",
             sortClass: "sortListe"
         };
