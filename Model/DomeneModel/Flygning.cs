@@ -14,8 +14,8 @@ namespace Flybilletter.Model.DomeneModel
         public bool Kansellert { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
         public DateTime AvgangsTid { get; set; }
 
         public DateTime AnkomstTid
