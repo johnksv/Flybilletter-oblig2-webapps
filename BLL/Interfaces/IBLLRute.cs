@@ -11,6 +11,6 @@ namespace BLL
     {
         List<Rute> HentAlle();
         bool Slett(int id);
-        void Hent(int ruteID);
+        Rute Hent(int ruteID);
     }
 }

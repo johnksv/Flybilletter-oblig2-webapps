@@ -9,7 +9,7 @@
 
 <h2>Legg til ny flygning</h2>
 
-@using (Html.BeginForm("LagreFlygning","Admin", new { ruteid="#ruter", flyid="#fly" }, FormMethod.Post))
+@using (Html.BeginForm("LagreFlygning","Admin", new { ruteid="#Rute_ID", flyid="#fly" }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
