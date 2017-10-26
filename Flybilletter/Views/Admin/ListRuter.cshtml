@@ -10,45 +10,77 @@
     @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Fra.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Til.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BasePris)
-        </th>
-        <th></th>
-    </tr>
+<div id="ruter">
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="fraID" style="margin-right: 0.5em;">
+                Sorter etter fra flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
+                Sorter etter til flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="pris" style="margin-right: 0.5em;">
+                Sorter etter pris
+            </button>
+        </span>
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    </div>
 
-    @foreach (var item in Model)
+
+    @using (Html.BeginForm())
     {
-        <tr>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
-                @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new {@class = "hidden editRute" }  })
-            </td>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
-                @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
-            </td>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute" } })
-            </td>
-            <td>
-                @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
-                @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
-            </td>
-        </tr>
-    }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Fra flyplass
+                    </th>
+                    <th>
+                        Til flyplass
+                    </th>
+                    <th>
+                        Pris
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
 
-</table>
+
+            <tbody class="list">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fraID">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
+                            @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
+                        </td>
+                        <td class="tilID">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
+                            @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
+                        </td>
+                        <td class="pris">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
+                            @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
+                            @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+</div>
 
 @Html.Partial("_SlettElementModal")
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
 <script>
     $(function () {
@@ -61,5 +93,13 @@
 
     });
 
+    var options = {
+        valueNames: ['fraID', 'tilID', 'pris'],
+        searchClass: "sokListe",
+        sortClass: "sortListe"
+    };
+
+    var userList = new List('ruter', options);
 
 </script>
+

@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Flybilletter.DAL
 {
-    internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
+    internal class DBInit : DropCreateDatabaseAlways<DB>
     {
         protected override void Seed(DB context)
         {
@@ -74,61 +74,71 @@ namespace Flybilletter.DAL
             {
                 Fra = BOO,
                 Til = OSL,
-                BasePris = 1199
+                BasePris = 1199,
+                Reisetid = new TimeSpan(1,30,0)
             };
             var OSLBOO = new DBRute()
             {
                 Fra = OSL,
                 Til = BOO,
-                BasePris = 1199
+                BasePris = 1199,
+                Reisetid = new TimeSpan(1,30,0)
             };
             var OSLMXP = new DBRute()
             {
                 Fra = OSL,
                 Til = MXP,
-                BasePris = 1499
+                BasePris = 1499,
+                Reisetid = new TimeSpan(2,45,0)
             };
             var MXPOSL = new DBRute()
             {
                 Fra = MXP,
                 Til = OSL,
-                BasePris = 1499
+                BasePris = 1499,
+                Reisetid = new TimeSpan(2,45,0)
             };
             var OSLLHR = new DBRute()
             {
                 Fra = OSL,
                 Til = LHR,
-                BasePris = 1299
+                BasePris = 1299,
+                Reisetid = new TimeSpan(2,30,0)
             };
             var LHROSL = new DBRute()
             {
                 Fra = LHR,
                 Til = OSL,
-                BasePris = 1299
+                BasePris = 1299,
+                Reisetid = new TimeSpan(2,30,0)
             };
             var ARNOSL = new DBRute()
             {
                 Fra = ARN,
                 Til = OSL,
-                BasePris = 799
+                BasePris = 799,
+                Reisetid = new TimeSpan(1,0,0)
             };
             var OSLARN = new DBRute()
             {
                 Fra = OSL,
                 Til = ARN,
-                BasePris = 799
+                BasePris = 799,
+                Reisetid = new TimeSpan(1,0,0)
             };
             var CPHOSL = new DBRute()
             {
                 Fra = CPH,
                 Til = OSL,
-                BasePris = 899
+                BasePris = 899,
+                Reisetid = new TimeSpan(1,15,0)
             };
             var OSLCPH = new DBRute()
             {
                 Fra = OSL,
                 Til = CPH,
-                BasePris = 899
+                BasePris = 899,
+                Reisetid = new TimeSpan(1,15,0)
             };
             
             var Boeing737_1 = new DBFly()
@@ -163,7 +173,6 @@ namespace Flybilletter.DAL
                 var flygningBOOOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
-                    AnkomstTid = DateTime.Today.AddHours(i + 1),
                     Fly = Boeing737_1,
                     Rute = BOOOSL,
                     Kansellert = false
@@ -172,7 +181,6 @@ namespace Flybilletter.DAL
                 var flygningOSLBOO = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
-                    AnkomstTid = DateTime.Today.AddHours(i + 3),
                     Fly = flygningBOOOSL.Fly,
                     Rute = OSLBOO,
                     Kansellert = false
@@ -181,7 +189,6 @@ namespace Flybilletter.DAL
                 var flygningMXPOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 0.5),
-                    AnkomstTid = DateTime.Today.AddHours(i + 2.5),
                     Fly = AirbusA380_1,
                     Rute = MXPOSL,
                     Kansellert = false
@@ -190,7 +197,6 @@ namespace Flybilletter.DAL
                 var flygningOSLMXP = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 4),
-                    AnkomstTid = DateTime.Today.AddHours(i + 6),
                     Fly = flygningMXPOSL.Fly,
                     Rute = OSLMXP,
                     Kansellert = false
@@ -198,7 +204,6 @@ namespace Flybilletter.DAL
                 var flygningOSLLHR = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
-                    AnkomstTid = DateTime.Today.AddHours(i + 4),
                     Fly = AirbusA380_2,
                     Rute = OSLLHR,
                     Kansellert = false
@@ -206,7 +211,6 @@ namespace Flybilletter.DAL
                 var flygningLHROSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 6),
-                    AnkomstTid = DateTime.Today.AddHours(i + 8),
                     Fly = flygningOSLLHR.Fly,
                     Rute = LHROSL,
                     Kansellert = false
@@ -214,7 +218,6 @@ namespace Flybilletter.DAL
                 var flygningARNOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
-                    AnkomstTid = DateTime.Today.AddHours(i + 1),
                     Fly = Boeing737_1,
                     Rute = ARNOSL,
                     Kansellert = false
@@ -222,7 +225,6 @@ namespace Flybilletter.DAL
                 var flygningOSLARN = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
-                    AnkomstTid = DateTime.Today.AddHours(i + 3),
                     Fly = flygningARNOSL.Fly,
                     Rute = OSLARN,
                     Kansellert = false
@@ -230,7 +232,6 @@ namespace Flybilletter.DAL
                 var flygningOSLCPH = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
-                    AnkomstTid = DateTime.Today.AddHours(i + 1),
                     Fly = Boeing737_3,
                     Rute = OSLCPH,
                     Kansellert = false
@@ -238,7 +239,6 @@ namespace Flybilletter.DAL
                 var flygningCPHOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 3),
-                    AnkomstTid = DateTime.Today.AddHours(i + 4),
                     Fly = flygningOSLCPH.Fly,
                     Rute = CPHOSL,
                     Kansellert = false

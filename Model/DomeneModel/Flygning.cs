@@ -19,10 +19,13 @@ namespace Flybilletter.Model.DomeneModel
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime AvgangsTid { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime AnkomstTid { get; set; }
-        
+        public DateTime AnkomstTid
+        {
+            get
+            {
+                return AvgangsTid + Rute.Reisetid;
+            }
+        }
+
     }
 }
