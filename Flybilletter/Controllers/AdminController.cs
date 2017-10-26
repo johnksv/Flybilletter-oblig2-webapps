@@ -265,7 +265,7 @@ namespace Flybilletter.Controllers
                 {
                     feilmeldinger.Add("Ugyldig til ID.");
                 }
-                if (rute.Fra.ID != "OSL"&& rute.Til.ID != "OSL")
+                if (rute.Fra.ID != "OSL" && rute.Til.ID != "OSL")
                 {
                     feilmeldinger.Add("Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).");
                 }
@@ -280,7 +280,8 @@ namespace Flybilletter.Controllers
                 if (ok)
                 {
                     return "true";
-                }else
+                }
+                else
                 {
                     return "En feil oppsto med lagring i database.";
                 }
@@ -323,11 +324,37 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult LagreKunde(Kunde kunde)
+        public string LagreKunde(Kunde item)
         {
-            if (bllkunde.LeggInn(kunde))
-                return RedirectToAction("Kunder");
-            else return RedirectToAction("Sok", "Home");
+            if (ErAdmin())
+            {
+                if (ModelState.IsValid)
+                {
+                    if (bllkunde.LeggInn(item))
+                    {
+                        return "true";
+                    }
+                }
+                var feilmeldinger = new List<String>();
+
+                for(var i = 0; i < ModelState.Keys.Count(); i++)
+                {
+                    var value = ModelState.Values.ElementAt(i);
+                    if (value.Errors.Count > 0)
+                    {
+                        string hva = ModelState.Keys.ElementAt(i).Substring(5);
+                        string hvorfor = value.Errors.First().ErrorMessage;
+                        feilmeldinger.Add($"Ugyldig {hva}: {hvorfor}.");
+                    }
+                }
+
+                if (feilmeldinger.Count > 0)
+                {
+                    return String.Join("\n", feilmeldinger);
+                }
+
+            }
+            return "NotAdmin";
         }
 
         public ActionResult EndreKunde(int id)
