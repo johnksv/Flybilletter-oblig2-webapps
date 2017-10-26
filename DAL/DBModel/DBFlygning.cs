@@ -16,6 +16,7 @@ namespace Flybilletter.DAL.DBModel
         public virtual DBRute Rute { get; set; }
         public virtual DBFly Fly { get; set; }
         public DateTime AvgangsTid { get; set; }
+        public bool Kansellert { get; set; }
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
@@ -102,6 +103,31 @@ namespace Flybilletter.DAL.DBModel
                     return false;
                 }
                 return true;
+            }
+        }
+
+        public bool OppdaterStatus(int id)
+        {
+            using(var db = new DB())
+            {
+                DBFlygning dbflygning = db.Flygninger.Include("Bestillinger").Where(item => item.ID == id).FirstOrDefault();
+                if (dbflygning != null)
+                {
+                    if(dbflygning.AvgangsTid < DateTime.Now && dbflygning.Bestillinger.Count() == 0)
+                    {
+                        return false;
+                    }
+                    dbflygning.Kansellert = !dbflygning.Kansellert;
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return true;
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
             }
         }
     }

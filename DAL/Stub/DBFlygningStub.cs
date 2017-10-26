@@ -45,5 +45,10 @@ namespace Flybilletter.DAL.Stub
         {
             throw new NotImplementedException();
         }
+
+        public bool OppdaterStatus(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

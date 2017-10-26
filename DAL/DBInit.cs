@@ -174,64 +174,74 @@ namespace Flybilletter.DAL
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     Fly = Boeing737_1,
-                    Rute = BOOOSL
+                    Rute = BOOOSL,
+                    Kansellert = false
                 };
 
                 var flygningOSLBOO = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     Fly = flygningBOOOSL.Fly,
-                    Rute = OSLBOO
+                    Rute = OSLBOO,
+                    Kansellert = false
                 };
 
                 var flygningMXPOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 0.5),
                     Fly = AirbusA380_1,
-                    Rute = MXPOSL
+                    Rute = MXPOSL,
+                    Kansellert = false
                 };
 
                 var flygningOSLMXP = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 4),
                     Fly = flygningMXPOSL.Fly,
-                    Rute = OSLMXP
+                    Rute = OSLMXP,
+                    Kansellert = false
                 };
                 var flygningOSLLHR = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     Fly = AirbusA380_2,
-                    Rute = OSLLHR
+                    Rute = OSLLHR,
+                    Kansellert = false
                 };
                 var flygningLHROSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 6),
                     Fly = flygningOSLLHR.Fly,
-                    Rute = LHROSL
+                    Rute = LHROSL,
+                    Kansellert = false
                 };
                 var flygningARNOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     Fly = Boeing737_1,
-                    Rute = ARNOSL
+                    Rute = ARNOSL,
+                    Kansellert = false
                 };
                 var flygningOSLARN = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 2),
                     Fly = flygningARNOSL.Fly,
-                    Rute = OSLARN
+                    Rute = OSLARN,
+                    Kansellert = false
                 };
                 var flygningOSLCPH = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i),
                     Fly = Boeing737_3,
-                    Rute = OSLCPH
+                    Rute = OSLCPH,
+                    Kansellert = false
                 };
                 var flygningCPHOSL = new DBFlygning()
                 {
                     AvgangsTid = DateTime.Today.AddHours(i + 3),
                     Fly = flygningOSLCPH.Fly,
-                    Rute = CPHOSL
+                    Rute = CPHOSL,
+                    Kansellert = false
                 };
 
 
