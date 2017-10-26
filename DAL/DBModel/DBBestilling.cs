@@ -41,7 +41,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å finne bestilling med referanse " + referanse);
             }
 
             return bestilling;
@@ -92,7 +92,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å legge inn bestillingen i databasen.");
                 }
 
             }
@@ -108,7 +108,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å finne ut om referansen " + referanse + " eksisterer.");
                 }
                 return false;
             }
@@ -151,7 +151,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil("DBBestilling:Slett", e);
+                        DALsetup.LogFeilTilFil("DBBestilling:Slett", e, "En feil oppsto da metoden prøvde å slette bestilling med referanse" + referanse);
                         return false;
                     }
 
