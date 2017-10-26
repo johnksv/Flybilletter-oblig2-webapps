@@ -125,7 +125,7 @@ namespace Flybilletter.DAL.DBModel
                     return true;
                 }catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
                     return false;
                 }
             }

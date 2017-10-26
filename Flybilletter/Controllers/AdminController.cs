@@ -353,14 +353,15 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-<<<<<<< Updated upstream
         public ActionResult OppdaterStatusFlygning(int id)
         {
             if (ErAdmin())
             {
                 bllflygning.OppdaterStatus(id);
                 return RedirectToAction("Flygninger");
-=======
+            }
+            return RedirectToAction("Sok", "Home");
+        }
         public ActionResult Administrator()
         {
             if (ErAdmin())
@@ -368,7 +369,6 @@ namespace Flybilletter.Controllers
                 ViewBag.FeilFraFil = bllendring.ParseFeil(@"..\DAL\flybilletter-log.txt");
                 ViewBag.Endringer = bllendring.Hent();
                 return View();
->>>>>>> Stashed changes
             }
             return RedirectToAction("Sok", "Home");
         }
