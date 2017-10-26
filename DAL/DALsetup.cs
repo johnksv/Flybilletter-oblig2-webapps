@@ -20,28 +20,28 @@ namespace DAL
                 writer.Close();
             }catch (Exception ex)
             {
-                //TODO: HVa skal vi gjøre her??
+            
             }
         }
 
-        internal static void rensFil()
+        internal static void RensFil()
         {
             try
             {
-                if (!File.Exists(@"..\DAL\flybilletter-log.txt"))
+                if (!File.Exists(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\DAL\flybilletter-log.txt")))
                 {
-                    File.Create(@"..\DAL\flybilletter-log.txt");
+                    File.Create(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\DAL\flybilletter-log.txt"));
                 }
                 else
                 {
                     StreamWriter writer = new System.IO.StreamWriter(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\DAL\flybilletter-log.txt"), true);
-                    File.WriteAllLines(@"..\DAL\flybilletter-log.txt", new string[] { "" });
+                    File.WriteAllLines(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\DAL\flybilletter-log.txt"), new string[] { "" });
                     writer.Close();
                 }
             }
             catch (Exception ex)
             {
-                //TODO: HVa skal vi gjøre her??
+                
             }
         }
     }

@@ -8,11 +8,11 @@ using System.Web;
 
 namespace Flybilletter.DAL
 {
-    internal class DBInit : DropCreateDatabaseAlways<DB>
+    internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
     {
         protected override void Seed(DB context)
         {
-            DALsetup.rensFil();
+            DALsetup.RensFil();
             var Root = new DBAdmin()
             {
                 Username = "root",
