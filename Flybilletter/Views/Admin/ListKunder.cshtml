@@ -66,6 +66,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
                     <td class="fornavn">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Fornavn)</div>
                         @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })

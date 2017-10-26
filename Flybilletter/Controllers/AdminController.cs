@@ -245,26 +245,38 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var feilmeldinger = new List<String>();
+
                 if (!ModelState.IsValidField("rute.ID"))
                 {
-                    feilmeldinger.Add("Ugyldig ID.");
+                    ModelState.TryGetValue("rute.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig id: {hvorfor}.");
                 }
                 if (!ModelState.IsValidField("rute.BasePris"))
                 {
-                    feilmeldinger.Add("Ugyldig pris.");
+                    ModelState.TryGetValue("rute.BasePris", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig pris: {hvorfor} .");
                 }
                 if (!ModelState.IsValidField("rute.Reisetid"))
                 {
-                    feilmeldinger.Add("Ugyldig reisetid.");
+                    ModelState.TryGetValue("rute.Reisetid", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig id: {hvorfor}.");
                 }
                 if (!ModelState.IsValidField("rute.Fra.ID"))
                 {
-                    feilmeldinger.Add("Ugyldig fra ID.");
+                    ModelState.TryGetValue("rute.Fra.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig fra Flyplass: {hvorfor}.");
                 }
                 if (!ModelState.IsValidField("rute.Til.ID"))
                 {
-                    feilmeldinger.Add("Ugyldig til ID.");
+                    ModelState.TryGetValue("rute.Til.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig til flyplass: {hvorfor}.");
                 }
+
                 if (rute.Fra.ID != "OSL" && rute.Til.ID != "OSL")
                 {
                     feilmeldinger.Add("Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).");
@@ -330,14 +342,15 @@ namespace Flybilletter.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (bllkunde.LeggInn(item))
+                    if (bllkunde.Oppdater(item))
                     {
                         return "true";
                     }
+                    return "En feil oppsto med lagring i database.";
                 }
                 var feilmeldinger = new List<String>();
 
-                for(var i = 0; i < ModelState.Keys.Count(); i++)
+                for (var i = 0; i < ModelState.Keys.Count(); i++)
                 {
                     var value = ModelState.Values.ElementAt(i);
                     if (value.Errors.Count > 0)
