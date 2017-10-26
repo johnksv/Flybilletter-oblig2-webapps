@@ -6,6 +6,7 @@ Rammeverk vi har benyttet oss av:
     - bootstrap v3.3.7 (Twitter, inc.)
     - Z.EntityFramework.Extensions v3.13.5 (ZZZ Projects Inc.)
     - Automapper v6.1.1 (Jimmy Bogard)
+    - List.js v 1.5.0 (Jonny Strömberg)
 
 Andre data vi har benyttes oss av:
 	- Postnummer i Norge - Publisert 27.02.2015 (https://data.norge.no/data/posten-norge/postnummer-i-norge)

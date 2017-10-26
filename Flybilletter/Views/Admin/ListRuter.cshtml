@@ -31,75 +31,77 @@
     </div>
 
 
-    @using (Html.BeginForm())
-    {
-        <table class="table">
-            <thead>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Fra flyplass
+                </th>
+                <th>
+                    Til flyplass
+                </th>
+                <th>
+                    Pris
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>
-                        Fra flyplass
-                    </th>
-                    <th>
-                        Til flyplass
-                    </th>
-                    <th>
-                        Pris
-                    </th>
-                    <th></th>
+                    <td class="fraID">
+                        <div class="displayRute">@item.Fra.ID (@item.Fra.Navn) - @item.Fra.By, @item.Fra.Land</div>
+                        @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute", disabled = "" } })
+                    </td>
+                    <td class="tilID">
+                        <div class="displayRute">@item.Til.Navn (@item.Til.ID) - @item.Til.By, @item.Til.Land</div>
+                        @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute", disabled = "" } })
+                    </td>
+                    <td class="pris">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
+                        @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute", disabled = "" } })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
+                        @Html.ActionLink("Lagre", "LagreRute", new { id = item.ID }, new { @class = "lagreKnapp btn btn-success hidden" })
+                        @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                    </td>
                 </tr>
-            </thead>
+            }
+        </tbody>
 
+    </table>
 
-            <tbody class="list">
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="fraID">
-                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
-                            @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
-                        </td>
-                        <td class="tilID">
-                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
-                            @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
-                        </td>
-                        <td class="pris">
-                            <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                            @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden disabled editRute" } })
-                        </td>
-                        <td>
-                            @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
-                            @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-    }
 </div>
 
 @Html.Partial("_SlettElementModal")
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
 <script>
     $(function () {
         $(".endreKnapp").click(function (event) {
             event.preventDefault();
-            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+
+            $(this).parents("tr").find(".editRute").toggleClass("hidden").removeAttr("disabled");
             $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+
+            $(this).text("Avbryt");
+            $(this).siblings(".lagreKnapp").toggleClass("hidden");
+
+
         });
 
+        var options = {
+            valueNames: ['fraID', 'tilID', 'pris'],
+            searchClass: "sokListe",
+            sortClass: "sortListe"
+        };
 
+        var userList = new List('ruter', options);
     });
-
-    var options = {
-        valueNames: ['fraID', 'tilID', 'pris'],
-        searchClass: "sokListe",
-        sortClass: "sortListe"
-    };
-
-    var userList = new List('ruter', options);
 
 </script>
 
