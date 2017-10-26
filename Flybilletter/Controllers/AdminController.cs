@@ -73,6 +73,11 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Fly> fly = bllfly.HentAlle();
+
+                if(TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String) TempData["feilmelding"];
+                }
                 return View("ListFly", fly);
             }
             return RedirectToAction("Sok", "Home");
@@ -115,20 +120,14 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                var fly = bllfly.Hent(ID);
-                if (fly != null) return View("SlettFly", fly);
+                if (! bllfly.Slett(ID))
+                {
+                     TempData["feilmelding"] = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
+                }
+                
+                return RedirectToAction("Fly");
             }
             return RedirectToAction("Sok", "Home");
-        }
-
-        [HttpPost]
-        public bool SlettFly(int ID, Fly fly)
-        {
-            if (ErAdmin())
-            {
-                return bllfly.Slett(ID);
-            }
-            return false;
         }
 
         public ActionResult LagFly()

@@ -6,6 +6,13 @@
 
 <h2>Fly</h2>
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 <p>
     @Html.ActionLink("Legg til nytt fly", "LagFly", new { }, new { @class = "btn btn-primary" })
 </p>
@@ -48,7 +55,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "RedigerFly", new { id = item.ID }, new { @class = "btn btn-default" })
-                        @Html.ActionLink("Slett", "SlettFly", new { id = item.ID }, new { @class = "kanseller btn btn-danger slettKnapp" })
+                        @Html.ActionLink("Slett", "SlettFly", new { id = item.ID }, new { @class = "btn btn-danger slettKnapp" })
                     </td>
                 </tr>
             }
@@ -69,22 +76,7 @@
 
 <script>
     $(function () {
-        $(".kanseller").click(function (event) {
-            event.preventDefault();
-            var that = $(this);
-            $.ajax({
-                type: "POST",
-                url: that.attr("href")
-            }).done(function (response) {
-                if (response == "True") {
-                    that.parents("tr").remove();
-                } else {
-                    alert("En feil oppsto. Kan ikke slette");
-                }
-            });
-
-        });
-
+        
 
         //Data for list.js
         var options = {
