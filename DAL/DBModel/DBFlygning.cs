@@ -96,6 +96,11 @@ namespace Flybilletter.DAL.DBModel
 
                 try
                 {
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Endrer på flygning med ID: " + flygning.ID
+                    });
                     db.SaveChanges();
                 }catch(Exception e)
                 {
@@ -121,11 +126,39 @@ namespace Flybilletter.DAL.DBModel
                 }
                 try
                 {
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Endret status på flygning med ID: " + ID
+                    });
                     db.SaveChanges();
                     return true;
                 }catch(Exception e)
                 {
                     DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    return false;
+                }
+            }
+        }
+
+        public bool LeggInnFlygning(Flygning flygning)
+        {
+            using(var db = new DB())
+            {
+                var dbflygning = Mapper.Map<DBFlygning>(flygning);
+                try
+                {
+                    db.Flygninger.Add(dbflygning);
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "La til flygning med ID: " + dbflygning.ID
+                    });
+                    db.SaveChanges();
+                    return true;
+                }catch(Exception e)
+                {
+                    //TODO fiks etter pull
                     return false;
                 }
             }

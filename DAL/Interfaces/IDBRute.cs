@@ -11,5 +11,6 @@ namespace Flybilletter.DAL.Interfaces
     {
         List<Rute> HentAlle();
         bool Slett(int id);
+        Rute Hent(int ruteID);
     }
 }

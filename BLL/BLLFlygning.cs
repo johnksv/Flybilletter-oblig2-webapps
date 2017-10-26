@@ -93,6 +93,11 @@ namespace BLL
             return dbFlygning.HentEnFlygning(id);
         }
 
+        public bool LeggInnFlygning(Flygning flygning)
+        {
+            return dbFlygning.LeggInnFlygning(flygning);
+        }
+
         public bool OppdaterFlygning(Flygning flygning)
         {
             return dbFlygning.OppdaterFlygning(flygning);

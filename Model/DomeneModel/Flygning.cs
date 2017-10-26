@@ -15,13 +15,14 @@ namespace Flybilletter.Model.DomeneModel
 
         [Required]
         [DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime AvgangsTid { get; set; }
 
         public DateTime AnkomstTid
         {
             get
             {
+                if (Rute == null) return AvgangsTid;
                 return AvgangsTid + Rute.Reisetid;
             }
         }
