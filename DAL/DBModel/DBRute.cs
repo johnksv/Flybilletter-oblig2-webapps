@@ -46,6 +46,11 @@ namespace Flybilletter.DAL.DBModel
                     rute.Reisetid = innrute.Reisetid;
                     rute.BasePris = innrute.BasePris;
 
+                    db.Endringer.Add(new DBEndring() {
+                        Endring ="Endrer rute med nye verdier.",
+                        Tidspunkt = DateTime.Now
+                    });
+
                     try
                     {
                         db.SaveChanges();
@@ -53,7 +58,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil("DBRute:LagreRute", e);
+                        DALsetup.LogFeilTilFil("DBRute:LagreRute", e, "Lagring til databasen feilet.");
                     }
                 }
                 return false;

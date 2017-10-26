@@ -162,7 +162,7 @@
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
     <Content Include="Views\Shared\_AdminLogin.cshtml" />
-    <Content Include="Views\Admin\BestillingListe.cshtml" />
+    <Content Include="Views\Admin\ListBestillinger.cshtml" />
     <Content Include="Views\Admin\ListFly.cshtml" />
     <Content Include="Views\Admin\RedigerFly.cshtml" />
     <Content Include="Views\Admin\ListKunder.cshtml" />

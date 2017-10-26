@@ -62,7 +62,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
+                return View("ListBestillinger", bestillinger);
             }
             return RedirectToAction("Sok", "Home");
         }
