@@ -9,6 +9,7 @@ using Flybilletter.DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
 using DAL;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BLL
 {
@@ -42,7 +43,7 @@ namespace BLL
                 string line;
                 while ((line = read.ReadLine()) != null)
                 {
-                    string[] parts = line.Split(':');
+                    string[] parts = Regex.Split(line, ": ");
                     FeilFraFilViewModel feilObjekt = new FeilFraFilViewModel
                     {
                         Tidspunkt = parts[0],
