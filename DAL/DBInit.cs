@@ -1,4 +1,5 @@
-﻿using Flybilletter.DAL.DBModel;
+﻿using DAL;
+using Flybilletter.DAL.DBModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,6 +12,7 @@ namespace Flybilletter.DAL
     {
         protected override void Seed(DB context)
         {
+            DALsetup.rensFil();
             var Root = new DBAdmin()
             {
                 Username = "root",
