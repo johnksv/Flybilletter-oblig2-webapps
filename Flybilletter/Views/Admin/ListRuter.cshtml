@@ -97,6 +97,13 @@
 
 </div>
 
+@if (Model.Count() >= 8)
+{
+    <p>
+        @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
+    </p>
+}
+
 @Html.Partial("_SlettElementModal")
 
 <script>

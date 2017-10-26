@@ -109,17 +109,14 @@
 
     </table>
 </div>
-@{
-    if (Model.Count() >= 8)
-    {
-        <div class="pull-left">
-            <p>
-                @Html.ActionLink("Legg til ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
-            </p>
-        </div>
 
-    }
+@if (Model.Count() >= 8)
+{
+    <p>
+        @Html.ActionLink("Legg til ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
+    </p>
 }
+
 
 @Html.Partial("_SlettElementModal")
 
