@@ -9,33 +9,53 @@
 <p>
     @Html.ActionLink("Legg til nytt fly", "LagFly", new { }, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Modell)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AntallSeter)
-        </th>
-        <th></th>
-    </tr>
+<div id="fly">
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="modell" style="margin-right: 0.5em;">
+                Sorter etter modell
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="antallseter" style="margin-right: 0.5em;">
+                Sorter etter antall seter
+            </button>
+        </span>
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modell)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AntallSeter)
-        </td>
-        <td>
-            @Html.ActionLink("Endre", "RedigerFly", new { id=item.ID }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Slett", "SlettFly", new { id=item.ID }, new { @class = "kanseller btn btn-danger slettKnapp" })
-        </td>
-    </tr>
-}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Modell)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AntallSeter)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="modell">
+                        @Html.DisplayFor(modelItem => item.Modell)
+                    </td>
+                    <td class="antallseter">
+                        @Html.DisplayFor(modelItem => item.AntallSeter)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Endre", "RedigerFly", new { id = item.ID }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Slett", "SlettFly", new { id = item.ID }, new { @class = "kanseller btn btn-danger slettKnapp" })
+                    </td>
+                </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+</div>
 
 @if (Model.Count() >= 8)
 {
@@ -66,5 +86,15 @@
         });
 
 
+        //Data for list.js
+        var options = {
+            valueNames: ['modell', 'antallseter'],
+            searchClass: "sokListe",
+            sortClass: "sortListe"
+        };
+
+        var userList = new List('fly', options);
+
     });
 </script>
+
