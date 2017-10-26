@@ -11,25 +11,32 @@
 </p>
 
 <div id="ruter">
-    <div class="row">
-        <input class="sokListe form-control input-sm " placeholder="Search" />
-        <button class="sortListe btn" data-sort="fraID">
-            Sorter etter fra flyplass
-        </button>
-        <button class="sortListe btn" data-sort="tilID">
-            Sorter etter til flyplass
-        </button>
-        <button class="sortListe btn" data-sort="pris">
-            Sorter etter pris
-        </button>
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="fraID" style="margin-right: 0.5em;">
+                Sorter etter fra flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
+                Sorter etter til flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="pris" style="margin-right: 0.5em;">
+                Sorter etter pris
+            </button>
+        </span>
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Search" />
     </div>
+
 
     @using (Html.BeginForm())
     {
         <table class="table">
             <thead>
                 <tr>
-                    <th >
+                    <th>
                         Fra flyplass
                     </th>
                     <th>
