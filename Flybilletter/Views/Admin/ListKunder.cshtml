@@ -1,84 +1,117 @@
 ﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Kunde>
 
 @{
-    ViewBag.Title = "Kunde Liste";
+    ViewBag.Title = "Kunder";
 }
 
-<h2>Kunde Liste</h2>
+<h2>Kunder</h2>
 
-<div class="pull-right">
-    <p>
-        @Html.ActionLink("Legg til ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
-    </p>
+
+<p>
+    @Html.ActionLink("Legg til ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
+</p>
+
+<div id="kunder">
+
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="etternavn" style="margin-right: 0.5em;">
+                Sorter etter etternavn
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="tlf" style="margin-right: 0.5em;">
+                Sorter etter telefon
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="postnummer" style="margin-right: 0.5em;">
+                Sorter etter postnummer
+            </button>
+        </span>
+        <input class="sokListe hidden editRute input-xs input-sm col-sm-3" placeholder="Søk" />
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fornavn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Etternavn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fodselsdag)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Adresse)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tlf)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EPost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Postnr)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Poststed)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fornavn">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Fornavn)</div>
+                        @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="etternavn">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Etternavn)</div>
+                        @Html.EditorFor(modelItem => item.Etternavn, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="fodselsdag">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Fodselsdag)</div>
+                        @Html.EditorFor(modelItem => item.Fodselsdag, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="adresse">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Adresse)</div>
+                        @Html.EditorFor(momodelItemdel => item.Adresse, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="tlf">
+                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Tlf)</div>
+                        @Html.EditorFor(modelItem => item.Tlf, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="epost">
+                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.EPost) </div>
+                        @Html.EditorFor(modelItem => item.EPost, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="postnummer">
+                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.Postnr) </div>
+                        @Html.EditorFor(modelItem => item.Postnr, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                    </td>
+                    <td class="poststed">
+                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.Poststed)</div>
+                    </td>
+                    <td>
+                        @Html.ActionLink("Endre", "EndreKunde", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
+                        @Html.ActionLink("Lagre", "LagreKunde", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
+                        @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
 </div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Fornavn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Etternavn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fodselsdag)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Adresse)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tlf)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EPost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Postnr)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Poststed)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fornavn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Etternavn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fodselsdag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adresse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tlf)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EPost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Postnr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Poststed)
-            </td>
-            <td>
-                @Html.ActionLink("Endre", "EndreKunde", new { id = item.ID }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Slett", "SlettKunde", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
-            </td>
-        </tr>
-    }
-
-</table>
 @{
     if (Model.Count() >= 8)
     {
-        <div class="pull-right">
+        <div class="pull-left">
             <p>
                 @Html.ActionLink("Legg til ny kunde", "LagKunde", new { }, new { @class = "btn btn-primary" })
             </p>
@@ -88,3 +121,59 @@
 }
 
 @Html.Partial("_SlettElementModal")
+
+
+
+<script>
+    $(function () {
+        $(".endreKnapp").click(function (event) {
+            event.preventDefault();
+
+            //Vis input.bokser
+            $(this).parents("tr").find(".editRute").toggleClass("hidden").removeAttr("disabled");
+            //Gjem display-values
+            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            //Aktiver knapp
+            $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
+
+            if ($(this).data("status") === "endre") {
+                $(this).text("Avbryt");
+                $(this).data("status", "avbryt");
+            } else {
+                $(this).text("Endre");
+                $(this).data("status", "endre");
+            }
+        });
+
+
+        $(".lagreKnapp").click(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).parents("tr").find(".editRute").serialize();
+
+            $.ajax({
+                url: "/Admin/LagreKunde",
+                method: "POST",
+                data: formData,
+            }).done(function (response) {
+                if (response === "true") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
+            });
+
+        });
+
+
+        //Data for list.js
+        var options = {
+            valueNames: ['fornavn', 'etternavn', 'fodselsdag', 'adresse', 'tlf', 'epost', "postnummer", "poststed"],
+            searchClass: "sokListe",
+            sortClass: "sortListe"
+        };
+
+        var userList = new List('kunder', options);
+    });
+
+</script>

@@ -265,6 +265,10 @@ namespace Flybilletter.Controllers
                 {
                     feilmeldinger.Add("Ugyldig til ID.");
                 }
+                if (rute.Fra.ID != "OSL"&& rute.Til.ID != "OSL")
+                {
+                    feilmeldinger.Add("Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).");
+                }
 
 
                 if (feilmeldinger.Count > 0)
