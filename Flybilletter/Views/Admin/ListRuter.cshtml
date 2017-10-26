@@ -72,7 +72,7 @@
                         @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
                     </td>
                     <td>
-                        @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
+                        @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
                         @Html.ActionLink("Lagre", "LagreRute", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
                         @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
                     </td>
@@ -91,11 +91,20 @@
         $(".endreKnapp").click(function (event) {
             event.preventDefault();
 
+            //Vis input.bokser
             $(this).parents("tr").find(".editRute").toggleClass("hidden").removeAttr("disabled");
+            //Gjem display-values
             $(this).parents("tr").find(".displayRute").toggleClass("hidden");
-
-            $(this).text("Avbryt");
+            //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
+
+            if ($(this).data("status") === "endre") {
+                $(this).text("Avbryt");
+                $(this).data("status", "avbryt");
+            } else {
+                $(this).text("Endre");
+                $(this).data("status" , "endre");
+            }
 
 
         });
