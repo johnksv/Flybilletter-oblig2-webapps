@@ -70,11 +70,11 @@
 
                         @if (DateTime.Now < item.FlygningerTur.First().AvgangsTid)
                 {
-                            @Html.ActionLink("Kanseller", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "kanseller btn btn-danger" })
+                            @Html.ActionLink("Slett", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "slettknapp btn btn-danger" })
                         }
                         else
                         {
-                            <a href="#" class="btn btn-default" title="Første fly har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Kanseller</a>
+                            <a href="#" class="btn btn-default" title="Første fly har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Slett</a>
                         }
                     </td>
                 </tr>
@@ -90,7 +90,7 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
 
-        $(".kanseller").click(function (event) {
+        $(".slettknapp").click(function (event) {
             event.preventDefault();
             var that = $(this);
             $.ajax({
