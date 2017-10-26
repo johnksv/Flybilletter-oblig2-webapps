@@ -10,45 +10,68 @@
     @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Fra.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Til.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BasePris)
-        </th>
-        <th></th>
-    </tr>
+<div id="ruter">
+    <input class="sokListe" placeholder="Search" />
+    <button class="sortListe" data-sort="fraID">
+        Sorter etter fra
+    </button>
+    <button class="sortListe" data-sort="tilID">
+        Sorter etter til
+    </button>
+    <button class="sortListe" data-sort="pris">
+        Sorter etter pris
+    </button>
 
-    @foreach (var item in Model)
+    @using (Html.BeginForm())
     {
-        <tr>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
-                @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new {@class = "hidden editRute" }  })
-            </td>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
-                @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
-            </td>
-            <td>
-                <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute" } })
-            </td>
-            <td>
-                @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
-                @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
-            </td>
-        </tr>
-    }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fra.ID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Til.ID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BasePris)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
 
-</table>
+
+            <tbody class="list">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fraID">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Fra.ID)</div>
+                            @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
+                        </td>
+                        <td class="tilID">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.Til.ID)</div>
+                            @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute" } })
+                        </td>
+                        <td class="pris">
+                            <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
+                            @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute" } })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
+                            @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+</div>
 
 @Html.Partial("_SlettElementModal")
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 
 <script>
     $(function () {
@@ -61,5 +84,13 @@
 
     });
 
+    var options = {
+        valueNames: ['fraID', 'tilID', 'pris'],
+        searchClass: "sokListe",
+        sortClass: "sortListe"
+    };
+
+    var userList = new List('ruter', options);
 
 </script>
+
