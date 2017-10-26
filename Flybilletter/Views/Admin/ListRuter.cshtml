@@ -11,30 +11,32 @@
 </p>
 
 <div id="ruter">
-    <input class="sokListe" placeholder="Search" />
-    <button class="sortListe" data-sort="fraID">
-        Sorter etter fra
-    </button>
-    <button class="sortListe" data-sort="tilID">
-        Sorter etter til
-    </button>
-    <button class="sortListe" data-sort="pris">
-        Sorter etter pris
-    </button>
+    <div class="row">
+        <input class="sokListe form-control input-sm " placeholder="Search" />
+        <button class="sortListe btn" data-sort="fraID">
+            Sorter etter fra flyplass
+        </button>
+        <button class="sortListe btn" data-sort="tilID">
+            Sorter etter til flyplass
+        </button>
+        <button class="sortListe btn" data-sort="pris">
+            Sorter etter pris
+        </button>
+    </div>
 
     @using (Html.BeginForm())
     {
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Fra.ID)
+                    <th >
+                        Fra flyplass
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Til.ID)
+                        Til flyplass
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.BasePris)
+                        Pris
                     </th>
                     <th></th>
                 </tr>

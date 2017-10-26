@@ -16,7 +16,6 @@ namespace Flybilletter.DAL.DBModel
         public virtual DBRute Rute { get; set; }
         public virtual DBFly Fly { get; set; }
         public DateTime AvgangsTid { get; set; }
-        public DateTime AnkomstTid { get; set; }
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)
         {
@@ -92,7 +91,6 @@ namespace Flybilletter.DAL.DBModel
             using(var db = new DB())
             {
                 var dbflygning = db.Flygninger.Find(flygning.ID);
-                dbflygning.AnkomstTid = flygning.AnkomstTid;
                 dbflygning.AvgangsTid = flygning.AvgangsTid;
 
                 try
