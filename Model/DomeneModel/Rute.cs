@@ -16,8 +16,7 @@ namespace Flybilletter.Model.DomeneModel
         [DisplayFormat(DataFormatString = "{0:C0}", ApplyFormatInEditMode = false)]
         public double BasePris { get; set; } //faktor for å regne ut total pris for turen
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Time)]
         public TimeSpan Reisetid { get; set; }
 
     }

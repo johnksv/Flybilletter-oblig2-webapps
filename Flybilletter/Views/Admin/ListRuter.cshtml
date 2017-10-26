@@ -61,6 +61,7 @@
                 string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
 
                 <tr>
+                    @Html.HiddenFor(model => rute.ID, new { @class = "editRute" })
                     <td class="fraID">
                         <div class="displayRute">@rute.Fra.ID</div>
                         @Html.EditorFor(modelrute => rute.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
@@ -76,11 +77,12 @@
                         <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
                     </td>
                     <td class="reisetid">
-                        @reisetid
+                        <div class="displayRute"> @reisetid </div>
+                        @Html.EditorFor(modelrute => rute.Reisetid, new { htmlAttributes = new { @class = "hidden editRute input-xs ", disabled = "", style = "max-width: 85px;", type = "time" } })
                     </td>
                     <td class="pris">
                         <div class="displayRute">@Html.DisplayFor(modelrute => rute.BasePris)</div>
-                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style= "max-width: 55px;" } })
+                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
@@ -129,7 +131,11 @@
                 method: "POST",
                 data: formData,
             }).done(function (response) {
-                alert(response);
+                if (response === "true") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
             });
 
         });
@@ -146,4 +152,3 @@
     });
 
 </script>
-

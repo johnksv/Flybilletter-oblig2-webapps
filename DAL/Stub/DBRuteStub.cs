@@ -11,6 +11,11 @@ namespace Flybilletter.DAL.Stub
             throw new System.NotImplementedException();
         }
 
+        public bool LagreRute(Rute rute)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool Slett(int id)
         {
             throw new System.NotImplementedException();

@@ -188,7 +188,7 @@ namespace Flybilletter.Controllers
                 if (ModelState.IsValid)
                 {
                     bllflyplass.LeggInn(flyplass);
-                }   
+                }
                 return RedirectToAction("Flyplasser");
             }
             return RedirectToAction("Sok", "Home");
@@ -199,7 +199,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var model = bllflyplass.Hent(id);
-                if(model != null)
+                if (model != null)
                 {
                     return View("EndreFlyplass", model);
                 }
@@ -237,16 +237,49 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
         [HttpPost]
-        public bool LagreRute(Rute rute)
+        public string LagreRute(Rute rute)
         {
             if (ErAdmin())
             {
-                if (ModelState.IsValid) 
+                var feilmeldinger = new List<String>();
+                if (!ModelState.IsValidField("rute.ID"))
                 {
-
+                    feilmeldinger.Add("Ugyldig ID.");
                 }
+                if (!ModelState.IsValidField("rute.BasePris"))
+                {
+                    feilmeldinger.Add("Ugyldig pris.");
+                }
+                if (!ModelState.IsValidField("rute.Reisetid"))
+                {
+                    feilmeldinger.Add("Ugyldig reisetid.");
+                }
+                if (!ModelState.IsValidField("rute.Fra.ID"))
+                {
+                    feilmeldinger.Add("Ugyldig fra ID.");
+                }
+                if (!ModelState.IsValidField("rute.Til.ID"))
+                {
+                    feilmeldinger.Add("Ugyldig til ID.");
+                }
+
+
+                if (feilmeldinger.Count > 0)
+                {
+                    return String.Join("\n", feilmeldinger);
+                }
+
+                bool ok = bllrute.LagreRute(rute);
+                if (ok)
+                {
+                    return "true";
+                }else
+                {
+                    return "En feil oppsto med lagring i database.";
+                }
+
             }
-            return false;
+            return "NotAdmin";
         }
 
         public ActionResult SlettRute(int id)
@@ -262,7 +295,7 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
-      
+
 
         public ActionResult Kunder()
         {
