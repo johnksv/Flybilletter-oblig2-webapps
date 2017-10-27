@@ -108,12 +108,12 @@ namespace Flybilletter.DAL.DBModel
                 {
                     DBFly dbFly = Mapper.Map<DBFly>(fly);
                     db.Fly.Add(dbFly);
-                    var endring = new DBEndring()
+                    db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "La til fly med ID: " + fly.ID
-                    };
-                    db.Endringer.Add(endring);
+                        Endring = "Legg til fly med ID: " + fly.ID
+                    });
+                    
                     db.SaveChanges();
                     return true;
                 }

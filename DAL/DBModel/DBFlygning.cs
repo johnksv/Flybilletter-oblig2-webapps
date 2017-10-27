@@ -96,6 +96,12 @@ namespace Flybilletter.DAL.DBModel
 
                 try
                 {
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Oppdaterer flygning med ID " + flygning.ID
+                    });
+                    
                     db.SaveChanges();
                 }catch(Exception e)
                 {

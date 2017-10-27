@@ -65,6 +65,13 @@ namespace Flybilletter.DAL.DBModel
                     if (db.Flyplasser.FirstOrDefault(fly => fly.ID == dbflyplass.ID) == null)
                     {
                         db.Flyplasser.Add(dbflyplass);
+
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Tidspunkt = DateTime.Now,
+                            Endring = "Legg til flyplass med ID " + flyplass.ID
+                        });
+                        
                         db.SaveChanges();
                         return true;
                     }
