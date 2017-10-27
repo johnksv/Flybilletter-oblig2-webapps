@@ -101,7 +101,6 @@ namespace Flybilletter.DAL.DBModel
                         Tidspunkt = DateTime.Now,
                         Endring = "Oppdaterer flygning med ID " + flygning.ID
                     });
-                    
                     db.SaveChanges();
                 }catch(Exception e)
                 {
@@ -127,11 +126,44 @@ namespace Flybilletter.DAL.DBModel
                 }
                 try
                 {
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Endret status på flygning med ID: " + ID
+                    });
                     db.SaveChanges();
                     return true;
                 }catch(Exception e)
                 {
                     DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
+                    return false;
+                }
+            }
+        }
+
+        public bool LeggInnFlygning(Flygning flygning)
+        {
+            using(var db = new DB())
+            {
+                var dbflygning = Mapper.Map<DBFlygning>(flygning);
+                try
+                {
+                    dbflygning.Rute = db.Ruter.Find(dbflygning.Rute.ID);
+                    db.Flyplasser.Find(dbflygning.Rute.Fra.ID);
+                    db.Flyplasser.Find(dbflygning.Rute.Til.ID);
+                    dbflygning.Fly = db.Fly.Find(dbflygning.Fly.ID);
+                    db.Flygninger.Add(dbflygning);
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "La til flygning ny flygning mellom: " + dbflygning.Rute.Fra.ID + " - " + dbflygning.Rute.Til.ID
+                    });
+                    db.SaveChanges();
+                    return true;
+                }catch(Exception e)
+                {
+                    Console.WriteLine(e.InnerException);
+                    //TODO fiks etter pull
                     return false;
                 }
             }

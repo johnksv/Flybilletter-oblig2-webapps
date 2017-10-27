@@ -1,0 +1,84 @@
+﻿@model Flybilletter.Model.ViewModel.LagFlygningViewModel
+
+@{
+    ViewBag.Title = "LagNyFlygning";
+    var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string jsonFly = jsSerializer.Serialize(ViewBag.Fly);
+    string jsonRuter = jsSerializer.Serialize(ViewBag.Ruter);
+}
+
+<h2>LagNyFlygning</h2>
+
+@using (Html.BeginForm("LagreFlygning", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>LagFlygningViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RuteID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="RuteID" class="form-control" name="RuteID"> </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlyID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="FlyID" class="form-control" name="FlyID"> </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AvgangsTid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AvgangsTid, new { htmlAttributes = new { type = "datetime-local", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AvgangsTid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lagre" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Avbryt", "Flygninger", new { }, new { @class = "btn btn-primary" })
+</div>
+
+<script>
+    var fly = JSON.parse('@Html.Raw(jsonFly)');
+    var ruter = JSON.parse('@Html.Raw(jsonRuter)');
+
+    function populerFlySelectMedOptions(htmlElementID) {
+        var utStreng = "";
+        for (var i in fly) {
+            var f = fly[i];
+            utStreng += "<option value='" + f.ID + "'>" + f.Modell + " (" + f.AntallSeter + ")" + "</option>";
+        }
+
+        $(htmlElementID).empty().append(utStreng);
+    }
+
+    function populerRuterSelectMedOptions(htmlElementID) {
+        var utStreng = "";
+        for (var i in ruter) {
+            var r = ruter[i];
+            utStreng += "<option value='" + r.ID + "'>" + r.Fra.Navn + " - " + r.Til.Navn + "</option>";
+        }
+
+        $(htmlElementID).empty().append(utStreng);
+    }
+    
+
+    $(document).ready(function () {
+        populerFlySelectMedOptions("#FlyID");
+        populerRuterSelectMedOptions("#RuteID");
+    });
+
+</script>

@@ -437,6 +437,28 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+        public ActionResult LagFlygning()
+        {
+            if (ErAdmin())
+            {
+                ViewBag.ruter = bllrute.HentAlle();
+                ViewBag.fly = bllfly.HentAlle();
+                return View("LagNyFlygning");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagreFlygning(LagFlygningViewModel flygning)
+        {
+            if (ErAdmin())
+            {
+                bllflygning.LeggInnFlygning(flygning);
+                return RedirectToAction("Flygninger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         public ActionResult OppdaterStatusFlygning(int id)
         {
             if (ErAdmin())

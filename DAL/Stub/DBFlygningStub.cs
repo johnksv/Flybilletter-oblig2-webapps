@@ -41,6 +41,11 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
+        public bool LeggInnFlygning(Flygning flygning)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool OppdaterFlygning(Flygning flygning)
         {
             throw new NotImplementedException();

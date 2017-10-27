@@ -14,11 +14,15 @@ namespace BLL
     {
         private IDBFlygning dbFlygning;
         private IDBFlyplass dbflyplass;
+        private IDBRute dbrute;
+        private IDBFly dbfly;
 
         public BLLFlygning()
         {
             dbFlygning = new DBFlygning();
             dbflyplass = new DBFlyplass();
+            dbrute = new DBRute();
+            dbfly = new DBFly();
         }
 
         public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
@@ -91,6 +95,17 @@ namespace BLL
         public Flygning HentEnFlygning(int id)
         {
             return dbFlygning.HentEnFlygning(id);
+        }
+
+        public bool LeggInnFlygning(LagFlygningViewModel flygning)
+        {
+
+            return dbFlygning.LeggInnFlygning(new Flygning()
+            {
+                Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
+                Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
+                AvgangsTid = flygning.AvgangsTid
+            });
         }
 
         public bool OppdaterFlygning(Flygning flygning)

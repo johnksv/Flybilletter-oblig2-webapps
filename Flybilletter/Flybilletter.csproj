@@ -179,6 +179,7 @@
     <Content Include="Views\Admin\ListRuter.cshtml" />
     <Content Include="Views\Admin\LagRute.cshtml" />
     <Content Include="Views\Admin\_SlettElementModal.cshtml" />
+    <Content Include="Views\Admin\LagNyFlygning.cshtml" />
     <Content Include="Views\Admin\_ListFeilFraFil.cshtml" />
     <Content Include="Views\Admin\_ListEndringerFraDB.cshtml" />
     <None Include="Web.Debug.config">
