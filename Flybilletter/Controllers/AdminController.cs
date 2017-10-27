@@ -225,6 +225,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var model = bllrute.HentAlle();
+                ViewBag.Flyplasser = bllflyplass.HentAlle();
                 if (TempData["feilmelding"] != null)
                 {
                     ViewBag.Feilmelding = (String)TempData["feilmelding"];
@@ -283,6 +284,10 @@ namespace Flybilletter.Controllers
                 if (rute.Fra.ID != "OSL" && rute.Til.ID != "OSL")
                 {
                     feilmeldinger.Add("Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).");
+                }
+                if (rute.Fra.ID == rute.Til.ID)
+                {
+                    feilmeldinger.Add("Rute kan ikke ha samme til og fra.");
                 }
 
 
