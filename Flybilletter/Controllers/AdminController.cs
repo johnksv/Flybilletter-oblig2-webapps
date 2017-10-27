@@ -365,7 +365,7 @@ namespace Flybilletter.Controllers
         [HttpPost]
         public ActionResult LagreFlygning(LagFlygningViewModel flygning)
         {
-            if (ErAdmin()) //Funker, må bare gjøre om så logikk skjer i bll eller dal. dvs sende med viewmodel helt til bll eller dal
+            if (ErAdmin())
             {
                 bllflygning.LeggInnFlygning(flygning);
                 return RedirectToAction("Flygninger");
