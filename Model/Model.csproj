@@ -48,6 +48,7 @@
     <Compile Include="ViewModel\BestillingViewModel.cs" />
     <Compile Include="DomeneModel\Fly.cs" />
     <Compile Include="DomeneModel\Flygning.cs" />
+    <Compile Include="ViewModel\FeilFraFilViewModel.cs" />
     <Compile Include="ViewModel\FlygningerViewModel.cs" />
     <Compile Include="DomeneModel\Flyplass.cs" />
     <Compile Include="ViewModel\KredittkortViewModel.cs" />

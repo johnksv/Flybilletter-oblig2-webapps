@@ -2,10 +2,18 @@
 
 @{
     ViewBag.Title = "Ruter";
+    var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string jsonFlyplasser = jsSerializer.Serialize(ViewBag.Flyplasser);
 }
 
 <h2>Ruter</h2>
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
 <p>
     @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
 </p>
@@ -20,6 +28,11 @@
         <span class="input-group-btn">
             <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
                 Sorter etter til flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="reisetid" style="margin-right: 0.5em;">
+                Sorter etter reisetid
             </button>
         </span>
         <span class="input-group-btn">
@@ -41,6 +54,7 @@
                 <th colspan="2">
                     Til flyplass
                 </th>
+                <th>Reisetid</th>
                 <th>
                     Pris
                 </th>
@@ -50,31 +64,38 @@
 
 
         <tbody class="list">
-            @foreach (var item in Model)
+            @foreach (var rute in Model)
             {
+                string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
+
                 <tr>
+                    @Html.HiddenFor(model => rute.ID, new { @class = "editRute" })
                     <td class="fraID">
-                        <div class="displayRute">@item.Fra.ID</div>
-                        @Html.EditorFor(modelItem => item.Fra.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="fraflyplass displayRute">@rute.Fra.ID</div>
+                        <select class="fraflyplass form-control hidden editRute input-xs" name="rute.Fra.ID" disabled> </select>
                     </td>
                     <td class="fraInfo">
-                        @item.Fra.Navn - @item.Fra.By, @item.Fra.Land
+                        @rute.Fra.Navn - @rute.Fra.By, @rute.Fra.Land
                     </td>
                     <td class="tilID">
-                        <div class="displayRute">@item.Til.ID</div>
-                        @Html.EditorFor(modelItem => item.Til.ID, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="displayRute tilflyplass">@rute.Til.ID</div>
+                        <select class="tilflyplass form-control hidden editRute input-xs" name="rute.Til.ID" disabled> </select>
                     </td>
                     <td class="tilInfo">
-                        <div >@item.Til.Navn  - @item.Til.By, @item.Til.Land</div>
+                        <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
+                    </td>
+                    <td class="reisetid">
+                        <div class="displayRute"> @reisetid </div>
+                        @Html.EditorFor(modelrute => rute.Reisetid, new { htmlAttributes = new { @class = "hidden editRute input-xs ", disabled = "", style = "max-width: 85px;", type = "time" } })
                     </td>
                     <td class="pris">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.BasePris)</div>
-                        @Html.EditorFor(modelItem => item.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "" } })
+                        <div class="displayRute">@Html.DisplayFor(modelrute => rute.BasePris)</div>
+                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
                     </td>
                     <td>
-                        @Html.ActionLink("Endre", "EndreRute", new { id = item.ID }, new { @class = "endreKnapp btn btn-default" })
-                        @Html.ActionLink("Lagre", "LagreRute", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
-                        @Html.ActionLink("Slett", "SlettRute", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger" })
+                        @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
+                        @Html.ActionLink("Lagre", "LagreRute", new { id = rute.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
+                        @Html.ActionLink("Slett", "SlettRute", new { id = rute.ID }, new { @class = "slettKnapp btn btn-danger" })
                     </td>
                 </tr>
             }
@@ -84,24 +105,62 @@
 
 </div>
 
+@if (Model.Count() >= 8)
+{
+    <p>
+        @Html.ActionLink("Lag ny rute", "LagRute", new { }, new { @class = "btn btn-primary" })
+    </p>
+}
+
 @Html.Partial("_SlettElementModal")
 
 <script>
     $(function () {
         $(".endreKnapp").click(function (event) {
             event.preventDefault();
-
-            $(this).parents("tr").find(".editRute").toggleClass("hidden").removeAttr("disabled");
-            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
-
-            $(this).text("Avbryt");
+            var parent = $(this).parents("tr");
+            //Vis input.bokser
+            parent.find(".editRute").toggleClass("hidden").removeAttr("disabled");
+            //Gjem display-values
+            parent.find(".displayRute").toggleClass("hidden");
+            //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
+            if ($(this).data("status") === "endre") {
+                $(this).text("Avbryt");
+                $(this).data("status", "avbryt");
+                populerFlyplassSelectMedOptions(parent.find(".fraflyplass.editRute"), parent.find(".fraflyplass.displayRute").html())
+                populerFlyplassSelectMedOptions(parent.find(".tilflyplass.editRute"), parent.find(".tilflyplass.displayRute").html())
+            } else {
+                $(this).text("Endre");
+                $(this).data("status", "endre");
+            }
+        });
+
+
+        $(".lagreKnapp").click(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).parents("tr").find(".editRute").serialize();
+
+            $.ajax({
+                url: "/Admin/LagreRute",
+                method: "POST",
+                data: formData,
+            }).done(function (response) {
+                if (response === "true") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
+            });
 
         });
 
+
+        //Data for list.js
         var options = {
-            valueNames: ['fraID', 'fraInfo' , 'tilID', 'tilInfo', 'pris'],
+            valueNames: ['fraID', 'fraInfo', 'tilID', 'tilInfo', 'reisetid', 'pris'],
             searchClass: "sokListe",
             sortClass: "sortListe"
         };
@@ -109,5 +168,24 @@
         var userList = new List('ruter', options);
     });
 
-</script>
 
+    var flyplasser = JSON.parse('@Html.Raw(jsonFlyplasser)');
+
+    function populerFlyplassSelectMedOptions(htmlElementID, settAktivFlyplassID)
+    {
+        var utStreng = "";
+        var aktiv = "";
+        for (var i in flyplasser) {
+            var flyplass = flyplasser[i];
+            if (flyplass.ID == settAktivFlyplassID)
+            {
+                aktiv = "selected";
+            }
+            utStreng += "<option value='" + flyplass.ID + "' " + aktiv + ">" + flyplass.ID + "</option>";
+            aktiv = "";
+        }
+
+        htmlElementID.empty().append(utStreng);
+    }
+
+</script>

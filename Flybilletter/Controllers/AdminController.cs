@@ -3,6 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,12 +19,13 @@ namespace Flybilletter.Controllers
         private IBLLFlygning bllflygning;
         private IBLLFlyplass bllflyplass;
         private IBLLRute bllrute;
+        private IBLLEndring bllendring;
 
-        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute())
+        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring())
         {
         }
 
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub, IBLLEndring endringstub)
 
         {
             bllbestilling = bestillingstub;
@@ -32,6 +34,7 @@ namespace Flybilletter.Controllers
             bllflygning = flygningstub;
             bllflyplass = flyplasstub;
             bllrute = rutestub;
+            bllendring = endringstub;
         }
 
         [HttpGet]
@@ -47,7 +50,7 @@ namespace Flybilletter.Controllers
                 // Login er gyldig, session variabel settes
                 Session["Admin"] = true;
                 gyldig = true;
-                url = "/Home/Sok";
+                url = "/Admin/Administrator";
             }
 
             return string.Format(returString, gyldig, url); ;
@@ -59,7 +62,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Bestilling> bestillinger = bllbestilling.HentAlle();
-                return View("BestillingListe", bestillinger);
+                return View("ListBestillinger", bestillinger);
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -70,6 +73,11 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Fly> fly = bllfly.HentAlle();
+
+                if(TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String) TempData["feilmelding"];
+                }
                 return View("ListFly", fly);
             }
             return RedirectToAction("Sok", "Home");
@@ -112,20 +120,14 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                var fly = bllfly.Hent(ID);
-                if (fly != null) return View("SlettFly", fly);
+                if (! bllfly.Slett(ID))
+                {
+                     TempData["feilmelding"] = "Klarte ikke slette fly fra i databasen. Mulig den har flygninger relatert til seg.";
+                }
+                
+                return RedirectToAction("Fly");
             }
             return RedirectToAction("Sok", "Home");
-        }
-
-        [HttpPost]
-        public bool SlettFly(int ID, Fly fly)
-        {
-            if (ErAdmin())
-            {
-                return bllfly.Slett(ID);
-            }
-            return false;
         }
 
         public ActionResult LagFly()
@@ -175,7 +177,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return View("NyFlyplass");
+                return View("LagFlyplass");
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -188,7 +190,7 @@ namespace Flybilletter.Controllers
                 if (ModelState.IsValid)
                 {
                     bllflyplass.LeggInn(flyplass);
-                }   
+                }
                 return RedirectToAction("Flyplasser");
             }
             return RedirectToAction("Sok", "Home");
@@ -199,7 +201,7 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var model = bllflyplass.Hent(id);
-                if(model != null)
+                if (model != null)
                 {
                     return View("EndreFlyplass", model);
                 }
@@ -223,6 +225,11 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var model = bllrute.HentAlle();
+                ViewBag.Flyplasser = bllflyplass.HentAlle();
+                if (TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
+                }
                 return View("ListRuter", model);
             }
             return RedirectToAction("Sok", "Home");
@@ -237,33 +244,85 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
         [HttpPost]
-        public ActionResult LagreRute(Rute rute)
+        public string LagreRute(Rute rute)
         {
             if (ErAdmin())
             {
-                if (ModelState.IsValid) 
-                {
+                var feilmeldinger = new List<String>();
 
+                if (!ModelState.IsValidField("rute.ID"))
+                {
+                    ModelState.TryGetValue("rute.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig id: {hvorfor}.");
                 }
-                return View(rute);
+                if (!ModelState.IsValidField("rute.BasePris"))
+                {
+                    ModelState.TryGetValue("rute.BasePris", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig pris: {hvorfor} .");
+                }
+                if (!ModelState.IsValidField("rute.Reisetid"))
+                {
+                    ModelState.TryGetValue("rute.Reisetid", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig id: {hvorfor}.");
+                }
+                if (!ModelState.IsValidField("rute.Fra.ID"))
+                {
+                    ModelState.TryGetValue("rute.Fra.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig fra Flyplass: {hvorfor}.");
+                }
+                if (!ModelState.IsValidField("rute.Til.ID"))
+                {
+                    ModelState.TryGetValue("rute.Til.ID", out var value);
+                    string hvorfor = value.Errors.First().ErrorMessage;
+                    feilmeldinger.Add($"Ugyldig til flyplass: {hvorfor}.");
+                }
+
+                if (rute.Fra.ID != "OSL" && rute.Til.ID != "OSL")
+                {
+                    feilmeldinger.Add("Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).");
+                }
+                if (rute.Fra.ID == rute.Til.ID)
+                {
+                    feilmeldinger.Add("Rute kan ikke ha samme til og fra.");
+                }
+
+
+                if (feilmeldinger.Count > 0)
+                {
+                    return String.Join("\n", feilmeldinger);
+                }
+
+                bool ok = bllrute.LagreRute(rute);
+                if (ok)
+                {
+                    return "true";
+                }
+                else
+                {
+                    return "En feil oppsto med lagring i database.";
+                }
+
             }
-            return RedirectToAction("Sok", "Home");
+            return "NotAdmin";
         }
 
         public ActionResult SlettRute(int id)
         {
             if (ErAdmin())
             {
-                if (bllrute.Slett(id))
+                if (! bllrute.Slett(id))
                 {
-                    return RedirectToAction("Ruter");
+                    TempData["feilmelding"] = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
                 }
-                ViewBag.Feilmelding = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
-
+                return RedirectToAction("Ruter");
             }
             return RedirectToAction("Sok", "Home");
         }
-      
+
 
         public ActionResult Kunder()
         {
@@ -284,11 +343,38 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult LagreKunde(Kunde kunde)
+        public string LagreKunde(Kunde item)
         {
-            if (bllkunde.LeggInn(kunde))
-                return RedirectToAction("Kunder");
-            else return RedirectToAction("Sok", "Home");
+            if (ErAdmin())
+            {
+                if (ModelState.IsValid)
+                {
+                    if (bllkunde.Oppdater(item))
+                    {
+                        return "true";
+                    }
+                    return "En feil oppsto med lagring i database.";
+                }
+                var feilmeldinger = new List<String>();
+
+                for (var i = 0; i < ModelState.Keys.Count(); i++)
+                {
+                    var value = ModelState.Values.ElementAt(i);
+                    if (value.Errors.Count > 0)
+                    {
+                        string hva = ModelState.Keys.ElementAt(i).Substring(5);
+                        string hvorfor = value.Errors.First().ErrorMessage;
+                        feilmeldinger.Add($"Ugyldig {hva}: {hvorfor}.");
+                    }
+                }
+
+                if (feilmeldinger.Count > 0)
+                {
+                    return String.Join("\n", feilmeldinger);
+                }
+
+            }
+            return "NotAdmin";
         }
 
         public ActionResult EndreKunde(int id)
@@ -379,6 +465,16 @@ namespace Flybilletter.Controllers
             {
                 bllflygning.OppdaterStatus(id);
                 return RedirectToAction("Flygninger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+        public ActionResult Administrator()
+        {
+            if (ErAdmin())
+            {
+                ViewBag.FeilFraFil = bllendring.ParseFeil(@"..\DAL\flybilletter-log.txt");
+                ViewBag.Endringer = bllendring.Hent();
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }

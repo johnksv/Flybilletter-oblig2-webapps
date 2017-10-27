@@ -398,6 +398,20 @@ namespace Enhetstesting
         }
 
         [TestMethod]
+        public void Kvittering()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var faktisk = (ViewResult)controller.Kvittering();
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual(null, faktisk.Model);
+        }
+
+        [TestMethod]
         public void HentPoststedNaarEksiterer()
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
@@ -426,6 +440,61 @@ namespace Enhetstesting
             Assert.AreEqual("UGYLDIG POSTNUMMER", faktisk);
         }
 
+        [TestMethod]
+        public void SlettBestillingFoer48TimerRiktigFlyIkkeGaatt()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            bool faktisk = controller.SlettBestilling("AAB123");
+
+            Assert.AreEqual(true, faktisk);
+        }
+
+        [TestMethod]
+        public void SlettBestillingFoer48TimerFeilFlyIkkeGaatt()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            bool faktisk = controller.SlettBestilling("AAA123");
+
+            Assert.AreEqual(false, faktisk);
+        }
+
+        [TestMethod]
+        public void SlettBestilling48TimerRiktigFlyGaatt()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            bool faktisk = controller.SlettBestilling("ABB123");
+
+            Assert.AreEqual(false, faktisk);
+        }
+
+        [TestMethod]
+        public void SlettBestilling48TimerFeilFlyGaatt()
+        {
+            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
+            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+
+            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            bool faktisk = controller.SlettBestilling("ABC123");
+
+            Assert.AreEqual(false, faktisk);
+        }
         private static Reise GenererNyReise()
         {
             var rute = new Rute()

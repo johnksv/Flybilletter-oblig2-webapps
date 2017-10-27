@@ -1,7 +1,9 @@
 ﻿@model Flybilletter.Model.DomeneModel.Kunde
+@{ 
+    ViewBag.Title("Lag ny kunde")
+}
 
-
-<h2>Lag Kunde</h2>
+<h2>Lag ny kunde</h2>
 @using (Html.BeginForm("LagreKunde", "Admin", FormMethod.Post, new { @class = "lagKunde", autocomplete = "false" }))
 {
     <div class="row">

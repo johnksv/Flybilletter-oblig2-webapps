@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Bestilling>
+
+@{
+    ViewBag.Title = "Bestillinger";
+}
+
+<h2>Bestillinger</h2>
+<div id="bestillinger">
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="referanse" style="margin-right: 0.5em;">
+                Sorter etter referanse
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="bestil" style="margin-right: 0.5em;">
+                Sorter etter bestillingstidspunkt
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="antallpass" style="margin-right: 0.5em;">
+                Sorter etter antall passasjerer
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="totalpris" style="margin-right: 0.5em;">
+                Sorter etter totalpris
+            </button>
+        </span>
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Referanse)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bestillingstidspunkt)
+                </th>
+                <th>
+                    Antall passasjerer
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Totalpris)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="referanse">
+                        @Html.DisplayFor(modelItem => item.Referanse)
+                    </td>
+                    <td class="bestil">
+                        @Html.DisplayFor(modelItem => item.Bestillingstidspunkt)
+                    </td>
+                    <td class="antalpass">
+                        @item.Passasjerer.Count
+                    </td>
+                    <td class="totalpris">
+                        @Html.DisplayFor(modelItem => item.Totalpris)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detaljer", "SeDetaljerBestilling", new { referanse = item.Referanse }, new { @class = "btn btn-primary" })
+
+                        @if (DateTime.Now < item.FlygningerTur.First().AvgangsTid)
+                {
+                            @Html.ActionLink("Slett", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "slettknapp btn btn-danger" })
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-default" title="Første fly har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Slett</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+<p>Bestillinger kan legges til ved å gå til <a href="/Home/Sok">søk flygninger</a>.</p>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(".slettknapp").click(function (event) {
+            event.preventDefault();
+            var that = $(this);
+            $.ajax({
+                type: "POST",
+                url: that.attr("href")
+            }).done(function (response) {
+                if (response == "True") {
+                    that.parents("tr").remove();
+                } else {
+                    alert("En feil oppsto. Kan ikke slette");
+                }
+            });
+
+        });
+
+
+        //Data for list.js
+        var options = {
+            valueNames: ['referanse', 'bestil', 'antalpass', 'totalpris'],
+            searchClass: "sokListe",
+            sortClass: "sortListe"
+        };
+
+        var userList = new List('bestillinger', options);
+    });
+</script>

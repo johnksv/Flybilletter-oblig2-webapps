@@ -1,0 +1,22 @@
+﻿@model List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>
+
+<h4>Feilmeldinger lagret i fil:</h4>
+<table class="table">
+    <tr>
+        <th>Tidspunkt</th>
+        <th>Feilmelding</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tidspunkt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Feilmelding)
+            </td>
+        </tr>
+    }
+
+</table>

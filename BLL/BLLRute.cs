@@ -32,6 +32,11 @@ namespace BLL
             return dbRute.HentAlle();
         }
 
+        public bool LagreRute(Rute rute)
+        {
+            return dbRute.LagreRute(rute);
+        }
+
         public bool Slett(int id)
         {
             return dbRute.Slett(id);

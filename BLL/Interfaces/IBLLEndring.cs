@@ -1,4 +1,5 @@
 ﻿using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BLL
     public interface IBLLEndring
     {
         List<Endring> Hent();
+        List<FeilFraFilViewModel> ParseFeil(string filePath);
     }
 }

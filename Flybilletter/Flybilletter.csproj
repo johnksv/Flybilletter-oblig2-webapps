@@ -162,7 +162,7 @@
     <Content Include="Views\Home\BetalingFeilet.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Postnummer.cshtml" />
     <Content Include="Views\Shared\_AdminLogin.cshtml" />
-    <Content Include="Views\Admin\BestillingListe.cshtml" />
+    <Content Include="Views\Admin\ListBestillinger.cshtml" />
     <Content Include="Views\Admin\ListFly.cshtml" />
     <Content Include="Views\Admin\RedigerFly.cshtml" />
     <Content Include="Views\Admin\ListKunder.cshtml" />
@@ -173,14 +173,15 @@
     <Content Include="Views\Admin\LagFly.cshtml" />
     <Content Include="Views\Admin\ListFlyplasser.cshtml" />
     <Content Include="Views\Admin\EndreFlyplass.cshtml" />
-    <Content Include="Views\Admin\NyFlyplass.cshtml" />
+    <Content Include="Views\Admin\LagFlyplass.cshtml" />
     <Content Include="Views\Admin\EditorTemplates\Flyplass.cshtml" />
     <Content Include="Views\Admin\Administrator.cshtml" />
     <Content Include="Views\Admin\ListRuter.cshtml" />
     <Content Include="Views\Admin\LagRute.cshtml" />
     <Content Include="Views\Admin\_SlettElementModal.cshtml" />
-    <Content Include="Views\Admin\LagFlygning.cshtml" />
     <Content Include="Views\Admin\LagNyFlygning.cshtml" />
+    <Content Include="Views\Admin\_ListFeilFraFil.cshtml" />
+    <Content Include="Views\Admin\_ListEndringerFraDB.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

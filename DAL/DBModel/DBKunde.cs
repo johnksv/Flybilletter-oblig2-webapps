@@ -43,7 +43,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn kunder.");
                 return false;
             }
 
@@ -64,7 +64,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                 }catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å finne ut om kunde allerede eksisterer i database.");
                 }
                 try
                 {
@@ -97,7 +97,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn ny kunde");
                     return null;
                 }
             }
@@ -161,7 +161,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere kunde");
                     return false;
                 }
             }
@@ -177,13 +177,18 @@ namespace Flybilletter.DAL.DBModel
                     if (kunde != null)
                     {
                         db.Kunder.Remove(kunde);
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Tidspunkt = DateTime.Now,
+                            Endring = "Slett kunde med ID " + id
+                        });
                         db.SaveChanges();
                         return true;
                     }
                     return false;
                 }catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e);
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å slette kunde med ID " + id);
                     return false;
                 }
                 
