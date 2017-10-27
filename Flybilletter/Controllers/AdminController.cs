@@ -343,6 +343,18 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
+        public ActionResult LeggTilKunde(Kunde kunde)
+        {
+            if (ErAdmin())
+            {
+                if (bllkunde.LeggInn(kunde))
+                    return RedirectToAction("Kunder");
+                else return RedirectToAction("Kunder");
+            }
+                return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
         public string LagreKunde(Kunde item)
         {
             if (ErAdmin())

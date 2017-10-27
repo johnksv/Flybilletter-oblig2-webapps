@@ -1,10 +1,11 @@
 ﻿@model Flybilletter.Model.DomeneModel.Kunde
-@{ 
-    ViewBag.Title("Lag ny kunde")
+ 
+@{
+     ViewBag.Title = "Lag ny kunde";
 }
 
 <h2>Lag ny kunde</h2>
-@using (Html.BeginForm("LagreKunde", "Admin", FormMethod.Post, new { @class = "lagKunde", autocomplete = "false" }))
+@using (Html.BeginForm("LeggTilKunde", "Admin", FormMethod.Post, new { @class = "lagKunde", autocomplete = "false" }))
 {
     <div class="row">
         <div class="col-md-6">
@@ -23,7 +24,7 @@
     </div>
     <br/>
     <div>
-        @Html.ActionLink("Tilbake til listen", "Kunder", new { },  new { @class = "btn btn-primary" })
+        @Html.ActionLink("Avbryt", "Kunder", new { },  new { @class = "btn btn-primary" })
     </div>
 
 }
