@@ -1,82 +1,124 @@
 ﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Flygning>
 
 @{
-    ViewBag.Title = "List Flygning";
+    ViewBag.Title = "Flygninger";
     var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     string jsonFlygninger = jsSerializer.Serialize(Model);
 }
 
-<h2>List Flygning</h2>
+<h2>Flygninger</h2>
 
-<div class="pull-right">
+<p>
+    @Html.ActionLink("Lag ny flygning", "LagFlygning", new { }, new { @class = "btn btn-primary" })
+</p>
+
+<div id="flygninger table-responsive">
+
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="fraID" style="margin-right: 0.5em;">
+                Sorter etter fra flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
+                Sorter etter til flyplass
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="avgang" style="margin-right: 0.5em;">
+                Sorter etter avgangstid
+            </button>
+        </span>
+        <span class="input-group-btn">
+            <button class="sortListe btn btn-sm btn-info" data-sort="ankomst" style="margin-right: 0.5em;">
+                Sorter etter ankomsttid
+            </button>
+        </span>
+        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    Fra flyplass
+                </th>
+                <th colspan="2">
+                    Til flyplass
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fly.Modell)
+                </th>
+                <th>
+                    Avgangstid
+                </th>
+                <th>
+                    Ankomsttid
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fraID">
+                        @item.Rute.Fra.ID
+                    </td>
+                    <td class="fra">
+                        @item.Rute.Fra.Navn - @item.Rute.Fra.By, @item.Rute.Fra.Land
+                    </td>
+                    <td class="tilID">
+                        @item.Rute.Til.ID
+                    </td>
+                    <td class="til">
+                        @item.Rute.Til.Navn - @item.Rute.Til.By, @item.Rute.Til.Land
+                    </td>
+                    <td class="fly">
+                        @Html.DisplayFor(modelItem => item.Fly.Modell)
+                    </td>
+                    <td class="avgang">
+                        @Html.DisplayFor(modelItem => item.AvgangsTid)
+                    </td>
+                    <td class="ankomst">
+                        @Html.DisplayFor(modelItem => item.AnkomstTid)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Endre", "EndreFlygning", new { id = item.ID }, new { @class = "btn btn-default" })
+
+                        @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
+                        {
+                            @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" })
+                        }
+                        else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
+                        {
+                            @Html.ActionLink("Aktiver", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success", data_val = "aktivere", data_tittel = "Aktiver" })
+                        }
+                        else
+                        {
+                            if (item.Kansellert == true)
+                            {
+                                <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke aktiveres" data-toggle="tooltip">Aktiver</a>
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Kanseller</a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (Model.Count() >= 8)
+{
     <p>
         @Html.ActionLink("Lag ny flygning", "LagFlygning", new { }, new { @class = "btn btn-primary" })
     </p>
-</div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Rute.Fra)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rute.Til)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fly.Modell)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AvgangsTid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnkomstTid)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rute.Fra.ID) (@Html.DisplayFor(modelItem => item.Rute.Fra.Navn), @Html.DisplayFor(modelItem => item.Rute.Fra.By))
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rute.Til.ID) (@Html.DisplayFor(modelItem => item.Rute.Til.Navn), @Html.DisplayFor(modelItem => item.Rute.Til.By))
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fly.Modell)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AvgangsTid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnkomstTid)
-        </td>
-        <td>
-            @Html.ActionLink("Endre", "EndreFlygning", new { id=item.ID }, new { @class = "btn btn-default" })
-
-            @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
-            {
-                @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger"})
-            }
-            else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
-            {
-                @Html.ActionLink("Aktiver", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success" })
-            }
-            else
-            {
-                if(item.Kansellert == true)
-                {
-                    <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke aktivere" data-toggle="tooltip">Aktiver</a>
-                }
-                else
-                {
-                    <a href="#" class="btn btn-default" title="Flyet har allerede hatt avgang, kan derfor ikke kansellere" data-toggle="tooltip">Kanseller</a>
-                }
-            }
-        </td>
-    </tr>
 }
-
-</table>
 
 <!--TODO: fiks dette til å bli dynamisk i forhold til hva som trykkes (Kanseller/Aktiver)-->
 <div class="modal" id="sikkersletting" role="dialog">
@@ -84,11 +126,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Kansellere/Aktivere</h4>
+                <h4 class="modal-title" id="modalEditAktiver"></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Er du sikker på at du vil kansellere eller aktivere?</label>
+                    <label>Er du sikker på at du vil <span id="endreType"></span> flygningen?</label>
                     <button type="submit" id="slette" class="btn btn-success" value="true">Ja</button>
                     <button type="submit" id="ikkeslett" class="btn btn-danger" value="false">Nei</button>
                 </div>
@@ -102,6 +144,9 @@
         $(".slettKnapp").click(function (event) {
             event.preventDefault();
             var that = $(this);
+            
+            $("#modalEditAktiver").html(that.data("tittel"));
+            $("#endreType").html(that.data("val"));
             $("#sikkersletting").modal("show");
 
             $("#slette").click(function (event2) {
@@ -114,7 +159,14 @@
 
         });
 
-        
+        //Data for list.js
+        var options = {
+            valueNames: ['fra', 'fraID', 'til', 'tilID', 'fly', 'avgang', 'ankomst'],
+            searchClass: "sokListe",
+            sortClass: "sortListe"
+        };
+
+        var userList = new List('flygninger', options);
 
     });
 
