@@ -177,7 +177,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return View("NyFlyplass");
+                return View("LagFlyplass");
             }
             return RedirectToAction("Sok", "Home");
         }

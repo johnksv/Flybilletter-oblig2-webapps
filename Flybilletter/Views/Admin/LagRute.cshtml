@@ -1,17 +1,16 @@
 ﻿@model Flybilletter.Model.DomeneModel.Rute
 
 @{
-    ViewBag.Title = "NyRute";
+    ViewBag.Title = "Lag ny rute";
 }
 
-<h2>NyRute</h2>
+<h2>Lag ny rute</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Rute</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
