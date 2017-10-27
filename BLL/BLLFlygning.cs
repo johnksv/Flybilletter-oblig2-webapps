@@ -97,9 +97,15 @@ namespace BLL
             return dbFlygning.HentEnFlygning(id);
         }
 
-        public bool LeggInnFlygning(Flygning flygning)
+        public bool LeggInnFlygning(LagFlygningViewModel flygning)
         {
-            return dbFlygning.LeggInnFlygning(flygning);
+
+            return dbFlygning.LeggInnFlygning(new Flygning()
+            {
+                Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
+                Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
+                AvgangsTid = flygning.AvgangsTid
+            });
         }
 
         public bool OppdaterFlygning(Flygning flygning)

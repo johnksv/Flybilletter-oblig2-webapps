@@ -149,15 +149,18 @@ namespace Flybilletter.DAL.DBModel
                 try
                 {
                     db.Flygninger.Add(dbflygning);
+                    dbflygning.Rute = db.Ruter.Find(dbflygning.Rute.ID);
+                    dbflygning.Fly = db.Fly.Find(dbflygning.Fly.ID);
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "La til flygning med ID: " + dbflygning.ID
+                        Endring = "La til flygning ny flygning mellom: " + dbflygning.Rute.Fra + " - " + dbflygning.Rute.Til
                     });
                     db.SaveChanges();
                     return true;
                 }catch(Exception e)
                 {
+                    Console.WriteLine(e);
                     //TODO fiks etter pull
                     return false;
                 }

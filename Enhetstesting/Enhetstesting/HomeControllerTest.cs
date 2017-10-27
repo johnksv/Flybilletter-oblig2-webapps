@@ -444,14 +444,14 @@ namespace Enhetstesting
                     Land = "Norge",
                     Navn = "Bodø Lufthavn"
                 },
-                BasePris = 1099
+                BasePris = 1099,
+                Reisetid = new TimeSpan(1,0,0)
             };
 
             var flygning = new Flygning()
             {
                 ID = 10,
                 Rute = rute,
-                AnkomstTid = DateTime.Now,
                 AvgangsTid = DateTime.Now.AddHours(1),
                 Fly = new Fly()
                 {

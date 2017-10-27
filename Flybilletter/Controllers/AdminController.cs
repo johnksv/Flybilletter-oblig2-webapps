@@ -357,14 +357,15 @@ namespace Flybilletter.Controllers
             {
                 ViewBag.ruter = bllrute.HentAlle();
                 ViewBag.fly = bllfly.HentAlle();
-                return View("LagFlygning");
+                return View("LagNyFlygning");
             }
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult LagreFlygning(Flygning flygning)
+        [HttpPost]
+        public ActionResult LagreFlygning(LagFlygningViewModel flygning)
         {
-            if (ErAdmin())
+            if (ErAdmin()) //Funker, må bare gjøre om så logikk skjer i bll eller dal. dvs sende med viewmodel helt til bll eller dal
             {
                 bllflygning.LeggInnFlygning(flygning);
                 return RedirectToAction("Flygninger");
