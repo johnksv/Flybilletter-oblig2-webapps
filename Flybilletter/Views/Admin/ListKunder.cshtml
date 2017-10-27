@@ -69,15 +69,15 @@
                     @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
                     <td class="fornavn">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Fornavn)</div>
-                        @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="etternavn">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Etternavn)</div>
-                        @Html.EditorFor(modelItem => item.Etternavn, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        @Html.EditorFor(modelItem => item.Etternavn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="fodselsdag">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Fodselsdag)</div>
-                        @Html.EditorFor(modelItem => item.Fodselsdag, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        @Html.EditorFor(modelItem => item.Fodselsdag, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="adresse">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Adresse)</div>
@@ -85,7 +85,7 @@
                     </td>
                     <td class="tlf">
                         <div class="displayRute">@Html.DisplayFor(modelItem => item.Tlf)</div>
-                        @Html.EditorFor(modelItem => item.Tlf, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        @Html.EditorFor(modelItem => item.Tlf, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 75px;" } })
                     </td>
                     <td class="epost">
                         <div class="displayRute"> @Html.DisplayFor(modelItem => item.EPost) </div>
@@ -93,7 +93,7 @@
                     </td>
                     <td class="postnummer">
                         <div class="displayRute"> @Html.DisplayFor(modelItem => item.Postnr) </div>
-                        @Html.EditorFor(modelItem => item.Postnr, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        @Html.EditorFor(modelItem => item.Postnr, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 50px;" } })
                     </td>
                     <td class="poststed">
                         <div class="displayRute"> @Html.DisplayFor(modelItem => item.Poststed)</div>
