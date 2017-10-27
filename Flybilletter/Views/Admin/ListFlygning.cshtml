@@ -63,6 +63,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <input class="editRute hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." id="id" name="id" type="hidden" value="52">
                     <td class="fraID">
                         @item.Rute.Fra.ID
                     </td>
@@ -79,8 +80,8 @@
                         @Html.DisplayFor(modelItem => item.Fly.Modell)
                     </td>
                     <td class="avgang">
-                      <div class="displayRute">  @Html.DisplayFor(modelItem => item.AvgangsTid)</div>
-                        @Html.EditorFor(model => item.AvgangsTid, new { htmlAttributes = new { type = "datetime-local", @class = "form-control hidden editRute input-xs", style = "max-width: 195px;" } })
+                        <div class="displayRute">  @Html.DisplayFor(modelItem => item.AvgangsTid)</div>
+                        <input class="form-control editRute input-xs hidden text-box single-line" data-val="true" data-val-date="The field AvgangsTid must be a date." data-val-required="Feltet AvgangsTid er obligatorisk." id="nyAvgangstid" name="nyAvgangstid" style="max-width: 195px;" type="datetime-local" value="@item.AvgangsTid">
                     </td>
                     <td class="ankomst">
                         @Html.DisplayFor(modelItem => item.AnkomstTid)
@@ -116,7 +117,7 @@
 </div>
 
 @if (Model.Count() >= 8)
-{
+            {
     <p>
         @Html.ActionLink("Lag ny flygning", "LagFlygning", new { }, new { @class = "btn btn-primary" })
     </p>
@@ -146,7 +147,7 @@
         $(".slettKnapp").click(function (event) {
             event.preventDefault();
             var that = $(this);
-            
+
             $("#modalEditAktiver").html(that.data("tittel"));
             $("#endreType").html(that.data("val"));
             $("#sikkersletting").modal("show");

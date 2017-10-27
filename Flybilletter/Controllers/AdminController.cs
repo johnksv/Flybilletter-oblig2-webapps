@@ -457,14 +457,15 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult EndreFlygning(int id)
+        [HttpPost]
+        public string EndreFlygning(int id, DateTime nyAvgangstid)
         {
             if (ErAdmin())
             {
-                var flygning = bllflygning.HentEnFlygning(id);
-                return View("RedigerFlygning", flygning);
+                
+                return "true";
             }
-            return RedirectToAction("Sok", "Home");
+            return "NotAdmin";
         }
 
         public ActionResult OppdaterFlygning(Flygning flygning)
