@@ -1,35 +1,94 @@
-﻿@model Flybilletter.Model.DomeneModel.Rute
+﻿@model Flybilletter.Model.ViewModel.NyRuteViewModel
 
 @{
-    ViewBag.Title = "NyRute";
+    ViewBag.Title = "Ny rute";
+    var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    string jsonFlyplasser = jsSerializer.Serialize(ViewBag.Flyplasser); 
 }
 
-<h2>NyRute</h2>
+<h2>Ny rute</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Rute</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.BasePris, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="model.Fra.ID">Fra flyplass</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BasePris, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BasePris, "", new { @class = "text-danger" })
+                <select id="fraflyplass" class="form-control input-xs" name="FraFlyplassID"> </select>
+                @Html.ValidationMessageFor(model => model.FraFlyplassID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="model.Til.ID">Til flyplass</label>
+            <div class="col-md-10">
+                <select id="tilflyplass" class="form-control input-xs" name="TilFlyplassID"> </select>
+                @Html.ValidationMessageFor(model => model.TilFlyplassID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Reisetid">Reisetid (timer.minutt)</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Reisetid, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                @Html.ValidationMessageFor(model => model.Reisetid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Basepris">Basepris (i NOK)</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Basepris, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Basepris, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <button type="submit" class="btn btn-success">Lagre</button>
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Tilbake til listen", "Ruter", new { }, new { @class = "btn btn-primary" })
 </div>
+
+
+<script>
+
+    $(function () {
+
+        populerFlyplassSelectMedOptions($("#fraflyplass"), "OSL");
+        populerFlyplassSelectMedOptions($("#tilflyplass"), null);
+
+
+    });
+
+
+    var flyplasser = JSON.parse('@Html.Raw(jsonFlyplasser)');
+
+    function populerFlyplassSelectMedOptions(htmlElementID, settAktivFlyplassID)
+    {
+        var utStreng = "";
+        var aktiv = "";
+        for (var i in flyplasser) {
+            var flyplass = flyplasser[i];
+            if (flyplass.ID == settAktivFlyplassID)
+            {
+                aktiv = "selected";
+            }
+            utStreng += "<option value='" + flyplass.ID + "' " + aktiv + ">" + flyplass.ID + "</option>";
+            aktiv = "";
+        }
+
+        htmlElementID.empty().append(utStreng);
+    }
+
+</script>

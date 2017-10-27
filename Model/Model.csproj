@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomeneModel\Reise.cs" />
     <Compile Include="DomeneModel\Rute.cs" />
+    <Compile Include="ViewModel\NyRuteViewModel.cs" />
     <Compile Include="ViewModel\SokViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

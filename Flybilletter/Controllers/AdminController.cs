@@ -3,10 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Flybilletter.Controllers
@@ -74,9 +71,9 @@ namespace Flybilletter.Controllers
             {
                 List<Fly> fly = bllfly.HentAlle();
 
-                if(TempData["feilmelding"] != null)
+                if (TempData["feilmelding"] != null)
                 {
-                    ViewBag.Feilmelding = (String) TempData["feilmelding"];
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
                 }
                 return View("ListFly", fly);
             }
@@ -120,11 +117,11 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (! bllfly.Slett(ID))
+                if (!bllfly.Slett(ID))
                 {
-                     TempData["feilmelding"] = "Klarte ikke slette fly fra i databasen. Mulig den har flygninger relatert til seg.";
+                    TempData["feilmelding"] = "Klarte ikke slette fly fra i databasen. Mulig den har flygninger relatert til seg.";
                 }
-                
+
                 return RedirectToAction("Fly");
             }
             return RedirectToAction("Sok", "Home");
@@ -239,10 +236,41 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
+                ViewBag.Flyplasser = bllflyplass.HentAlle();
                 return View();
             }
             return RedirectToAction("Sok", "Home");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LagRute(NyRuteViewModel rute)
+        {
+            if (ErAdmin())
+            {
+                if (rute.FraFlyplassID == rute.TilFlyplassID)
+                {
+                    ModelState.AddModelError("TilFlyplassID", "Flyplassene må være ulik");
+                }
+                if (rute.FraFlyplassID != "OSL" && rute.TilFlyplassID != "OSL")
+                {
+                    ModelState.AddModelError("TilFlyplassID", "Minst en av flygningene må gå til OSL på grunn av begrensninger gjort i oblig 1.");
+                }
+                if (ModelState.IsValid)
+                {
+                    if (! bllrute.LagRute(rute))
+                    {
+                        TempData["feilmelding"] = "En feil oppso under lagring av ruten til databasen";
+                    }
+                    return RedirectToAction("Ruter");
+                }
+                ViewBag.Flyplasser = bllflyplass.HentAlle();
+                return View(rute);
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+
         [HttpPost]
         public string LagreRute(Rute rute)
         {
@@ -314,7 +342,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (! bllrute.Slett(id))
+                if (!bllrute.Slett(id))
                 {
                     TempData["feilmelding"] = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
                 }

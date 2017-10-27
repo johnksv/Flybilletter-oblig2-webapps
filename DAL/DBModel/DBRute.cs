@@ -46,8 +46,9 @@ namespace Flybilletter.DAL.DBModel
                     rute.Reisetid = innrute.Reisetid;
                     rute.BasePris = innrute.BasePris;
 
-                    db.Endringer.Add(new DBEndring() {
-                        Endring ="Endrer rute med nye verdier.",
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = $"Endrer rute med nye verdier. Ny verdier: fra flyplass: {rute.Fra.ID}, til flyplass: {rute.Til.ID}, reisetid: {rute.Reisetid}, pris: {rute.BasePris} ",
                         Tidspunkt = DateTime.Now
                     });
 
@@ -59,6 +60,37 @@ namespace Flybilletter.DAL.DBModel
                     catch (Exception e)
                     {
                         DALsetup.LogFeilTilFil("DBRute:LagreRute", e, "Lagring til databasen feilet.");
+                    }
+                }
+                return false;
+            }
+        }
+
+        public bool LagRute(Rute innrute)
+        {
+            using (var db = new DB())
+            {
+                var rute = Mapper.Map<DBRute>(innrute);
+                var fraFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Fra.ID);
+                var tilFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Til.ID);
+
+                if (fraFlyplass.ID == tilFlyplass.ID || (fraFlyplass.ID != "OSL" && tilFlyplass.ID != "OSL")) return false;
+                if (fraFlyplass != null && tilFlyplass != null)
+                {
+                    rute.Fra = fraFlyplass;
+                    rute.Til = tilFlyplass;
+                    db.Flyplasser.Attach(fraFlyplass);
+                    db.Flyplasser.Attach(tilFlyplass);
+                    db.Ruter.Add(rute);
+
+                    try
+                    {
+                        db.SaveChanges();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        DALsetup.LogFeilTilFil("DBRute:LagRute", e, "Lagring til databasen feilet.");
                     }
                 }
                 return false;

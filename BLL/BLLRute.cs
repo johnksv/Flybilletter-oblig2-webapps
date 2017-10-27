@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Flybilletter.Model.DomeneModel;
 using Flybilletter.DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
+using Flybilletter.Model.ViewModel;
 
 namespace BLL
 {
@@ -30,6 +31,25 @@ namespace BLL
         public bool LagreRute(Rute rute)
         {
             return dbRute.LagreRute(rute);
+        }
+
+        public bool LagRute(NyRuteViewModel rute)
+        {
+            Rute nyRute = new Rute()
+            {
+                Fra = new Flyplass()
+                {
+                    ID = rute.FraFlyplassID
+                },
+                Til = new Flyplass()
+                {
+                    ID = rute.TilFlyplassID
+                },
+                Reisetid = rute.Reisetid,
+                BasePris = rute.Basepris
+            };
+
+            return dbRute.LagRute(nyRute);
         }
 
         public bool Slett(int id)
