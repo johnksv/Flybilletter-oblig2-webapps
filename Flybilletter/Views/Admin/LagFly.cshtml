@@ -1,10 +1,10 @@
 ﻿@model Flybilletter.Model.DomeneModel.Fly
 
 @{
-    ViewBag.Title = "Legg til nytt fly";
+    ViewBag.Title = "Lag nytt fly";
 }
 
-<h2>Legg til nytt fly</h2>
+<h2>Lag nytt fly</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -38,5 +38,5 @@
 }
 
 <div>
-    @Html.ActionLink("Tilbake til listen", "Fly", new { }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Avbryt", "Fly", new { }, new { @class = "btn btn-primary" })
 </div>

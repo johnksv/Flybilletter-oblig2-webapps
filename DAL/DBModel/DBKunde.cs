@@ -177,6 +177,11 @@ namespace Flybilletter.DAL.DBModel
                     if (kunde != null)
                     {
                         db.Kunder.Remove(kunde);
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Tidspunkt = DateTime.Now,
+                            Endring = "Slett kunde med ID " + id
+                        });
                         db.SaveChanges();
                         return true;
                     }

@@ -18,6 +18,14 @@ namespace Flybilletter.DAL.DBModel
         public TimeSpan Reisetid { get; set; }
         public virtual List<DBFlygning> Flygninger { get; set; }
 
+        public Rute Hent(int ruteID)
+        {
+            using (var db = new DB())
+            {
+                return Mapper.Map<Rute>(db.Ruter.Find(ruteID));
+            }
+        }
+
         public List<Rute> HentAlle()
         {
             using (var db = new DB())

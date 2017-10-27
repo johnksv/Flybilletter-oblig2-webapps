@@ -174,7 +174,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return View("NyFlyplass");
+                return View("LagFlyplass");
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -371,6 +371,18 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
+        public ActionResult LeggTilKunde(Kunde kunde)
+        {
+            if (ErAdmin())
+            {
+                if (bllkunde.LeggInn(kunde))
+                    return RedirectToAction("Kunder");
+                else return RedirectToAction("Kunder");
+            }
+                return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
         public string LagreKunde(Kunde item)
         {
             if (ErAdmin())
@@ -460,6 +472,28 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 bllflygning.OppdaterFlygning(flygning);
+                return RedirectToAction("Flygninger");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        public ActionResult LagFlygning()
+        {
+            if (ErAdmin())
+            {
+                ViewBag.ruter = bllrute.HentAlle();
+                ViewBag.fly = bllfly.HentAlle();
+                return View("LagNyFlygning");
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagreFlygning(LagFlygningViewModel flygning)
+        {
+            if (ErAdmin())
+            {
+                bllflygning.LeggInnFlygning(flygning);
                 return RedirectToAction("Flygninger");
             }
             return RedirectToAction("Sok", "Home");

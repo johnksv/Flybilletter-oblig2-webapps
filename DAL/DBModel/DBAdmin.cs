@@ -45,6 +45,13 @@ namespace Flybilletter.DAL.DBModel
                             Password = HashPassord(admin.Password, salt)
                         };
                         db.Administratorer.Add(dbadmin);
+
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Tidspunkt = DateTime.Now,
+                            Endring = "Legg til administrator med brukernavn " + admin.Username
+                        });
+                        db.SaveChanges();
                     }
                     return true;
                 } catch (Exception e)

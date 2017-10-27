@@ -6,6 +6,11 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBRuteStub : IDBRute
     {
+        public Rute Hent(int ruteID)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Rute> HentAlle()
         {
             throw new System.NotImplementedException();

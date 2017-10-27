@@ -1,12 +1,12 @@
 ﻿@model Flybilletter.Model.ViewModel.NyRuteViewModel
 
 @{
-    ViewBag.Title = "Ny rute";
+    ViewBag.Title = "Lag ny rute";
     var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     string jsonFlyplasser = jsSerializer.Serialize(ViewBag.Flyplasser); 
 }
 
-<h2>Ny rute</h2>
+<h2>Lag ny rute</h2>
 
 @using (Html.BeginForm())
 {

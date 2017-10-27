@@ -23,6 +23,11 @@ namespace BLL
             this.dbRute = rutestub;
         }
 
+        public Rute Hent(int ruteID)
+        {
+            return dbRute.Hent(ruteID);
+        }
+
         public List<Rute> HentAlle()
         {
             return dbRute.HentAlle();
