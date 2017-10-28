@@ -36,23 +36,19 @@ namespace Flybilletter.Controllers
             blladmin = adminstub;
         }
 
-        [HttpGet]
-        public string LoginAttempt(string username, string password)
+        [HttpPost]
+        public bool LoginAttempt(string username, string password)
         {
-            string returString = "{{ \"gyldig\":\"{0}\", \"url\":\"{1}\" }}";
-            string url = "";
-            bool gyldig = false;
             BLLAdmin bllAdmin = new BLLAdmin();
 
             if (bllAdmin.IsPassordGyldig(username, password))
             {
                 // Login er gyldig, session variabel settes
                 Session["Admin"] = true;
-                gyldig = true;
-                url = "/Admin/Administrator";
+                return true;
             }
 
-            return string.Format(returString, gyldig, url); ;
+            return false;
         }
 
         [HttpGet]

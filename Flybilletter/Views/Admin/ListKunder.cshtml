@@ -160,7 +160,7 @@
             $.ajax({
                 url: "/Admin/LagreKunde",
                 method: "POST",
-                data: formData,
+                data: formData
             }).done(function (response) {
                 if (response === "true") {
                     location.reload();
