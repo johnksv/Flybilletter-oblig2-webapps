@@ -17,9 +17,8 @@ namespace BLL
     {
         private IDBEndring dbEndring;
 
-        public BLLEndring()
+        public BLLEndring() : this(new DBEndring())
         {
-            dbEndring = new DBEndring();
         }
 
         public BLLEndring(IDBEndring endringStub)
@@ -51,7 +50,8 @@ namespace BLL
                     };
                     feil.Add(feilObjekt);
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil skjedde når metoden prøvde å tolke linjene i " + filePath);
             }

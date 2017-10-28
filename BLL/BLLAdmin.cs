@@ -13,9 +13,8 @@ namespace BLL
     public class BLLAdmin : IBLLAdmin
     {
         private IDBAdmin dbAdmin;
-        public BLLAdmin()
+        public BLLAdmin() : this(new DBAdmin())
         {
-            dbAdmin = new DBAdmin();
         }
 
         public BLLAdmin(IDBAdmin stub)
@@ -46,7 +45,7 @@ namespace BLL
 
             if (admin != null)
             {
-                var cipherText = HashPassord(PwAttempt, admin.Salt);
+                var cipherText = dbAdmin.HashPassord(PwAttempt, admin.Salt);
                 var i = 0;
                 foreach (byte b in cipherText)
                 {
@@ -62,13 +61,5 @@ namespace BLL
         {
             return dbAdmin.LeggInn(admin);
         }
-
-
-
-        private byte[] HashPassord(string password, string salt)
-        {
-            return dbAdmin.HashPassord(password, salt);
-        }
-
     }
 }

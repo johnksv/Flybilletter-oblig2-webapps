@@ -20,13 +20,12 @@
             event.preventDefault();
 
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/Admin/LoginAttempt",
-                data: $(this).serialize(),
-                dataType: "json"
-            }).done(function (data) {
-                if (data.gyldig == "True") {
-                    window.location.href = data.url
+                data: $(this).serialize()
+            }).done(function (response) {
+                if (response == "True") {
+                    window.location.href = "/Admin/Administrator";
                 } else {
                     $(".loginForm .hidden").removeClass("hidden");
                 }
