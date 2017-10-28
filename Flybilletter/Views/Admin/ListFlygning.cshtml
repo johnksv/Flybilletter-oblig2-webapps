@@ -12,31 +12,34 @@
     @Html.ActionLink("Lag ny flygning", "LagFlygning", new { }, new { @class = "btn btn-primary" })
 </p>
 
-<div id="flygninger table-responsive">
+<div id="flygninger">
 
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="fraID" style="margin-right: 0.5em;">
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
+        <span class="help-block">I tillegg til data som vises i tabellen kan det også søkes på by og land.</span>
+    </div>
+
+    <div>
+            <button class="sortListe btn btn-sm btn-info" data-sort="fraID">
                 Sorter etter fra flyplass
             </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
+        
+        
+            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" >
                 Sorter etter til flyplass
             </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="avgang" style="margin-right: 0.5em;">
+        
+        
+            <button class="sortListe btn btn-sm btn-info" data-sort="avgang" >
                 Sorter etter avgangstid
             </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="ankomst" style="margin-right: 0.5em;">
+        
+        
+            <button class="sortListe btn btn-sm btn-info" data-sort="ankomst">
                 Sorter etter ankomsttid
             </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
     </div>
+
 
     <table class="table">
         <thead>
@@ -68,13 +71,15 @@
                         <input class="editRute hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." name="id" type="hidden" value="@item.ID">
                     </td>
                     <td class="fra">
-                        @item.Rute.Fra.Navn - @item.Rute.Fra.By, @item.Rute.Fra.Land
+                        @item.Rute.Fra.Navn
+                        <span class="hidden">@item.Rute.Fra.By, @item.Rute.Fra.Land</span>
                     </td>
                     <td class="tilID">
                         @item.Rute.Til.ID
                     </td>
                     <td class="til">
-                        @item.Rute.Til.Navn - @item.Rute.Til.By, @item.Rute.Til.Land
+                        @item.Rute.Til.Navn
+                        <span class="hidden">@item.Rute.Til.By, @item.Rute.Til.Land</span>
                     </td>
                     <td class="fly">
                         @Html.DisplayFor(modelItem => item.Fly.Modell)
@@ -192,7 +197,7 @@
                 parent.find(".field-validation-valid").html("Ny avgangstid må være en gyldig dato med klokkeslett.");
                 return;
             }
-                
+
 
             $.ajax({
                 url: "/Admin/EndreFlygning",
