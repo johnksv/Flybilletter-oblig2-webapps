@@ -172,7 +172,6 @@
     <Content Include="Views\Admin\RedigerFlygning.cshtml" />
     <Content Include="Views\Admin\LagFly.cshtml" />
     <Content Include="Views\Admin\ListFlyplasser.cshtml" />
-    <Content Include="Views\Admin\EndreFlyplass.cshtml" />
     <Content Include="Views\Admin\LagFlyplass.cshtml" />
     <Content Include="Views\Admin\EditorTemplates\Flyplass.cshtml" />
     <Content Include="Views\Admin\Administrator.cshtml" />
