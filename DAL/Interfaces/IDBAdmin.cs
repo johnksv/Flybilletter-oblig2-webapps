@@ -1,5 +1,5 @@
 ﻿using Flybilletter.DAL.DBModel;
-using Model.DomeneModel;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

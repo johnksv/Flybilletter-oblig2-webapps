@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Flybilletter.Model.DomeneModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace BLL
 {
     public interface IBLLAdmin
     {
-
+        bool LeggInn(Admin admin);
     }
 }

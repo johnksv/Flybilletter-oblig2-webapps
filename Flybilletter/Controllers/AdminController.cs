@@ -17,12 +17,13 @@ namespace Flybilletter.Controllers
         private IBLLFlyplass bllflyplass;
         private IBLLRute bllrute;
         private IBLLEndring bllendring;
+        private IBLLAdmin blladmin;
 
-        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring())
+        public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring(), new BLLAdmin())
         {
         }
 
-        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub, IBLLEndring endringstub)
+        public AdminController(IBLLBestilling bestillingstub, IBLLFly flystub, IBLLKunde kundestub, IBLLFlyplass flyplasstub, IBLLFlygning flygningstub, IBLLRute rutestub, IBLLEndring endringstub, IBLLAdmin adminstub)
 
         {
             bllbestilling = bestillingstub;
@@ -32,6 +33,7 @@ namespace Flybilletter.Controllers
             bllflyplass = flyplasstub;
             bllrute = rutestub;
             bllendring = endringstub;
+            blladmin = adminstub;
         }
 
         [HttpGet]
@@ -561,6 +563,20 @@ namespace Flybilletter.Controllers
                 ViewBag.FeilFraFil = bllendring.ParseFeil(@"..\DAL\flybilletter-log.txt");
                 ViewBag.Endringer = bllendring.Hent();
                 return View();
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult LagAdmin(Admin model)
+        {
+            if (ErAdmin())
+            {
+                if (ModelState.IsValid)
+                {
+                    blladmin.LeggInn(model);
+                }
+                return RedirectToAction("Administrator");
             }
             return RedirectToAction("Sok", "Home");
         }

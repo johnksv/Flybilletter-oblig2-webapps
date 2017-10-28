@@ -1,21 +1,36 @@
-﻿@model IEnumerable<Model.DomeneModel.Admin>
+﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Admin>
 
 @{
     ViewBag.Title = "Administrator";
 }
 
 <h2>Administrator</h2>
+<a href="#" data-toggle="modal" data-target="#opprett" class="btn btn-primary">Opprett ny administrator</a>
 <!--TODO: Oppdater passord på admin.-->
 <h4>Innlogget side for administrator.</h4>
 <p class="text-info">I menybaren/navbaren over har du tilgang til sider for å gjennomføre CRUD operasjoner på entiteter som Fly, Flyplass, Kunde, Rute, og mye mer.</p>
 <p class="text-info">Under vises alle endringer som lagres i databasen, samt alle feil som er logget.</p>
-
 <a href="#endringer" class="btn btn-info">Til endringer</a>
 <a href="#feil" class="btn btn-info">Til feilmeldinger</a>
-<hr />
+<br />
+<br />
+<div class="modal" id="opprett" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Opprett ny administrator: </h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_LagAdministrator")
+            </div>
+         </div>
+    </div>
+</div>
 
+<hr />
 <div id="endringer"><!--Partial View for å vise endringer i db-->
-    @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
+ @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
 <hr />
 <div id="feil"><!--Partial View for å vise feil fra fil-->
