@@ -100,17 +100,30 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult RedigerFly(Fly fly)
+        public string EndreFly(Fly item)
         {
             if (ErAdmin())
             {
-                if (bllfly.Oppdater(fly))
+                if (ModelState.IsValid)
                 {
-                    List<Fly> flyListe = bllfly.HentAlle();
-                    return RedirectToAction("Fly", flyListe);
+                    if (bllfly.Oppdater(item))
+                    {
+                        return "true";
+                    }
+                    else
+                    {
+                        return "Fikk ikke oppdatert flyet.";
+                    }
+                }
+                else
+                {
+                    // https://stackoverflow.com/questions/1352948/how-to-get-all-errors-from-asp-net-mvc-modelstate
+                    return string.Join(".\n", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
                 }
             }
-            return RedirectToAction("Sok", "Home");
+            return "Ikke admin";
         }
 
         public ActionResult SlettFly(int ID)
