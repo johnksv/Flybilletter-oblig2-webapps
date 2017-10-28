@@ -209,12 +209,26 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult EndreFlyplass(Flyplass flyplass)
+        public string EndreFlyplass(Flyplass item)
         {
             if (ErAdmin())
             {
+                if (ModelState.IsValid)
+                {
+                    if (bllflyplass.Endre(item))
+                    {
+                        return "true";
+                    }
+                    return "En feil oppsto under lagring til databasen.";
+
+                }
+                // https://stackoverflow.com/questions/1352948/how-to-get-all-errors-from-asp-net-mvc-modelstate 
+                return string.Join(".\n", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+
             }
-            return RedirectToAction("Sok", "Home");
+            return "NotAdmin";
         }
 
         public ActionResult Ruter()
@@ -470,7 +484,7 @@ namespace Flybilletter.Controllers
                 {
                     return "true";
                 }
-                return "En feil skjedde under lagring til databasen.";
+                return "En feil oppsto under lagring til databasen.";
             }
             return "NotAdmin";
         }

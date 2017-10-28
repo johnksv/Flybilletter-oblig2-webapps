@@ -178,33 +178,34 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var eksisterendeFlygning = db.Flygninger.Find(id);
-                if (eksisterendeFlygning != null)
+                try
                 {
-                    eksisterendeFlygning.AvgangsTid = nyAvgangstid;
-                    db.Endringer.Add(new DBEndring()
+                    var eksisterendeFlygning = db.Flygninger.Find(id);
+                    if (eksisterendeFlygning != null)
                     {
-                        Endring = $"Endret avgangstid på flygning {id}. Ny avgangstid {nyAvgangstid}.",
-                        Tidspunkt = DateTime.Now
-                    });
-                    try
-                    {
+                        eksisterendeFlygning.AvgangsTid = nyAvgangstid;
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Endring = $"Endret avgangstid på flygning {id}. Ny avgangstid {nyAvgangstid}.",
+                            Tidspunkt = DateTime.Now
+                        });
+
                         db.SaveChanges();
                         return true;
                     }
-                    catch (Exception e)
-                    {
-                        DALsetup.LogFeilTilFil("DBFlygning:Endre", e.InnerException, $"Feil under lagring til databasen, med id: {id}");
-                        return false;
-                    }
-                }
 
-                db.Endringer.Add(new DBEndring()
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = $"Prøvde å endre en flygning som ikke eksisterte: {id}",
+                        Tidspunkt = DateTime.Now
+                    });
+                    db.SaveChanges();
+
+                }
+                catch (Exception e)
                 {
-                    Endring = $"Prøvde å endre en flygning som ikke eksisterte: {id}",
-                    Tidspunkt = DateTime.Now
-                });
-                db.SaveChanges();
+                    DALsetup.LogFeilTilFil("DBFlygning:Endre", e.InnerException, $"Feil under lagring til databasen, med id: {id}");
+                }
 
                 return false;
             }
