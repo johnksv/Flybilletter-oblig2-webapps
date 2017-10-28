@@ -28,7 +28,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente flygninger");
+                    DALsetup.LogFeilTilFil("DBFlygning:HentFlygningerFra", e, "En feil oppsto da metoden prøvde å hente flygninger");
                     return null;
                 }
             }
@@ -44,7 +44,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente flygninger");
+                    DALsetup.LogFeilTilFil("DBFlygning:HentFlygningerTil", e, "En feil oppsto da metoden prøvde å hente flygninger");
                     return null;
                 }
             }
@@ -60,7 +60,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å finne flygning med ID " + ID);
+                    DALsetup.LogFeilTilFil("DBFlygning:Finn", e, "En feil oppsto da metoden prøvde å finne flygning med ID " + ID);
                     return null;
                 }
             }
@@ -70,14 +70,21 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-
-                var dbflygninger = db.Flygninger.Include("Fly").Where(flyg => flyg.AvgangsTid > dateTime).ToList();
-                List<Flygning> flygninger = new List<Flygning>();
-                foreach (var flygning in dbflygninger)
+                try
                 {
-                    flygninger.Add(Mapper.Map<Flygning>(flygning));
+                    var dbflygninger = db.Flygninger.Include("Fly").Where(flyg => flyg.AvgangsTid > dateTime).ToList();
+                    List<Flygning> flygninger = new List<Flygning>();
+                    foreach (var flygning in dbflygninger)
+                    {
+                        flygninger.Add(Mapper.Map<Flygning>(flygning));
+                    }
+                    return flygninger;
                 }
-                return flygninger;
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBFlygning:HentAllle", e, "En feil oppsto da metoden prøvde å hente alle flygninger");
+                    return null;
+                }
             }
         }
 
@@ -102,13 +109,13 @@ namespace Flybilletter.DAL.DBModel
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "Oppdaterer flygning med ID " + flygning.ID
+                        Endring = $"Oppdaterte flygning {dbflygning.ID}, ny avganstid: {dbflygning.AvgangsTid}"
                     });
                     db.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere flygning");
+                    DALsetup.LogFeilTilFil("DBFlygning:OppdaterFlygning", e, "En feil oppsto da metoden prøvde å oppdatere flygning");
                     return false;
                 }
                 return true;
@@ -119,28 +126,29 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                DBFlygning dbflygning = db.Flygninger.Include("Bestillinger").Where(item => item.ID == id).FirstOrDefault();
-                if (dbflygning != null)
-                {
-                    if (dbflygning.AvgangsTid < DateTime.Now && dbflygning.Bestillinger.Count() == 0)
-                    {
-                        return false;
-                    }
-                    dbflygning.Kansellert = !dbflygning.Kansellert;
-                }
                 try
                 {
+                        DBFlygning dbflygning = db.Flygninger.Include("Bestillinger").Where(item => item.ID == id).FirstOrDefault();
+                    if (dbflygning != null)
+                    {
+                        if (dbflygning.AvgangsTid < DateTime.Now && dbflygning.Bestillinger.Count() == 0)
+                        {
+                            return false;
+                        }
+                        dbflygning.Kansellert = !dbflygning.Kansellert;
+                    }
+                    string kansellert = dbflygning.Kansellert == true ? "kansellert" : "aktiv";
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "Endret status på flygning med ID: " + ID
+                        Endring = $"Endret status på flygning {dbflygning.ID} til å være {kansellert}"
                     });
                     db.SaveChanges();
                     return true;
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
+                    DALsetup.LogFeilTilFil("DBFlygning:OppdaterStatus", e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
                     return false;
                 }
             }
@@ -174,7 +182,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public bool Endre(int id, DateTime nyAvgangstid)
+        public bool Endre(int id, DateTime nyAvgangstid) //TODO: Bruker vi både denne og metoden OppdaterFlygning (Linje 100)
         {
             using (var db = new DB())
             {

@@ -32,7 +32,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente alle flyplasser fra databasen");
+                    DALsetup.LogFeilTilFil("DBFlyplass:HentAlle", e, "En feil oppsto da metoden prøvde å hente alle flyplasser fra databasen");
                     return null;
                 }
             }
@@ -48,7 +48,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente flyplass med ID " + tilFlyplassID);
+                    DALsetup.LogFeilTilFil("DBFlyplass:Hent", e, "En feil oppsto da metoden prøvde å hente flyplass med ID " + tilFlyplassID);
                     return null;
                 }
             }
@@ -69,7 +69,7 @@ namespace Flybilletter.DAL.DBModel
                         db.Endringer.Add(new DBEndring()
                         {
                             Tidspunkt = DateTime.Now,
-                            Endring = "Legg til flyplass med ID " + flyplass.ID
+                            Endring = $"Legg til flyplass med ID {dbflyplass.ID}, nye verdier: {dbflyplass.Navn}, {dbflyplass.By}, {dbflyplass.Land}"
                         });
 
                         db.SaveChanges();
@@ -78,7 +78,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn flyplass");
+                    DALsetup.LogFeilTilFil("DBFlyplass:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn flyplass");
 
                 }
             }
@@ -119,7 +119,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn flyplass");
+                    DALsetup.LogFeilTilFil("DBFlyplass:Endre", e, "En feil oppsto da metoden prøvde å legge inn flyplass");
 
                 }
             }

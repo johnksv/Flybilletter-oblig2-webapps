@@ -30,13 +30,21 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbruter = db.Ruter.Include("Fra").Include("Til").ToList();
-                var ruter = new List<Rute>();
-                foreach (var dbrute in dbruter)
+                try
                 {
-                    ruter.Add(Mapper.Map<Rute>(dbrute));
+                    var dbruter = db.Ruter.Include("Fra").Include("Til").ToList();
+                    var ruter = new List<Rute>();
+                    foreach (var dbrute in dbruter)
+                    {
+                        ruter.Add(Mapper.Map<Rute>(dbrute));
+                    }
+                    return ruter;
                 }
-                return ruter;
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBRute:HentAlle", e, "En feil oppsto da metoden prøvde å hente alle rutene.");
+                    return null;
+                }
             }
         }
 
@@ -67,7 +75,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil("DBRute:LagreRute", e, "Lagring til databasen feilet.");
+                        DALsetup.LogFeilTilFil("DBRute:LagreRute", e, "En feil oppsto da metoden prøvde å endre rute.");
                     }
                 }
                 return false;
@@ -78,32 +86,39 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var rute = Mapper.Map<DBRute>(innrute);
-                var fraFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Fra.ID);
-                var tilFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Til.ID);
-
-                if (fraFlyplass.ID == tilFlyplass.ID || (fraFlyplass.ID != "OSL" && tilFlyplass.ID != "OSL")) return false;
-                if (fraFlyplass != null && tilFlyplass != null)
+                try
                 {
-                    rute.Fra = fraFlyplass;
-                    rute.Til = tilFlyplass;
-                    db.Flyplasser.Attach(fraFlyplass);
-                    db.Flyplasser.Attach(tilFlyplass);
-                    db.Ruter.Add(rute);
 
-                    try
+                    var rute = Mapper.Map<DBRute>(innrute);
+                    var fraFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Fra.ID);
+                    var tilFlyplass = db.Flyplasser.FirstOrDefault(flyplass => flyplass.ID == innrute.Til.ID);
+
+                    if (fraFlyplass.ID == tilFlyplass.ID || (fraFlyplass.ID != "OSL" && tilFlyplass.ID != "OSL")) return false;
+                    if (fraFlyplass != null && tilFlyplass != null)
                     {
+                        rute.Fra = fraFlyplass;
+                        rute.Til = tilFlyplass;
+                        db.Flyplasser.Attach(fraFlyplass);
+                        db.Flyplasser.Attach(tilFlyplass);
+                        db.Ruter.Add(rute);
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Endring = $"Lager en ny rute: fra flyplass: {rute.Fra.ID}, til flyplass: {rute.Til.ID}, reisetid: {rute.Reisetid}, pris: {rute.BasePris} ",
+                            Tidspunkt = DateTime.Now
+                        });
+
                         db.SaveChanges();
                         return true;
                     }
-                    catch (Exception e)
-                    {
-                        DALsetup.LogFeilTilFil("DBRute:LagRute", e, "Lagring til databasen feilet.");
-                    }
                 }
-                return false;
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBRute:LagRute", e, "En feil oppsto da metoden prøvde å lagre rute.");
+                }
             }
+            return false;
         }
+
 
         public bool Slett(int id)
         {
@@ -126,7 +141,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception exception)
                     {
-                        DALsetup.LogFeilTilFil("DBRute.Slett", exception, "En feil oppsto da metoden prøvde å slette rute med ID " + id);
+                        DALsetup.LogFeilTilFil("DBRute.Slett", exception, "En feil oppsto da metoden prøvde å slette rute.");
                     }
                 }
                 return false;
