@@ -22,7 +22,7 @@
             <div class="modal-body">
                 @Html.Partial("_LagAdministrator")
             </div>
-         </div>
+        </div>
     </div>
 </div>
 <hr />
@@ -30,13 +30,18 @@
     @Html.Partial("_ListAdministrator", (List<Flybilletter.Model.DomeneModel.Admin>)ViewBag.Admin)
 </div>
 <hr />
+<h4>Endringer lagret i database:</h4>
 <a href="#endringer" data-toggle="collapse" class="btn btn-info">Vis endringer</a>
-<div id="endringer" class="collapse"><!--Partial View for å vise endringer i db-->
+<div id="endringer" class="collapse">
+    <!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
 <hr />
+
+<h4>Feilmeldinger lagret i fil:</h4>
 <a href="#feil" data-toggle="collapse" class="btn btn-info">Vis feilmeldinger</a>
-<div id="feil" class="collapse"><!--Partial View for å vise feil fra fil-->
+<div id="feil" class="collapse">
+    <!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
 </div>
 
