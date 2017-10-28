@@ -63,9 +63,9 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <input class="editRute hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." id="id" name="id" type="hidden" value="52">
                     <td class="fraID">
                         @item.Rute.Fra.ID
+                        <input class="editRute hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." name="id" type="hidden" value="@item.ID">
                     </td>
                     <td class="fra">
                         @item.Rute.Fra.Navn - @item.Rute.Fra.By, @item.Rute.Fra.Land
@@ -81,7 +81,8 @@
                     </td>
                     <td class="avgang">
                         <div class="displayRute">  @Html.DisplayFor(modelItem => item.AvgangsTid)</div>
-                        <input class="form-control editRute input-xs hidden text-box single-line" data-val="true" data-val-date="The field AvgangsTid must be a date." data-val-required="Feltet AvgangsTid er obligatorisk." id="nyAvgangstid" name="nyAvgangstid" style="max-width: 195px;" type="datetime-local" value="@item.AvgangsTid">
+                        <input class="form-control editRute input-xs hidden text-box single-line dato" data-val="true" data-val-date="The field avgangstid must be a date." data-val-required="Feltet avgangstid er obligatorisk." name="nyAvgangstid" style="max-width: 195px;" type="datetime-local" value="@item.AvgangsTid.ToString("yyyy-MM-ddTHH:mm", System.Globalization.CultureInfo.InvariantCulture)">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="item.AvgangsTid" data-valmsg-replace="true"></span>
                     </td>
                     <td class="ankomst">
                         @Html.DisplayFor(modelItem => item.AnkomstTid)
@@ -185,7 +186,13 @@
         $(".lagreKnapp").click(function (event) {
             event.preventDefault();
 
-            var formData = $(this).parents("tr").find(".editRute").serialize();
+            var parent = $(this).parents("tr");
+            var formData = parent.find(".editRute").serialize();
+            if (parent.find(".dato").val() == "") {
+                parent.find(".field-validation-valid").html("Ny avgangstid må være en gyldig dato med klokkeslett.");
+                return;
+            }
+                
 
             $.ajax({
                 url: "/Admin/EndreFlygning",
