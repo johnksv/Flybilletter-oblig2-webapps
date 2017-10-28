@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 
 namespace BLL.Stub
 {
@@ -11,6 +12,16 @@ namespace BLL.Stub
     {
         //Vi simulrerer DBStub her, på grunn av at DBAdmin fungerer på en annen måte enn de andre databaseklassene (grunnet kryptering).
         private List<Admin> adminer = new List<Admin>();
+
+        public bool EndrePassord(AdminPassordViewModel adminViewModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Admin> Hent()
+        {
+            throw new NotImplementedException();
+        }
 
         public bool IsPassordGyldig(string Brukernavn, string PwAttempt)
         {
