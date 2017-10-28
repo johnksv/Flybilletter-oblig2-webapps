@@ -9,6 +9,7 @@ namespace BLL
 {
     public interface IBLLAdmin
     {
+        bool IsPassordGyldig(string Username, string PwAttempt);
         bool LeggInn(Admin admin);
     }
 }

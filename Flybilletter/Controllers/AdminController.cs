@@ -39,9 +39,7 @@ namespace Flybilletter.Controllers
         [HttpPost]
         public bool LoginAttempt(string username, string password)
         {
-            BLLAdmin bllAdmin = new BLLAdmin();
-
-            if (bllAdmin.IsPassordGyldig(username, password))
+            if (blladmin.IsPassordGyldig(username, password))
             {
                 // Login er gyldig, session variabel settes
                 Session["Admin"] = true;

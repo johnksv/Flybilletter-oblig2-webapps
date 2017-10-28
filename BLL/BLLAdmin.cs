@@ -12,9 +12,8 @@ namespace BLL
     public class BLLAdmin : IBLLAdmin
     {
         private IDBAdmin dbAdmin;
-        public BLLAdmin()
+        public BLLAdmin() : this(new DBAdmin())
         {
-            dbAdmin = new DBAdmin();
         }
 
         public BLLAdmin(IDBAdmin stub)
