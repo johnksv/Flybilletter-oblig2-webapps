@@ -10,9 +10,7 @@
 <h4>Innlogget side for administrator.</h4>
 <p class="text-info">I menybaren/navbaren over har du tilgang til sider for å gjennomføre CRUD operasjoner på entiteter som Fly, Flyplass, Kunde, Rute, og mye mer.</p>
 <p class="text-info">Under vises alle endringer som lagres i databasen, samt alle feil som er logget.</p>
-<a href="#endringer" class="btn btn-info">Til endringer</a>
-<a href="#feil" class="btn btn-info">Til feilmeldinger</a>
-<br />
+
 <br />
 <div class="modal" id="opprett" role="dialog">
     <div class="modal-dialog" role="document">
@@ -32,11 +30,13 @@
     @Html.Partial("_ListAdministrator", (List<Flybilletter.Model.DomeneModel.Admin>)ViewBag.Admin)
 </div>
 <hr />
-<div id="endringer"><!--Partial View for å vise endringer i db-->
+<a href="#endringer" data-toggle="collapse" class="btn btn-info">Vis endringer</a>
+<div id="endringer" class="collapse"><!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
 <hr />
-<div id="feil"><!--Partial View for å vise feil fra fil-->
+<a href="#feil" data-toggle="collapse" class="btn btn-info">Vis feilmeldinger</a>
+<div id="feil" class="collapse"><!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
 </div>
 
