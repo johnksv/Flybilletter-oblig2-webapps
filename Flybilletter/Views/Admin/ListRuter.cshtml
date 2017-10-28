@@ -69,28 +69,28 @@
                 string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
 
                 <tr>
-                    @Html.HiddenFor(model => rute.ID, new { @class = "editRute" })
+                    @Html.HiddenFor(model => rute.ID, new { @class = "editModel" })
                     <td class="fraID">
-                        <div class="fraflyplass displayRute">@rute.Fra.ID</div>
-                        <select class="fraflyplass form-control hidden editRute input-xs" name="rute.Fra.ID" disabled> </select>
+                        <div class="fraflyplass displayModel">@rute.Fra.ID</div>
+                        <select class="fraflyplass form-control hidden editModel input-xs" name="rute.Fra.ID" disabled> </select>
                     </td>
                     <td class="fraInfo">
                         @rute.Fra.Navn - @rute.Fra.By, @rute.Fra.Land
                     </td>
                     <td class="tilID">
-                        <div class="displayRute tilflyplass">@rute.Til.ID</div>
-                        <select class="tilflyplass form-control hidden editRute input-xs" name="rute.Til.ID" disabled> </select>
+                        <div class="displayModel tilflyplass">@rute.Til.ID</div>
+                        <select class="tilflyplass form-control hidden editModel input-xs" name="rute.Til.ID" disabled> </select>
                     </td>
                     <td class="tilInfo">
                         <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
                     </td>
                     <td class="reisetid">
-                        <div class="displayRute"> @reisetid </div>
-                        @Html.EditorFor(modelrute => rute.Reisetid, new { htmlAttributes = new { @class = "hidden editRute input-xs ", disabled = "", style = "max-width: 85px;", type = "time" } })
+                        <div class="displayModel"> @reisetid </div>
+                        @Html.EditorFor(modelrute => rute.Reisetid, new { htmlAttributes = new { @class = "hidden editModel input-xs ", disabled = "", style = "max-width: 85px;", type = "time" } })
                     </td>
                     <td class="pris">
-                        <div class="displayRute">@Html.DisplayFor(modelrute => rute.BasePris)</div>
-                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editRute input-xs", disabled = "", style = "max-width: 55px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelrute => rute.BasePris)</div>
+                        @Html.EditorFor(modelrute => rute.BasePris, new { htmlAttributes = new { @class = "hidden editModel input-xs", disabled = "", style = "max-width: 55px;" } })
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
@@ -120,17 +120,17 @@
             event.preventDefault();
             var parent = $(this).parents("tr");
             //Vis input.bokser
-            parent.find(".editRute").toggleClass("hidden").removeAttr("disabled");
+            parent.find(".editModel").toggleClass("hidden").removeAttr("disabled");
             //Gjem display-values
-            parent.find(".displayRute").toggleClass("hidden");
+            parent.find(".displayModel").toggleClass("hidden");
             //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
             if ($(this).data("status") === "endre") {
                 $(this).text("Avbryt");
                 $(this).data("status", "avbryt");
-                populerFlyplassSelectMedOptions(parent.find(".fraflyplass.editRute"), parent.find(".fraflyplass.displayRute").html())
-                populerFlyplassSelectMedOptions(parent.find(".tilflyplass.editRute"), parent.find(".tilflyplass.displayRute").html())
+                populerFlyplassSelectMedOptions(parent.find(".fraflyplass.editModel"), parent.find(".fraflyplass.displayModel").html())
+                populerFlyplassSelectMedOptions(parent.find(".tilflyplass.editModel"), parent.find(".tilflyplass.displayModel").html())
             } else {
                 $(this).text("Endre");
                 $(this).data("status", "endre");
@@ -141,7 +141,7 @@
         $(".lagreKnapp").click(function (event) {
             event.preventDefault();
 
-            var formData = $(this).parents("tr").find(".editRute").serialize();
+            var formData = $(this).parents("tr").find(".editModel").serialize();
 
             $.ajax({
                 url: "/Admin/LagreRute",

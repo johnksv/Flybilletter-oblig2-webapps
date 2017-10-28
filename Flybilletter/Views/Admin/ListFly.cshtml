@@ -47,14 +47,14 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
+                    @Html.HiddenFor(model => item.ID, new { @class = "editModel" })
                     <td class="modell">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Modell)</div>
-                        @Html.EditorFor(modelItem => item.Modell, new { htmlAttributes = new { @class = "editRute hidden input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Modell)</div>
+                        @Html.EditorFor(modelItem => item.Modell, new { htmlAttributes = new { @class = "editModel hidden input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="antallseter">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.AntallSeter)</div>
-                        @Html.EditorFor(modelItem => item.AntallSeter, new { htmlAttributes = new { @class = "editRute hidden input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.AntallSeter)</div>
+                        @Html.EditorFor(modelItem => item.AntallSeter, new { htmlAttributes = new { @class = "editModel hidden input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreFly", new { id = item.ID }, new { @class = "endre btn btn-default", data_status = "endre" })
@@ -95,9 +95,9 @@
             event.preventDefault();
 
             //Vis input-bokser
-            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+            $(this).parents("tr").find(".editModel").toggleClass("hidden");
             //Gjem display-values
-            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            $(this).parents("tr").find(".displayModel").toggleClass("hidden");
             //Aktiver lagre-knapp
             $(this).siblings(".lagre").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
@@ -113,7 +113,7 @@
         $(".lagre").click(function (event) {
             event.preventDefault();
             
-            var formData = $(this).parents("tr").find(".editRute").serialize();
+            var formData = $(this).parents("tr").find(".editModel").serialize();
 
             $.ajax({
                     url: "/Admin/EndreFly",

@@ -62,19 +62,19 @@
                 <tr>
                     <td class="id">
                         @item.ID
-                        @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
+                        @Html.HiddenFor(model => item.ID, new { @class = "editModel" })
                     </td>
                     <td class="navn">
-                        <div class="displayRute">@item.Navn</div>
-                        @Html.EditorFor(modelItem => item.Navn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@item.Navn</div>
+                        @Html.EditorFor(modelItem => item.Navn, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="by">
-                        <div class="displayRute">@item.By</div>
-                        @Html.EditorFor(modelItem => item.By, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 115px;" } })
+                        <div class="displayModel">@item.By</div>
+                        @Html.EditorFor(modelItem => item.By, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 115px;" } })
                     </td>
                     <td class="land">
-                        <div class="displayRute">@item.Land</div>
-                        @Html.EditorFor(modelItem => item.Land, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 100px;" } })
+                        <div class="displayModel">@item.Land</div>
+                        @Html.EditorFor(modelItem => item.Land, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 100px;" } })
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreFlyplass", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
@@ -101,9 +101,9 @@
             event.preventDefault();
 
             //Vis input.bokser
-            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+            $(this).parents("tr").find(".editModel").toggleClass("hidden");
             //Gjem display-values
-            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            $(this).parents("tr").find(".displayModel").toggleClass("hidden");
             //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
@@ -120,7 +120,7 @@
         $(".lagreKnapp").click(function (event) {
             event.preventDefault();
 
-            var formData = $(this).parents("tr").find(".editRute").serialize();
+            var formData = $(this).parents("tr").find(".editModel").serialize();
 
             $.ajax({
                 url: "/Admin/EndreFlyplass",

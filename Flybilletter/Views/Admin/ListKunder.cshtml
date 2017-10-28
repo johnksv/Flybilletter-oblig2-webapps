@@ -66,37 +66,37 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
+                    @Html.HiddenFor(model => item.ID, new { @class = "editModel" })
                     <td class="fornavn">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Fornavn)</div>
-                        @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Fornavn)</div>
+                        @Html.EditorFor(modelItem => item.Fornavn, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="etternavn">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Etternavn)</div>
-                        @Html.EditorFor(modelItem => item.Etternavn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Etternavn)</div>
+                        @Html.EditorFor(modelItem => item.Etternavn, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="fodselsdag">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Fodselsdag)</div>
-                        @Html.EditorFor(modelItem => item.Fodselsdag, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Fodselsdag)</div>
+                        @Html.EditorFor(modelItem => item.Fodselsdag, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="adresse">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Adresse)</div>
-                        @Html.EditorFor(momodelItemdel => item.Adresse, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Adresse)</div>
+                        @Html.EditorFor(momodelItemdel => item.Adresse, new { htmlAttributes = new { @class = "hidden editModel input-xs" } })
                     </td>
                     <td class="tlf">
-                        <div class="displayRute">@Html.DisplayFor(modelItem => item.Tlf)</div>
-                        @Html.EditorFor(modelItem => item.Tlf, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 75px;" } })
+                        <div class="displayModel">@Html.DisplayFor(modelItem => item.Tlf)</div>
+                        @Html.EditorFor(modelItem => item.Tlf, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 75px;" } })
                     </td>
                     <td class="epost">
-                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.EPost) </div>
-                        @Html.EditorFor(modelItem => item.EPost, new { htmlAttributes = new { @class = "hidden editRute input-xs" } })
+                        <div class="displayModel"> @Html.DisplayFor(modelItem => item.EPost) </div>
+                        @Html.EditorFor(modelItem => item.EPost, new { htmlAttributes = new { @class = "hidden editModel input-xs" } })
                     </td>
                     <td class="postnummer">
-                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.Postnr) </div>
-                        @Html.EditorFor(modelItem => item.Postnr, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 50px;" } })
+                        <div class="displayModel"> @Html.DisplayFor(modelItem => item.Postnr) </div>
+                        @Html.EditorFor(modelItem => item.Postnr, new { htmlAttributes = new { @class = "hidden editModel input-xs", style = "max-width: 50px;" } })
                     </td>
                     <td class="poststed">
-                        <div class="displayRute"> @Html.DisplayFor(modelItem => item.Poststed)</div>
+                        <div class="displayModel"> @Html.DisplayFor(modelItem => item.Poststed)</div>
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreKunde", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
@@ -128,9 +128,9 @@
             event.preventDefault();
 
             //Vis input.bokser
-            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+            $(this).parents("tr").find(".editModel").toggleClass("hidden");
             //Gjem display-values
-            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            $(this).parents("tr").find(".displayModel").toggleClass("hidden");
             //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
@@ -147,7 +147,7 @@
         $(".lagreKnapp").click(function (event) {
             event.preventDefault();
 
-            var formData = $(this).parents("tr").find(".editRute").serialize();
+            var formData = $(this).parents("tr").find(".editModel").serialize();
 
             $.ajax({
                 url: "/Admin/LagreKunde",

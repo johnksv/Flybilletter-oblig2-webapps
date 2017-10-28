@@ -68,7 +68,7 @@
                 <tr>
                     <td class="fraID">
                         @item.Rute.Fra.ID
-                        <input class="editRute hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." name="id" type="hidden" value="@item.ID">
+                        <input class="editModel hidden" data-val="true" data-val-number="The field ID must be a number." data-val-required="Feltet ID er obligatorisk." name="id" type="hidden" value="@item.ID">
                     </td>
                     <td class="fra">
                         @item.Rute.Fra.Navn
@@ -85,8 +85,8 @@
                         @Html.DisplayFor(modelItem => item.Fly.Modell)
                     </td>
                     <td class="avgang">
-                        <div class="displayRute">  @Html.DisplayFor(modelItem => item.AvgangsTid)</div>
-                        <input class="form-control editRute input-xs hidden text-box single-line dato" data-val="true" data-val-date="The field avgangstid must be a date." data-val-required="Feltet avgangstid er obligatorisk." name="nyAvgangstid" style="max-width: 195px;" type="datetime-local" value="@item.AvgangsTid.ToString("yyyy-MM-ddTHH:mm", System.Globalization.CultureInfo.InvariantCulture)">
+                        <div class="displayModel">  @Html.DisplayFor(modelItem => item.AvgangsTid)</div>
+                        <input class="form-control editModel input-xs hidden text-box single-line dato" data-val="true" data-val-date="The field avgangstid must be a date." data-val-required="Feltet avgangstid er obligatorisk." name="nyAvgangstid" style="max-width: 195px;" type="datetime-local" value="@item.AvgangsTid.ToString("yyyy-MM-ddTHH:mm", System.Globalization.CultureInfo.InvariantCulture)">
                         <span class="field-validation-valid text-danger" data-valmsg-for="item.AvgangsTid" data-valmsg-replace="true"></span>
                     </td>
                     <td class="ankomst">
@@ -172,9 +172,9 @@
             event.preventDefault();
 
             //Vis input.bokser
-            $(this).parents("tr").find(".editRute").toggleClass("hidden").removeAttr("disabled");
+            $(this).parents("tr").find(".editModel").toggleClass("hidden").removeAttr("disabled");
             //Gjem display-values
-            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            $(this).parents("tr").find(".displayModel").toggleClass("hidden");
             //Aktiver knapp
             $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
 
@@ -192,7 +192,7 @@
             event.preventDefault();
 
             var parent = $(this).parents("tr");
-            var formData = parent.find(".editRute").serialize();
+            var formData = parent.find(".editModel").serialize();
             if (parent.find(".dato").val() == "") {
                 parent.find(".field-validation-valid").html("Ny avgangstid må være en gyldig dato med klokkeslett.");
                 return;
