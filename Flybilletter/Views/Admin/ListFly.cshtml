@@ -17,28 +17,29 @@
     @Html.ActionLink("Lag nytt fly", "LagFly", new { }, new { @class = "btn btn-primary" })
 </p>
 <div id="fly">
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="modell" style="margin-right: 0.5em;">
-                Sorter etter modell
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="antallseter" style="margin-right: 0.5em;">
-                Sorter etter antall seter
-            </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
+    </div>
+
+    <div>
+        <button class="sortListe btn btn-sm btn-info" data-sort="modell">
+            Sorter etter modell
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="antallseter">
+            Sorter etter antall seter
+        </button>
     </div>
 
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Modell)
+                    Modell
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AntallSeter)
+                    Antall seter
                 </th>
                 <th></th>
             </tr>

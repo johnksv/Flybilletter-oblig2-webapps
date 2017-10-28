@@ -19,28 +19,31 @@
 </p>
 
 <div id="ruter">
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="fraID" style="margin-right: 0.5em;">
-                Sorter etter fra flyplass
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="tilID" style="margin-right: 0.5em;">
-                Sorter etter til flyplass
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="reisetid" style="margin-right: 0.5em;">
-                Sorter etter reisetid
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="pris" style="margin-right: 0.5em;">
-                Sorter etter pris
-            </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
+        <span class="help-block">I tillegg til data som vises i tabellen kan det også søkes på by og land for flyplasser.</span>
+    </div>
+
+    <div>
+        <button class="sortListe btn btn-sm btn-info" data-sort="fraID">
+            Sorter etter fra
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="tilID">
+            Sorter etter til
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="reisetid">
+            Sorter etter reisetid
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="pris">
+            Sorter etter pris
+        </button>
     </div>
 
 
@@ -67,7 +70,6 @@
             @foreach (var rute in Model)
             {
                 string reisetid = $"{rute.Reisetid.Hours} t {rute.Reisetid.Minutes} min";
-
                 <tr>
                     @Html.HiddenFor(model => rute.ID, new { @class = "editModel" })
                     <td class="fraID">
@@ -75,14 +77,16 @@
                         <select class="fraflyplass form-control hidden editModel input-xs" name="rute.Fra.ID" disabled> </select>
                     </td>
                     <td class="fraInfo">
-                        @rute.Fra.Navn - @rute.Fra.By, @rute.Fra.Land
+                        <div class="displayModel">@rute.Fra.Navn</div>
+                        <span class="hidden">@rute.Fra.By, @rute.Fra.Land</span>
                     </td>
                     <td class="tilID">
                         <div class="displayModel tilflyplass">@rute.Til.ID</div>
                         <select class="tilflyplass form-control hidden editModel input-xs" name="rute.Til.ID" disabled> </select>
                     </td>
                     <td class="tilInfo">
-                        <div>@rute.Til.Navn  - @rute.Til.By, @rute.Til.Land</div>
+                          <div class="displayModel">@rute.Til.Navn</div>
+                        <span class="hidden">@rute.Fra.By, @rute.Fra.Land</span>
                     </td>
                     <td class="reisetid">
                         <div class="displayModel"> @reisetid </div>

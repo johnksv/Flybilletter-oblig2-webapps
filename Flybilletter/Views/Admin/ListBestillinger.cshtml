@@ -6,28 +6,30 @@
 
 <h2>Bestillinger</h2>
 <div id="bestillinger">
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="referanse" style="margin-right: 0.5em;">
-                Sorter etter referanse
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="bestil" style="margin-right: 0.5em;">
-                Sorter etter bestillingstidspunkt
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="antallpass" style="margin-right: 0.5em;">
-                Sorter etter antall passasjerer
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="totalpris" style="margin-right: 0.5em;">
-                Sorter etter totalpris
-            </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
+    </div>
+
+    <div>
+        <button class="sortListe btn btn-sm btn-info" data-sort="referanse">
+            Sorter etter referanse
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="bestil">
+            Sorter etter bestillingstidspunkt
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="antallpass">
+            Sorter etter antall passasjerer
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="totalpris">
+            Sorter etter totalpris
+        </button>
     </div>
 
     <table class="table">

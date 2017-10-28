@@ -13,51 +13,53 @@
 
 <div id="kunder">
 
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="etternavn" style="margin-right: 0.5em;">
-                Sorter etter etternavn
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="tlf" style="margin-right: 0.5em;">
-                Sorter etter telefon
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="postnummer" style="margin-right: 0.5em;">
-                Sorter etter postnummer
-            </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
     </div>
+
+    <div>
+        <button class="sortListe btn btn-sm btn-info" data-sort="etternavn">
+            Sorter etter etternavn
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="tlf">
+            Sorter etter telefon
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="postnummer">
+            Sorter etter postnummer
+        </button>
+    </div>
+
 
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Fornavn)
+                    Fornavn
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Etternavn)
+                    Etternavn
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Fodselsdag)
+                    Fødselsdag
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Adresse)
+                    Adresse
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Tlf)
+                    Telefon
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.EPost)
+                    E-post
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Postnr)
+                    Postnr.
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Poststed)
+                    Poststed
                 </th>
                 <th></th>
             </tr>
