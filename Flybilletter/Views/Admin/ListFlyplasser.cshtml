@@ -11,28 +11,30 @@
 </p>
 
 <div id="flyplasser">
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="id" style="margin-right: 0.5em;">
-                Sorter etter fra id
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="navn" style="margin-right: 0.5em;">
-                Sorter etter til navn
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="by" style="margin-right: 0.5em;">
-                Sorter etter by
-            </button>
-        </span>
-        <span class="input-group-btn">
-            <button class="sortListe btn btn-sm btn-info" data-sort="land" style="margin-right: 0.5em;">
-                Sorter etter land
-            </button>
-        </span>
-        <input class="sokListe form-control input-sm col-sm-3" placeholder="Søk" />
+
+    <div class="form-group">
+        <input class="sokListe input-sm form-control " placeholder="Søk" />
+    </div>
+
+    <div>
+        <button class="sortListe btn btn-sm btn-info" data-sort="id">
+            Sorter etter id
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="navn">
+            Sorter etter navn
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="by">
+            Sorter etter by
+        </button>
+
+
+        <button class="sortListe btn btn-sm btn-info" data-sort="land">
+            Sorter etter land
+        </button>
     </div>
 
 
@@ -59,19 +61,24 @@
             {
                 <tr>
                     <td class="id">
-                        @Html.DisplayFor(modelItem => item.ID)
+                        @item.ID
+                        @Html.HiddenFor(model => item.ID, new { @class = "editRute" })
                     </td>
                     <td class="navn">
-                        @Html.DisplayFor(modelItem => item.Navn)
+                        <div class="displayRute">@item.Navn</div>
+                        @Html.EditorFor(modelItem => item.Navn, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 135px;" } })
                     </td>
                     <td class="by">
-                        @Html.DisplayFor(modelItem => item.By)
+                        <div class="displayRute">@item.By</div>
+                        @Html.EditorFor(modelItem => item.By, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 115px;" } })
                     </td>
                     <td class="land">
-                        @Html.DisplayFor(modelItem => item.Land)
+                        <div class="displayRute">@item.Land</div>
+                        @Html.EditorFor(modelItem => item.Land, new { htmlAttributes = new { @class = "hidden editRute input-xs", style = "max-width: 100px;" } })
                     </td>
                     <td>
-                        @Html.ActionLink("Endre", "EndreFlyplass", new { id = item.ID }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Endre", "EndreFlyplass", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
+                        @Html.ActionLink("Lagre", "LagreFlyplass", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
                     </td>
                 </tr>
             }
@@ -89,6 +96,47 @@
 
 <script>
     $(function () {
+
+        $(".endreKnapp").click(function (event) {
+            event.preventDefault();
+
+            //Vis input.bokser
+            $(this).parents("tr").find(".editRute").toggleClass("hidden");
+            //Gjem display-values
+            $(this).parents("tr").find(".displayRute").toggleClass("hidden");
+            //Aktiver knapp
+            $(this).siblings(".lagreKnapp").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
+
+            if ($(this).data("status") === "endre") {
+                $(this).text("Avbryt");
+                $(this).data("status", "avbryt");
+            } else {
+                $(this).text("Endre");
+                $(this).data("status", "endre");
+            }
+        });
+
+
+        $(".lagreKnapp").click(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).parents("tr").find(".editRute").serialize();
+
+            $.ajax({
+                url: "/Admin/EndreFlyplass",
+                method: "POST",
+                data: formData
+            }).done(function (response) {
+                if (response === "true") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
+            });
+
+        });
+
+
         //Data for list.js
         var options = {
             valueNames: ['id', 'navn', 'by', 'land'],

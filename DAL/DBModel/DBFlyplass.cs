@@ -60,7 +60,7 @@ namespace Flybilletter.DAL.DBModel
             {
                 try
                 {
-                    
+
                     var dbflyplass = Mapper.Map<DBFlyplass>(flyplass);
                     if (db.Flyplasser.FirstOrDefault(fly => fly.ID == dbflyplass.ID) == null)
                     {
@@ -71,7 +71,7 @@ namespace Flybilletter.DAL.DBModel
                             Tidspunkt = DateTime.Now,
                             Endring = "Legg til flyplass med ID " + flyplass.ID
                         });
-                        
+
                         db.SaveChanges();
                         return true;
                     }
@@ -79,7 +79,48 @@ namespace Flybilletter.DAL.DBModel
                 catch (Exception e)
                 {
                     DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn flyplass");
-                    
+
+                }
+            }
+            return false;
+        }
+
+        public bool Endre(Flyplass item)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+
+                    var dbflyplass = db.Flyplasser.Find(item.ID);
+                        
+                    if (dbflyplass != null)
+                    {
+                        dbflyplass.Navn = item.Navn;
+                        dbflyplass.By = item.By;
+                        dbflyplass.Land = item.Land;
+
+
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Endring = $"Endret flyplass {item.ID}. Nye verdier: {item.Navn}, {item.By}, {item.Land}.",
+                            Tidspunkt = DateTime.Now
+                        });
+
+                        db.SaveChanges();
+                        return true;
+                    }
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Endring = $"Prøvde å endre en flyplass som ikke eksisterte: {item.ID}",
+                        Tidspunkt = DateTime.Now
+                    });
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn flyplass");
+
                 }
             }
             return false;

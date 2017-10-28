@@ -23,6 +23,11 @@ namespace BLL
             this.dbFlyplass = stub;
         }
 
+        public bool Endre(Flyplass item)
+        {
+            return dbFlyplass.Endre(item);
+        }
+
         public Flyplass Hent(string id)
         {
             return dbFlyplass.Hent(id);

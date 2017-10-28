@@ -12,5 +12,6 @@ namespace BLL
         List<Flyplass> HentAlle();
         bool LeggInn(Flyplass flyplass);
         Flyplass Hent(string id);
+        bool Endre(Flyplass item);
     }
 }
