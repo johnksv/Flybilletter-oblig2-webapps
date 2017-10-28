@@ -31,7 +31,7 @@
 </div>
 <hr />
 <h4>Endringer lagret i database:</h4>
-<a href="#endringer" data-toggle="collapse" class="btn btn-info">Vis endringer</a>
+<a href="#endringer" data-toggle="collapse" id="endringerKnapp" class="btn btn-info">Vis endringer</a>
 <div id="endringer" class="collapse">
     <!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
@@ -39,7 +39,7 @@
 <hr />
 
 <h4>Feilmeldinger lagret i fil:</h4>
-<a href="#feil" data-toggle="collapse" class="btn btn-info">Vis feilmeldinger</a>
+<a href="#feil" data-toggle="collapse" id="feilmeldingerKnapp" class="btn btn-info">Vis feilmeldinger</a>
 <div id="feil" class="collapse">
     <!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
@@ -62,6 +62,18 @@
                 $(this).text("Endre");
                 $(this).data("status", "endre");
             }
+        });
+
+        $("#endringerKnapp").click(function () {
+            $("#endringerKnapp").text(function (_,txt) {
+               return (txt == "Vis endringer") ? "Lukk endringer" : "Vis endringer";
+            })
+        });
+
+        $("#feilmeldingerKnapp").click(function () {
+            $("#feilmeldingerKnapp").text(function (_, txt) {
+                return (txt == "Vis feilmeldinger") ? "Lukk feilmeldinger" : "Vis feilmeldinger";
+            })
         });
 
         $(".lagre").click(function (event) {
