@@ -17,5 +17,6 @@ namespace Flybilletter.DAL.Interfaces
         bool OppdaterFlygning(Flygning flygning);
         bool OppdaterStatus(int id);
         bool LeggInnFlygning(Flygning flygning);
+        bool Endre(int id, DateTime nyAvgangstid);
     }
 }

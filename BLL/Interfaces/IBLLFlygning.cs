@@ -18,5 +18,6 @@ namespace BLL
         bool OppdaterFlygning(Flygning flygning);
         bool OppdaterStatus(int id);
         bool LeggInnFlygning(LagFlygningViewModel flygning);
+        bool EndreFlygning(int id, DateTime nyAvgangstid);
     }
 }

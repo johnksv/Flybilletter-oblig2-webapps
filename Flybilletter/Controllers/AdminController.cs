@@ -462,8 +462,15 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                
-                return "true";
+                if(nyAvgangstid <= DateTime.Now)
+                {
+                    return "Ugyldig data. Avgangstid må være et senere tiddspunkt enn nå.";
+                }
+                if(bllflygning.EndreFlygning(id, nyAvgangstid))
+                {
+                    return "true";
+                }
+                return "En feil skjedde under lagring til databasen.";
             }
             return "NotAdmin";
         }

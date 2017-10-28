@@ -12,14 +12,14 @@ namespace BLL
 {
     public class BLLFlygning : IBLLFlygning
     {
-        private IDBFlygning dbFlygning;
+        private IDBFlygning dbflygning;
         private IDBFlyplass dbflyplass;
         private IDBRute dbrute;
         private IDBFly dbfly;
 
         public BLLFlygning()
         {
-            dbFlygning = new DBFlygning();
+            dbflygning = new DBFlygning();
             dbflyplass = new DBFlyplass();
             dbrute = new DBRute();
             dbfly = new DBFly();
@@ -27,8 +27,13 @@ namespace BLL
 
         public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
         {
-            dbFlygning = stub;
+            dbflygning = stub;
             dbflyplass = flyplassStub;
+        }
+
+        public bool EndreFlygning(int id, DateTime nyAvgangstid)
+        {
+            return dbflygning.Endre(id, nyAvgangstid);
         }
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
@@ -43,8 +48,8 @@ namespace BLL
             bool ugyldigAvreiseTidspunkt = avreiseDag.Date < DateTime.Now.Date;
             if (fraFlyplass == null || tilFlyplass == null || ugyldigAvreiseTidspunkt) return reiseMuligheter;
 
-            List<Flygning> fraListe = dbFlygning.HentFlygningerFra(fraFlyplass);
-            List<Flygning> tilListe = dbFlygning.HentFlygningerTil(tilFlyplass);
+            List<Flygning> fraListe = dbflygning.HentFlygningerFra(fraFlyplass);
+            List<Flygning> tilListe = dbflygning.HentFlygningerTil(tilFlyplass);
 
             foreach (Flygning fraFlygning in fraListe)
             {
@@ -89,18 +94,18 @@ namespace BLL
 
         public List<Flygning> HentAlle(DateTime dateTime)
         {
-            return dbFlygning.HentAlle(dateTime);
+            return dbflygning.HentAlle(dateTime);
         }
 
         public Flygning HentEnFlygning(int id)
         {
-            return dbFlygning.HentEnFlygning(id);
+            return dbflygning.HentEnFlygning(id);
         }
 
         public bool LeggInnFlygning(LagFlygningViewModel flygning)
         {
 
-            return dbFlygning.LeggInnFlygning(new Flygning()
+            return dbflygning.LeggInnFlygning(new Flygning()
             {
                 Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
                 Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
@@ -110,12 +115,12 @@ namespace BLL
 
         public bool OppdaterFlygning(Flygning flygning)
         {
-            return dbFlygning.OppdaterFlygning(flygning);
+            return dbflygning.OppdaterFlygning(flygning);
         }
 
         public bool OppdaterStatus(int id)
         {
-            return dbFlygning.OppdaterStatus(id);
+            return dbflygning.OppdaterStatus(id);
         }
     }
 }

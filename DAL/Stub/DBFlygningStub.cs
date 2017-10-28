@@ -10,6 +10,11 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBFlygningStub : IDBFlygning
     {
+        public bool Endre(int id, DateTime nyAvgangstid)
+        {
+            throw new NotImplementedException();
+        }
+
         public Flygning Finn(int ID)
         {
             if (ID > 0) return new Flygning();
