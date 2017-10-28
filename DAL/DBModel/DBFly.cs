@@ -23,7 +23,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<Fly>(db.Fly.Find(ID));
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente fly med ID "+ ID);
+                    DALsetup.LogFeilTilFil("DBFly:Hent", e, "En feil oppsto da metoden prøvde å hente fly med ID "+ ID);
                     return null;
                 }
             }
@@ -38,7 +38,7 @@ namespace Flybilletter.DAL.DBModel
                     return Mapper.Map<List<Fly>>(db.Fly);
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å hente alle fly");
+                    DALsetup.LogFeilTilFil("DBFly:HentAlle", e, "En feil oppsto da metoden prøvde å hente alle fly");
                     return null;
                 }
             }
@@ -57,7 +57,7 @@ namespace Flybilletter.DAL.DBModel
 
                     db.Endringer.Add(new DBEndring()
                     {
-                        Endring = "Oppdaterer fly med id " + ID + ". Flymodell er " + dbflyentitet.Modell + ", antall seter er " + dbflyentitet.AntallSeter,
+                        Endring = "Oppdaterte fly med id " + ID + ". Flymodell er " + dbflyentitet.Modell + ", antall seter " + dbflyentitet.AntallSeter,
                         Tidspunkt = DateTime.Now
                     });
 
@@ -65,7 +65,7 @@ namespace Flybilletter.DAL.DBModel
                     return true;
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere fly");
+                    DALsetup.LogFeilTilFil("DBFly:Oppdater", e, "En feil oppsto da metoden prøvde å oppdatere fly");
                     return false;
                 }
             }
@@ -82,7 +82,7 @@ namespace Flybilletter.DAL.DBModel
                     db.Fly.Remove(fly);
                     db.Endringer.Add(new DBEndring()
                     {
-                        Endring = "Slett fly med id " + ID,
+                        Endring = "Slettet fly med id " + ID,
                         Tidspunkt = DateTime.Now
                     });
                     try
@@ -92,7 +92,7 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å slette fly med ID " + ID);
+                        DALsetup.LogFeilTilFil("DBFly:Slett", e, "En feil oppsto da metoden prøvde å slette fly med ID " + ID);
                         return false;
                     }
                 }
@@ -111,7 +111,7 @@ namespace Flybilletter.DAL.DBModel
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "Legg til fly med ID: " + fly.ID
+                        Endring = "La til fly: Modell = " + dbFly.Modell + ", Antall seter = " + dbFly.AntallSeter
                     });
                     
                     db.SaveChanges();
@@ -119,7 +119,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge til et nytt fly");
+                    DALsetup.LogFeilTilFil("DBFly:LeggTil", e, "En feil oppsto da metoden prøvde å legge til et nytt fly");
                     return false;
                 }
 

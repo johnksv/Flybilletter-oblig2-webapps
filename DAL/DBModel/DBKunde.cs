@@ -43,7 +43,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn kunder.");
+                DALsetup.LogFeilTilFil("DBKunde:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn kunder.");
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace Flybilletter.DAL.DBModel
                     var endring = new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = $"La til ny kunde: {kunde.Fornavn} {kunde.Etternavn}, {kunde.Adresse} {kunde.Postnummer.Postnr} {kunde.Postnummer.Poststed}"
+                        Endring = $"La til ny kunde: {kunde.Fornavn} {kunde.Etternavn}, {kunde.Adresse}, {kunde.Postnummer.Postnr} {kunde.Postnummer.Poststed}"
                     };
                     db.Endringer.Add(endring);
                     db.SaveChanges();
@@ -92,7 +92,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn ny kunde.");
+                    DALsetup.LogFeilTilFil("DBKunde:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn ny kunde.");
                     return null;
                 }
             }
@@ -102,19 +102,26 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbkunder = db.Kunder.Include("Postnummer").ToList();
-                var kunder = new List<Kunde>();
-                foreach (var kunde in dbkunder)
+                try
                 {
-                    var domenekunde = Mapper.Map<Kunde>(kunde);
+                    var dbkunder = db.Kunder.Include("Postnummer").ToList();
+                    var kunder = new List<Kunde>();
+                    foreach (var kunde in dbkunder)
+                    {
+                        var domenekunde = Mapper.Map<Kunde>(kunde);
 
-                    domenekunde.Postnr = kunde.Postnummer.Postnr;
-                    domenekunde.Poststed = kunde.Postnummer.Poststed;
+                        domenekunde.Postnr = kunde.Postnummer.Postnr;
+                        domenekunde.Poststed = kunde.Postnummer.Poststed;
 
-                    kunder.Add(domenekunde);
+                        kunder.Add(domenekunde);
 
+                    }
+                    return kunder;
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBKunde:HentAlle", e, "En feil oppsto da metoden prøvde å hente alle kundene.");
+                    return null;
                 }
-                return kunder;
             }
         }
 
@@ -122,11 +129,18 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbkunde = db.Kunder.Include("Postnummer").Where(kunde => kunde.ID == id).FirstOrDefault();
-                Kunde kund = Mapper.Map<Kunde>(dbkunde);
-                kund.Postnr = dbkunde.Postnummer.Postnr;
-                kund.Poststed = dbkunde.Postnummer.Poststed;
-                return kund;
+                try
+                {
+                    var dbkunde = db.Kunder.Include("Postnummer").Where(kunde => kunde.ID == id).FirstOrDefault();
+                    Kunde kund = Mapper.Map<Kunde>(dbkunde);
+                    kund.Postnr = dbkunde.Postnummer.Postnr;
+                    kund.Poststed = dbkunde.Postnummer.Poststed;
+                    return kund;
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBKunde:HentEnKunde", e, "En feil oppsto da metoden prøvde å hente en kunde.");
+                    return null;
+                }
 
             }
         }
@@ -149,14 +163,14 @@ namespace Flybilletter.DAL.DBModel
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = "Endret på kunde med ID: " + kunde.ID
+                        Endring = $"Endret på kunde {kunde.ID}, nye verdier: {kunde.Fornavn} {kunde.Etternavn}, {kunde.Adresse}, {kunde.Postnr} {kunde.Poststed}"
                     });
                     db.SaveChanges();
                     return true;
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å oppdatere kunde");
+                    DALsetup.LogFeilTilFil("DBKunde:Oppdater", e, $"En feil oppsto da metoden prøvde å oppdatere kunde.");
                     return false;
                 }
             }
@@ -179,7 +193,7 @@ namespace Flybilletter.DAL.DBModel
                             db.Endringer.Add(new DBEndring()
                             {
                                 Tidspunkt = DateTime.Now,
-                                Endring = $"Slettet kunde {kunde.Fornavn} {kunde.Etternavn}, id {kunde.ID}."
+                                Endring = $"Slettet kunde {kunde.Fornavn} {kunde.Etternavn}, ID {kunde.ID}."
                             });
                             db.SaveChanges();
                             return true;
@@ -188,7 +202,7 @@ namespace Flybilletter.DAL.DBModel
                         db.Endringer.Add(new DBEndring()
                         {
                             Tidspunkt = DateTime.Now,
-                            Endring = $"Prøvde å slette kunde {kunde.Fornavn} {kunde.Etternavn}, id {kunde.ID}, men hadde bestillinger tilknyttet."
+                            Endring = $"Prøvde å slette kunde {kunde.Fornavn} {kunde.Etternavn}, ID {kunde.ID}, men hadde bestillinger tilknyttet."
                         });
                         db.SaveChanges();
 
@@ -197,7 +211,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å slette kunde med ID " + id);
+                    DALsetup.LogFeilTilFil("DBKunde:SlettKunde", e, "En feil oppsto da metoden prøvde å slette kunde.");
                 }
                 return false;
 

@@ -42,7 +42,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å finne bestilling med referanse " + referanse);
+                DALsetup.LogFeilTilFil("DBBestilling:FinnBestilling", e, "En feil oppsto når metoden prøvde å finne bestilling med referanse " + referanse);
             }
 
             return bestilling;
@@ -52,36 +52,37 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbbestilling = Mapper.Map<DBBestilling>(bestilling);
-                var a = db.Entry(dbbestilling);
-
-                List<DBKunde> kunder = new List<DBKunde>();
-                DBKunde dbKunde = new DBKunde();
-                foreach (var kunde in bestilling.Passasjerer)
-                {
-                    kunder.Add(dbKunde.LeggInn(kunde));
-                    db.Kunder.Attach(kunder.Last());
-                }
-                dbbestilling.Passasjerer = kunder;
-
-                //MÅ mappes automatisk for å få riktig entity framework relasjon.... attach, samt mye annet ville ikke fungere...
-                List<DBFlygning> flygninger = new List<DBFlygning>();
-                foreach (var flygning in dbbestilling.FlygningerTur)
-                {
-                    flygninger.Add(db.Flygninger.Find(flygning.ID));
-                }
-                dbbestilling.FlygningerTur = flygninger;
-
-
-                flygninger = new List<DBFlygning>();
-                foreach (var flygning in dbbestilling.FlygningerRetur)
-                {
-                    flygninger.Add(db.Flygninger.Find(flygning.ID));
-                }
-                dbbestilling.FlygningerRetur = flygninger;
-
                 try
                 {
+                    var dbbestilling = Mapper.Map<DBBestilling>(bestilling);
+                    var a = db.Entry(dbbestilling);
+
+                    List<DBKunde> kunder = new List<DBKunde>();
+                    DBKunde dbKunde = new DBKunde();
+                    foreach (var kunde in bestilling.Passasjerer)
+                    {
+                        kunder.Add(dbKunde.LeggInn(kunde));
+                        db.Kunder.Attach(kunder.Last());
+                    }
+                    dbbestilling.Passasjerer = kunder;
+
+                    //MÅ mappes automatisk for å få riktig entity framework relasjon.... attach, samt mye annet ville ikke fungere...
+                    List<DBFlygning> flygninger = new List<DBFlygning>();
+                    foreach (var flygning in dbbestilling.FlygningerTur)
+                    {
+                        flygninger.Add(db.Flygninger.Find(flygning.ID));
+                    }
+                    dbbestilling.FlygningerTur = flygninger;
+
+
+                    flygninger = new List<DBFlygning>();
+                    foreach (var flygning in dbbestilling.FlygningerRetur)
+                    {
+                        flygninger.Add(db.Flygninger.Find(flygning.ID));
+                    }
+                    dbbestilling.FlygningerRetur = flygninger;
+
+                
                     db.Bestillinger.Add(dbbestilling);
                     var endring = new DBEndring()
                     {
@@ -93,7 +94,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å legge inn bestillingen i databasen.");
+                    DALsetup.LogFeilTilFil("DBBestilling:LeggInn", e, "En feil oppsto når metoden prøvde å legge inn bestillingen i databasen.");
                 }
 
             }
@@ -109,7 +110,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å finne ut om referansen " + referanse + " eksisterer.");
+                    DALsetup.LogFeilTilFil("DBBestilling:EksistererReferanse", e, "En feil oppsto når metoden prøvde å finne ut om referansen " + referanse + " eksisterer.");
                 }
                 return false;
             }
@@ -119,14 +120,21 @@ namespace Flybilletter.DAL.DBModel
         {
             using (var db = new DB())
             {
-                var dbbestillinger = db.Bestillinger.ToList();
-                var bestillinger = new List<Bestilling>();
-                foreach (var best in dbbestillinger)
+                try
                 {
-                    bestillinger.Add(Mapper.Map<Bestilling>(best));
-                }
+                    var dbbestillinger = db.Bestillinger.ToList();
+                    var bestillinger = new List<Bestilling>();
+                    foreach (var best in dbbestillinger)
+                    {
+                        bestillinger.Add(Mapper.Map<Bestilling>(best));
+                    }
 
-                return bestillinger;
+                    return bestillinger;
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto når metoden prøvde å hente alle bestillinger.");
+                    return null;
+                }
             }
         }
 
@@ -141,7 +149,7 @@ namespace Flybilletter.DAL.DBModel
 
                     db.Endringer.Add(new DBEndring()
                     {
-                        Endring = "Slett bestilling med referanse " + referanse,
+                        Endring = "Slettet bestilling med referanse " + referanse,
                         Tidspunkt = DateTime.Now
                     });
 
