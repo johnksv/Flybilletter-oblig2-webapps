@@ -134,7 +134,7 @@ namespace Flybilletter.Controllers
             {
                 if (!bllfly.Slett(ID))
                 {
-                    TempData["feilmelding"] = "Klarte ikke slette fly fra i databasen. Mulig den har flygninger relatert til seg.";
+                    TempData["feilmelding"] = "Kunne ikke slette fly. Mulig det har flygninger relatert til seg.";
                 }
 
                 return RedirectToAction("Fly");
@@ -373,7 +373,7 @@ namespace Flybilletter.Controllers
             {
                 if (!bllrute.Slett(id))
                 {
-                    TempData["feilmelding"] = "Klarte ikke slette rute fra i databasen. Mulig den har flygninger relatert til seg.";
+                    TempData["feilmelding"] = "Kunne ikke slette rute. Mulig den har flygninger relatert til seg.";
                 }
                 return RedirectToAction("Ruter");
             }
@@ -386,6 +386,10 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 List<Kunde> kunder = bllkunde.HentAlle();
+                if (TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
+                }
                 return View("ListKunder", kunder);
             }
             return RedirectToAction("Sok", "Home");
@@ -470,7 +474,14 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                bllkunde.SlettKunde(id);
+                if (! bllkunde.SlettKunde(id))
+                {
+
+                    TempData["feilmelding"] = "Kunne ikke slette kunde. Mulig den har bestillinger relatert til seg.";
+                }
+
+                return RedirectToAction("Kunder");
+
             }
             return RedirectToAction("Kunder");
         }

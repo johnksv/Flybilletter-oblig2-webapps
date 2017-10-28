@@ -9,6 +9,7 @@
     <p>Bestillinger kan legges til ved å gå til <a href="/Home/Sok">søk flygninger</a>.</p>
     <div class="form-group">
         <input class="sokListe input-sm form-control " placeholder="Søk" />
+        <span class="help-block">I tillegg til data som vises i tabellen kan det også søkes på kunders fornavn, etternavn, telefon og e-post.</span>
     </div>
 
     <div>
@@ -63,6 +64,10 @@
                     </td>
                     <td class="antalpass">
                         @item.Passasjerer.Count
+                        @foreach (var passasjer in item.Passasjerer)
+                        {
+                        <span class="hidden">@passasjer.Fornavn @passasjer.Etternavn @passasjer.Tlf @passasjer.EPost</span>
+                        }
                     </td>
                     <td class="totalpris">
                         @Html.DisplayFor(modelItem => item.Totalpris)
