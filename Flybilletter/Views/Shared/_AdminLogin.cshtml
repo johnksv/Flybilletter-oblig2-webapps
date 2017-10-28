@@ -1,7 +1,6 @@
 ﻿@using (Html.BeginForm("LoginFailed", "Admin", FormMethod.Post, new { @class = "form-inline loginForm", autocomplete = "off" }))
 {
     <div class="form-group">
-        <label>Logg inn</label>
         <input type="text" class="form-control" placeholder="Username" name="Username">
         <input type="password" class="form-control" placeholder="Password" name="Password">
         <button type="submit" class="btn btn-success">Logg inn</button>
@@ -11,7 +10,7 @@
     <p>Brukernavn: root</p>
     <p>Passord: Test1</p>
     <div class="alert alert-warning hidden" role="alert">
-        <strong>Feil!</strong> Feil kombinasjon av brukernavn og password.
+        <strong>Feil!</strong> Feil kombinasjon av brukernavn og passord.
     </div>
 }
 

@@ -27,12 +27,54 @@
          </div>
     </div>
 </div>
-
+<hr />
+<div id="adminer">
+    @Html.Partial("_ListAdministrator", (List<Flybilletter.Model.DomeneModel.Admin>)ViewBag.Admin)
+</div>
 <hr />
 <div id="endringer"><!--Partial View for å vise endringer i db-->
- @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
+    @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
 <hr />
 <div id="feil"><!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
 </div>
+
+<script>
+    $(function () {
+        $(".endre").click(function (event) {
+            event.preventDefault();
+
+            //Vis input-bokser
+            $(this).parents("tr").find(".editModel").toggleClass("hidden");
+            //Aktiver lagre-knapp
+            $(this).siblings(".lagre").toggleClass("disabled").toggleClass("btn-success").toggleClass("btn-default");
+
+            if ($(this).data("status") === "endre") {
+                $(this).text("Avbryt");
+                $(this).data("status", "avbryt");
+            } else {
+                $(this).text("Endre");
+                $(this).data("status", "endre");
+            }
+        });
+
+        $(".lagre").click(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).parents("tr").find(".editModel").serialize();
+
+            $.ajax({
+                url: "/Admin/EndreAdmin",
+                method: "POST",
+                data: formData
+            }).done(function (response) {
+                if (response === "true") {
+                    location.reload();
+                } else {
+                    alert(response);
+                }
+            });
+        });
+    });
+</script>

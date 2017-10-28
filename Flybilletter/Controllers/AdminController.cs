@@ -562,6 +562,7 @@ namespace Flybilletter.Controllers
             {
                 ViewBag.FeilFraFil = bllendring.ParseFeil(@"..\DAL\flybilletter-log.txt");
                 ViewBag.Endringer = bllendring.Hent();
+                ViewBag.Admin = blladmin.Hent();
                 return View();
             }
             return RedirectToAction("Sok", "Home");
@@ -579,6 +580,23 @@ namespace Flybilletter.Controllers
                 return RedirectToAction("Administrator");
             }
             return RedirectToAction("Sok", "Home");
+        }
+
+        public string EndreAdmin(AdminPassordViewModel adminViewModel)
+        {
+            if (ErAdmin())
+            {
+                if (ModelState.IsValid)
+                {
+                    if (blladmin.EndrePassord(adminViewModel))
+                    {
+                        return "true";
+                    }
+                    return "Klarte ikke å endre passord på " + adminViewModel.Username; //TODO: Lag mer detaljerte feilmeildinger.
+                }
+                return "Feil input.";
+            }
+            return "Ikke administrator";
         }
 
         private bool ErAdmin()

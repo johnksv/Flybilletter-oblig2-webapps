@@ -25,6 +25,7 @@ namespace Flybilletter.DAL
                     .ForMember(felt => felt.Poststed, opt => opt.MapFrom(dbkunde => dbkunde.Postnummer.Poststed));
                 cfg.CreateMap<DBPostnummer, Model.DomeneModel.Postnummer>();
                 cfg.CreateMap<DBEndring, Model.DomeneModel.Endring>().ForMember(endring => endring.EndringString, opt => opt.MapFrom(src => src.Endring));
+                cfg.CreateMap<DBAdmin, Model.DomeneModel.Admin>();
 
                 cfg.CreateMap<Model.DomeneModel.Bestilling, DBBestilling>();
                 cfg.CreateMap<Model.DomeneModel.Fly, DBFly>();

@@ -1,10 +1,13 @@
-﻿using Flybilletter.DAL.Interfaces;
+﻿using AutoMapper;
+using Flybilletter.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Linq;
 using System.Text;
 using DAL;
+using System.Collections.Generic;
+using Flybilletter.Model.ViewModel;
 
 namespace Flybilletter.DAL.DBModel
 {
@@ -38,7 +41,7 @@ namespace Flybilletter.DAL.DBModel
                 {
                     if (admin != null)
                     {
-                        var salt = lagSalt();
+                        var salt = LagSalt();
                         DBAdmin dbadmin = new DBAdmin()
                         {
                             Username = admin.Username,
@@ -91,7 +94,7 @@ namespace Flybilletter.DAL.DBModel
             Denne metoden genererer et dummy-salt. Random-klassen vil kun være pseudo-random, 
             men for å illustrere effekten av å legge til en tilfeldig string på passordet er dette godt nok.
         */
-        private string lagSalt()
+        private string LagSalt()
         {
             Random r = new Random();
             var saltLength = r.Next(10, 20);
@@ -103,5 +106,54 @@ namespace Flybilletter.DAL.DBModel
             return str.ToString();
         }
 
+        public List<Admin> HentAlle()
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    var dbadminer = db.Administratorer.ToList();
+                    var adminer = new List<Admin>();
+                    foreach (var dbadmin in dbadminer)
+                    {
+                        var admin = Mapper.Map<Admin>(dbadmin);
+                        adminer.Add(admin);
+                    }
+                    return adminer;
+                }
+                catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å returnere alle administratorer fra databasen");
+                    return new List<Admin>(); // Tom liste
+                }
+            }
+        }
+
+        public bool EndrePassord(string username, string password)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    var salt = LagSalt();
+                    var hash = HashPassord(password, salt);
+                    var admin = db.Administratorer.Find(username);
+                    admin.Password = hash;
+                    admin.Salt = salt;
+                    db.Endringer.Add(new DBEndring()
+                    {
+                        Tidspunkt = DateTime.Now,
+                        Endring = "Endrer passord på admin " + username
+                    });
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å endre passordet til admin " + username);
+                }
+            }
+            return false;
+        }
     }
 }

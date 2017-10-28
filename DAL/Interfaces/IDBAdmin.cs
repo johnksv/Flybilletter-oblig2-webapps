@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Flybilletter.Model.ViewModel;
 
 namespace Flybilletter.DAL.Interfaces
 {
@@ -13,5 +14,7 @@ namespace Flybilletter.DAL.Interfaces
         DBAdmin Hent(string username);
         bool LeggInn(Admin admin);
         byte[] HashPassord(string password, string salt);
+        List<Admin> HentAlle();
+        bool EndrePassord(string username, string password);
     }
 }

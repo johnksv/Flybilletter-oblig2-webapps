@@ -181,6 +181,7 @@
     <Content Include="Views\Admin\_ListFeilFraFil.cshtml" />
     <Content Include="Views\Admin\_ListEndringerFraDB.cshtml" />
     <Content Include="Views\Admin\_LagAdministrator.cshtml" />
+    <Content Include="Views\Admin\_ListAdministrator.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

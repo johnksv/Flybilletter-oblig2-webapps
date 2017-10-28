@@ -45,6 +45,7 @@
     <Compile Include="DomeneModel\Bestilling.cs" />
     <Compile Include="DomeneModel\Endring.cs" />
     <Compile Include="DomeneModel\Postnummer.cs" />
+    <Compile Include="ViewModel\AdminPassordViewModel.cs" />
     <Compile Include="ViewModel\BestillingViewModel.cs" />
     <Compile Include="DomeneModel\Fly.cs" />
     <Compile Include="DomeneModel\Flygning.cs" />

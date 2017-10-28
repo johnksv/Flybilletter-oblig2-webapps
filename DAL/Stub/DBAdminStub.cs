@@ -15,12 +15,22 @@ namespace Flybilletter.DAL.Stub
         {
         }
 
+        public bool EndrePassord(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+
         public byte[] HashPassord(string password, string salt)
         {
             throw new NotImplementedException();
         }
 
         public DBAdmin Hent(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Admin> HentAlle()
         {
             throw new NotImplementedException();
         }
