@@ -477,7 +477,7 @@ namespace Flybilletter.Controllers
                 return RedirectToAction("Kunder");
 
             }
-            return RedirectToAction("Kunder");
+            return RedirectToAction("Sok", "Home");
         }
 
         public ActionResult Flygninger()

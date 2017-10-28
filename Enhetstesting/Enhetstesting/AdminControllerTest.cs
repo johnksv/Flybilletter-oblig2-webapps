@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Enhetstesting
 {
@@ -63,6 +64,104 @@ namespace Enhetstesting
             bool faktisk = controller.LoginAttempt("test", "riktigPassord");
 
             Assert.IsTrue(faktisk);
+        }
+
+
+        [TestMethod]
+        public void SkalRedirecteTilSokNaarIkkeAdmin()
+        {
+            var controller = NyAdminControllerMedSession();
+            controller.Session["admin"] = null;
+            for (var i = 0; i < 2; i++)
+            {
+                //Sjekk først med null, så med false
+                if(i == 0)
+                {
+                    controller.Session["admin"] = null;
+                }
+                else
+                {
+                    controller.Session["admin"] = false;
+                }
+
+                var faktisk = (RedirectToRouteResult)controller.Bestillinger();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Fly();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.SeDetaljerBestilling("");
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.RedigerFly(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.SlettFly(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagFly();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagFly(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Flyplasser();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.NyFlyplass();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.NyFlyplass(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.EndreFlyplass("");
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Ruter();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagRute();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagRute(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.SlettRute(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Kunder();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagKunde();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LeggTilKunde(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.EndreKunde(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.OppdaterKunde(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.SlettKunde(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Flygninger();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.OppdaterFlygning(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagFlygning();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.OppdaterStatusFlygning(0);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.Administrator();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+            }
         }
 
 
