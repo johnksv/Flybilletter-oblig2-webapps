@@ -1,23 +1,46 @@
 ﻿@model IEnumerable<Flybilletter.Model.DomeneModel.Endring>
 
 <h4>Endringer lagret i database:</h4>
-<table class="table">
-    <tr>
-        <th>Endring</th>
-        <th>Tidspunkt</th>
-    </tr>
+<div class="endringer">
+    <button class="sortListe btn btn-sm btn-info" data-sort="tidspunktEndring">
+        Sorter etter tidspunkt
+    </button>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndringString)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tidspunkt)
-            </td>
-            <td>
-        </tr>
-    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Endring</th>
+                <th>Tidspunkt</th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndringString)
+                    </td>
+                    <td class="tidspunktEndring">
+                        @Html.DisplayFor(modelItem => item.Tidspunkt)
+                    </td>
+                    <td>
+                </tr>
+            }
+        </tbody>
 
-</table>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        //Data for list.js
+        var options = {
+            valueNames: ['tidspunktEndring'],
+            sortClass: "sortListe"
+        };
+
+        var endringList = new List('endringer', options);
+        endringList.sort('tidspunktEndring', { order: "desc" });
+    });
+
+</script>

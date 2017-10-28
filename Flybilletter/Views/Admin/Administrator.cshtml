@@ -9,11 +9,15 @@
 <h4>Innlogget side for administrator.</h4>
 <p class="text-info">I menybaren/navbaren over har du tilgang til sider for å gjennomføre CRUD operasjoner på entiteter som Fly, Flyplass, Kunde, Rute, og mye mer.</p>
 <p class="text-info">Under vises alle endringer som lagres i databasen, samt alle feil som er logget.</p>
-<br />
-<div><!--Partial View for å vise endringer i db-->
+
+<a href="#endringer" class="btn btn-info">Til endringer</a>
+<a href="#feil" class="btn btn-info">Til feilmeldinger</a>
+<hr />
+
+<div id="endringer"><!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
-<br />
-<div><!--Partial View for å vise feil fra fil-->
+<hr />
+<div id="feil"><!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
 </div>

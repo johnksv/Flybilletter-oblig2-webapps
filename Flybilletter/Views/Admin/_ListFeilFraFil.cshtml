@@ -1,22 +1,46 @@
 ﻿@model List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>
 
 <h4>Feilmeldinger lagret i fil:</h4>
-<table class="table">
-    <tr>
-        <th>Tidspunkt</th>
-        <th>Feilmelding</th>
-    </tr>
+<div class="feil">
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tidspunkt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Feilmelding)
-            </td>
-        </tr>
-    }
+    <button class="sortListe btn btn-sm btn-info" data-sort="tidspunktFeil">
+        Sorter etter tidspunkt
+    </button>
 
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Feilmelding</th>
+                <th>Tidspunkt</th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Feilmelding)
+                    </td>
+                    <td class="tidspunktFeil">
+                        @Html.DisplayFor(modelItem => item.Tidspunkt)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        //Data for list.js
+        var options = {
+            valueNames: ['tidspunktFeil'],
+            sortClass: "sortListe"
+        };
+
+        var feilList = new List('feil', options);
+        feilList.sort('tidspunktFeil', { order: "desc" });
+    });
+
+</script>
