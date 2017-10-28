@@ -35,7 +35,7 @@ namespace Flybilletter.DAL.DBModel
                 {
                     using (var db = new DB())
                     {
-                        var dbbestilling = db.Bestillinger.Include("Passasjerer.Postnummer.Postnr").Where(best => best.Referanse == referanse).FirstOrDefault();
+                        var dbbestilling = db.Bestillinger.Include("Passasjerer.Postnummer").Where(best => best.Referanse == referanse).FirstOrDefault();
                         bestilling = Mapper.Map<Bestilling>(dbbestilling);
                     }
                 }

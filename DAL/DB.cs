@@ -20,7 +20,9 @@ namespace Flybilletter.DAL
                 cfg.CreateMap<DBFlygning, Model.DomeneModel.Flygning>();
                 cfg.CreateMap<DBFlyplass, Model.DomeneModel.Flyplass>();
                 cfg.CreateMap<DBRute, Model.DomeneModel.Rute>();
-                cfg.CreateMap<DBKunde, Model.DomeneModel.Kunde>();
+                cfg.CreateMap<DBKunde, Model.DomeneModel.Kunde>()
+                    .ForMember(felt => felt.Postnr, opt => opt.MapFrom(dbkunde => dbkunde.Postnummer.Postnr))
+                    .ForMember(felt => felt.Poststed, opt => opt.MapFrom(dbkunde => dbkunde.Postnummer.Poststed));
                 cfg.CreateMap<DBPostnummer, Model.DomeneModel.Postnummer>();
                 cfg.CreateMap<DBEndring, Model.DomeneModel.Endring>().ForMember(endring => endring.EndringString, opt => opt.MapFrom(src => src.Endring));
 
