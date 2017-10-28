@@ -164,7 +164,6 @@
     <Content Include="Views\Shared\_AdminLogin.cshtml" />
     <Content Include="Views\Admin\ListBestillinger.cshtml" />
     <Content Include="Views\Admin\ListFly.cshtml" />
-    <Content Include="Views\Admin\RedigerFly.cshtml" />
     <Content Include="Views\Admin\ListKunder.cshtml" />
     <Content Include="Views\Admin\LagKunde.cshtml" />
     <Content Include="Views\Admin\RedigerKunde.cshtml" />
@@ -182,6 +181,7 @@
     <Content Include="Views\Admin\LagNyFlygning.cshtml" />
     <Content Include="Views\Admin\_ListFeilFraFil.cshtml" />
     <Content Include="Views\Admin\_ListEndringerFraDB.cshtml" />
+    <Content Include="Views\Admin\_LagAdministrator.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

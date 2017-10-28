@@ -1,9 +1,10 @@
 ﻿using Flybilletter.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
-using Model.DomeneModel;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Linq;
 using System.Text;
+using DAL;
 
 namespace Flybilletter.DAL.DBModel
 {
@@ -52,12 +53,13 @@ namespace Flybilletter.DAL.DBModel
                             Endring = "Legg til administrator med brukernavn " + admin.Username
                         });
                         db.SaveChanges();
+                        return true;
                     }
-                    return true;
+                    return false;
                 } catch (Exception e)
                 {
+                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn administrator med brukernavn " + admin.Username);
                     return false;
-                    //Logge feil?
                 }
             }
         }
@@ -85,6 +87,10 @@ namespace Flybilletter.DAL.DBModel
             return algorithm.ComputeHash(str);
         }
 
+        /* 
+            Denne metoden genererer et dummy-salt. Random-klassen vil kun være pseudo-random, 
+            men for å illustrere effekten av å legge til en tilfeldig string på passordet er dette godt nok.
+        */
         private string lagSalt()
         {
             Random r = new Random();

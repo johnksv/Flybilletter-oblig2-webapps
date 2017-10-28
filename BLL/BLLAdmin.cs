@@ -1,6 +1,6 @@
 ﻿using Flybilletter.DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
-using Model.DomeneModel;
+using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +40,9 @@ namespace BLL
             return false;
         }
 
-        public void LeggInn(Admin admin)
+        public bool LeggInn(Admin admin)
         {
-            dbAdmin.LeggInn(admin);
+            return dbAdmin.LeggInn(admin);
         }
 
 
@@ -51,5 +51,6 @@ namespace BLL
         {
             return dbAdmin.HashPassord(password, salt);
         }
+
     }
 }
