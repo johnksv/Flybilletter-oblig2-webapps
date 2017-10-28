@@ -1,4 +1,5 @@
 ﻿using BLL;
+using BLL.Stub;
 using Flybilletter.Controllers;
 using Flybilletter.DAL.Stub;
 using Flybilletter.Model.DomeneModel;
@@ -25,7 +26,7 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
             var bllrute = new BLLRute(new DBRuteStub());
             var bllendring = new BLLEndring(new DBEndringStub());
-            var blladmin = new BLLAdmin(new DBAdminStub());
+            var blladmin = new BLLAdminStub();
 
             var sessionMock = new TestControllerBuilder();
             var controller = new AdminController(bllbestilling, bllfly, bllkunde, bllflyplass, bllflygning, bllrute, bllendring, blladmin);
@@ -49,6 +50,8 @@ namespace Enhetstesting
         public void SkalKunneLoggeInn()
         {
             var controller = NyAdminControllerMedSession();
+            controller.Session["admin"] = true;
+
             var admin = new Admin()
             {
                 Username = "test",
@@ -56,6 +59,7 @@ namespace Enhetstesting
             };
 
             controller.LagAdmin(admin);
+            controller.Session["admin"] = false;
             bool faktisk = controller.LoginAttempt("test", "riktigPassord");
 
             Assert.IsTrue(faktisk);

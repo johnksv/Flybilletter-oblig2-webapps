@@ -75,7 +75,6 @@
     <Compile Include="Interfaces\IDBPostnummer.cs" />
     <Compile Include="Interfaces\IDBRute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stub\DBAdminStub.cs" />
     <Compile Include="Stub\DBBestillingStub.cs" />
     <Compile Include="Stub\DBEndringStub.cs" />
     <Compile Include="Stub\DBFlygningStub.cs" />
