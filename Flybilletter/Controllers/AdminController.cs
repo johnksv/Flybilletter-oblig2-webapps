@@ -399,7 +399,7 @@ namespace Flybilletter.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (! bllkunde.LeggInn(kunde))
+                    if (!bllkunde.LeggInn(kunde))
                     {
                         TempData["feilmelding"] = "Kunne ikke legge inn kunde. Feil i databasen.";
                     }
@@ -451,7 +451,6 @@ namespace Flybilletter.Controllers
             {
                 if (!bllkunde.Slett(id))
                 {
-
                     TempData["feilmelding"] = "Kunne ikke slette kunde. Mulig den har bestillinger relatert til seg.";
                 }
 
@@ -491,7 +490,7 @@ namespace Flybilletter.Controllers
                 }
                 return "En feil oppsto under lagring til databasen.";
             }
-            return "NotAdmin";
+            return "Ikke admin";
         }
 
         public ActionResult LagFlygning()
@@ -500,7 +499,7 @@ namespace Flybilletter.Controllers
             {
                 ViewBag.ruter = bllrute.HentAlle();
                 ViewBag.fly = bllfly.HentAlle();
-                return View("LagFlygning");
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -510,8 +509,16 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                bllflygning.LeggInn(flygning);
-                return RedirectToAction("Flygninger");
+                if (ModelState.IsValid)
+                {
+
+                    if (!bllflygning.LeggInn(flygning))
+                    {
+                        TempData["feilmelding"] = "Kunne ikke legge inn flygning. Feil i databasen.";
+                    }
+                    return RedirectToAction("Flygninger");
+                }
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }

@@ -34,7 +34,7 @@ namespace Flybilletter.DAL.Stub
 
         public Rute Hent(int ruteID)
         {
-            throw new System.NotImplementedException();
+            return ruter.FirstOrDefault(r => r.ID == ruteID);
         }
 
         public List<Rute> HentAlle()
