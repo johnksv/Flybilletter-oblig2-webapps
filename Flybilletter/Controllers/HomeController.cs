@@ -159,7 +159,7 @@ namespace Flybilletter.Controllers
         [HttpGet]
         public ActionResult ReferanseSok(string referanse)
         {
-            Bestilling bestilling = bllbestilling.FinnBestilling(referanse);
+            Bestilling bestilling = bllbestilling.Hent(referanse);
             return View("BestillingInformasjon", bestilling);
         }
 

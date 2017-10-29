@@ -9,10 +9,10 @@ namespace BLL
 {
     public interface IBLLFly
     {
-        List<Fly> HentAlle();
-        bool Oppdater(Fly fly);
-        Fly Hent(int ID);
-        bool Slett(int ID);
         bool LeggTil(Fly fly);
+        bool Endre(Fly fly);
+        Fly Hent(int ID);
+        List<Fly> HentAlle();
+        bool Slett(int ID);
     }
 }

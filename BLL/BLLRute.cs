@@ -33,12 +33,12 @@ namespace BLL
             return dbRute.HentAlle();
         }
 
-        public bool LagreRute(Rute rute)
+        public bool Endre(Rute rute)
         {
             return dbRute.Endre(rute);
         }
 
-        public bool LagRute(NyRuteViewModel rute)
+        public bool LeggInn(NyRuteViewModel rute)
         {
             Rute nyRute = new Rute()
             {

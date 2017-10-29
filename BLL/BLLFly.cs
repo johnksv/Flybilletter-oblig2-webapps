@@ -38,7 +38,7 @@ namespace BLL
             return dbFly.LeggInn(fly);
         }
 
-        public bool Oppdater(Fly fly)
+        public bool Endre(Fly fly)
         {
             return dbFly.Endre(fly);
         }

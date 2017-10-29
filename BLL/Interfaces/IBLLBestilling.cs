@@ -11,12 +11,12 @@ namespace BLL
     public interface IBLLBestilling
     {
 
-        Bestilling FinnBestilling(string referanse);
-        bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding);
         Bestilling LeggInn(List<Kunde> kunder, BestillingViewModel gjeldende);
-        string EksistererReferanse(string baseUrl, string referanse);
+        Bestilling Hent(string referanse);
         List<Bestilling> HentAlle();
         bool Slett(string referanse);
         bool SlettSomKunde(string referanse);
+        bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding);
+        string EksistererReferanse(string baseUrl, string referanse);
     }
 }

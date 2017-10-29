@@ -97,12 +97,12 @@ namespace BLL
             return dbflygning.HentAlle(dateTime);
         }
 
-        public Flygning HentEnFlygning(int id)
+        public Flygning Hent(int id)
         {
             return dbflygning.Hent(id);
         }
 
-        public bool LeggInnFlygning(LagFlygningViewModel flygning)
+        public bool LeggInn(LagFlygningViewModel flygning)
         {
 
             return dbflygning.LeggInn(new Flygning()
@@ -113,12 +113,12 @@ namespace BLL
             });
         }
 
-        public bool OppdaterFlygning(Flygning flygning)
+        public bool EndreFlygning(Flygning flygning)
         {
             return dbflygning.Endre(flygning);
         }
 
-        public bool OppdaterStatus(int id)
+        public bool EndreStatus(int id)
         {
             return dbflygning.EndreStatus(id);
         }
