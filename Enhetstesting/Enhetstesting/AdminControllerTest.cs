@@ -1132,5 +1132,21 @@ namespace Enhetstesting
             var result = controller.SlettAdmin(brukernavn);
             Assert.IsNull(controller.TempData["feilmeldinger"]);
         }
+
+        [TestMethod]
+        public void LoggUtSetterSessionLikNull()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var result = controller.LoggUt();
+            Assert.IsNull(controller.Session["Admin"]);
+        }
+
+        [TestMethod]
+        public void LoggUtRedirecterTilIndeks()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var result = (RedirectToRouteResult)controller.LoggUt();
+            Assert.AreEqual("Sok", result.RouteValues["action"]);
+        }
     }
 }
