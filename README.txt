@@ -9,10 +9,11 @@ Rammeverk vi har benyttet oss av:
     - bootstrap v3.3.7 (Twitter, inc.)
     - Z.EntityFramework.Extensions v3.13.5 (ZZZ Projects Inc.)
     - Automapper v6.1.1 (Jimmy Bogard)
-    - List.js v 1.5.0 (Jonny Strömberg)
+    - List.js v1.5.0 (Jonny Strömberg)
+    - StudioDonder.MvcContrib.Mvc4.TestHelper v3.0.0.99 (Outercurve Foundation, Erik Schierboom)
 
 Andre data vi har benyttes oss av:
-	- Postnummer i Norge - Publisert 27.02.2015 (https://data.norge.no/data/posten-norge/postnummer-i-norge)
+    - Postnummer i Norge - Publisert 27.02.2015 (https://data.norge.no/data/posten-norge/postnummer-i-norge)
 
 Anmerkelser fra prosjektoppgave 2:
     - Flygninger genereres i DAL/DBInit.cs, og det genereres flygninger fra dags dato (29.10.2017) til og med to uker frem i tid.
