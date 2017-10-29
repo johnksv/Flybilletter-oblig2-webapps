@@ -18,7 +18,12 @@ namespace Flybilletter.DAL.Stub
 
         public List<Endring> Hent()
         {
-            throw new NotImplementedException();
+            var endringer = new List<Endring>()
+            {
+                new Endring() {},
+                new Endring() {}
+            };
+            return endringer;
         }
     }
 }
