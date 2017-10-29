@@ -98,7 +98,8 @@ namespace Flybilletter.DAL.Stub
 
         public bool EndreStatus(int id)
         {
-            throw new NotImplementedException();
+            if (id < 0) return false;
+            return true;
         }
     }
 }

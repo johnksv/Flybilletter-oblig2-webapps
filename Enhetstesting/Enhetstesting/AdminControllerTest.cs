@@ -993,8 +993,13 @@ namespace Enhetstesting
 
 
 
-
-
+        [TestMethod]
+        public void EndreStatusFlygningReturnererRiktigViewHvisAdmin()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var resultat = (RedirectToRouteResult)controller.EndreStatusFlygning(0);
+            Assert.AreEqual("Flygninger", resultat.RouteValues["action"]);
+        }
 
         [TestMethod]
         public void AdministratorReturnererView()
