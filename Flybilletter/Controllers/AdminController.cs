@@ -559,6 +559,21 @@ namespace Flybilletter.Controllers
             return "Ikke administrator";
         }
 
+        public ActionResult SlettAdmin(string Username)
+        {
+            if (ErAdmin())
+            {
+                if (!blladmin.SlettAdmin(Username))
+                {
+                    TempData["feilmelding"] = "Kunne ikke slette administrator.";
+                }
+
+                return RedirectToAction("Administrator");
+
+            }
+            return RedirectToAction("Sok", "Home");
+        }
+
         private bool ErAdmin()
         {
             return Session["Admin"] != null && (bool)Session["Admin"] == true;

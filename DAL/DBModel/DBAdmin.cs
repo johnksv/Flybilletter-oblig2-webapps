@@ -154,5 +154,32 @@ namespace Flybilletter.DAL.DBModel
             }
             return false;
         }
+
+        public bool SlettAdmin(string username)
+        {
+            using (var db = new DB())
+            {
+                try
+                {
+                    var admin = db.Administratorer.Where(kunde => kunde.Username == username).FirstOrDefault();
+                    if (admin != null)
+                    {
+                        db.Administratorer.Remove(admin);
+                        db.Endringer.Add(new DBEndring()
+                        {
+                            Tidspunkt = DateTime.Now,
+                            Endring = $"Slettet admin {admin.Username} "
+                        });
+                        db.SaveChanges();
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBAdmin:SlettAdmin", e, "En feil oppsto da metoden prøvde å slette administrator.");
+                }
+                return false;
+            }
+        }
     }
 }

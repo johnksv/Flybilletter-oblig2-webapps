@@ -61,5 +61,12 @@ namespace BLL
         {
             return dbAdmin.LeggInn(admin);
         }
+
+        public bool SlettAdmin(string Username)
+        {
+            if (Username != "root")
+                return dbAdmin.SlettAdmin(Username);
+            return false;
+        }
     }
 }

@@ -45,5 +45,10 @@ namespace BLL.Stub
             return true;
 
         }
+
+        public bool SlettAdmin(string Username)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

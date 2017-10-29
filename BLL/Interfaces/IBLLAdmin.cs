@@ -14,5 +14,6 @@ namespace BLL
         bool LeggInn(Admin admin);
         List<Admin> Hent();
         bool EndrePassord(AdminPassordViewModel adminViewModel);
+        bool SlettAdmin(string Username);
     }
 }
