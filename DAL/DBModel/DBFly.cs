@@ -52,7 +52,6 @@ namespace Flybilletter.DAL.DBModel
             {
                 try
                 {
-                    // DB oppdater
                     var dbflyentitet = db.Fly.Find(fly.ID);
                     dbflyentitet.Modell = fly.Modell;
                     dbflyentitet.AntallSeter = fly.AntallSeter;

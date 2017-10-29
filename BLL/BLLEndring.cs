@@ -39,7 +39,6 @@ namespace BLL
             List<FeilFraFilViewModel> feil = new List<FeilFraFilViewModel>();
             try
             {
-                //FileInfo fi = new FileInfo(filePath);
                 StreamReader read = File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath));
                 string line;
                 while ((line = read.ReadLine()) != null)

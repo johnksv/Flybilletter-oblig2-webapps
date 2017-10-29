@@ -134,7 +134,6 @@ namespace Flybilletter.DAL.DBModel
             {
                 try
                 {
-                    // DB oppdater
                     var dbkundeEntitet = db.Kunder.Find(kunde.ID);
                     dbkundeEntitet.Fornavn = kunde.Fornavn;
                     dbkundeEntitet.Etternavn = kunde.Etternavn;

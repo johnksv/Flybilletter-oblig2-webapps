@@ -73,24 +73,21 @@ namespace Flybilletter.DAL.DBModel
                         
                     }
                     dbbestilling.Passasjerer = kunder;
-
-                    //MÅ mappes automatisk for å få riktig entity framework relasjon.... attach, samt mye annet ville ikke fungere...
+                    
                     List<DBFlygning> flygninger = new List<DBFlygning>();
                     foreach (var flygning in dbbestilling.FlygningerTur)
                     {
                         flygninger.Add(db.Flygninger.Find(flygning.ID));
                     }
                     dbbestilling.FlygningerTur = flygninger;
-
-
+                    
                     flygninger = new List<DBFlygning>();
                     foreach (var flygning in dbbestilling.FlygningerRetur)
                     {
                         flygninger.Add(db.Flygninger.Find(flygning.ID));
                     }
                     dbbestilling.FlygningerRetur = flygninger;
-
-                
+                    
                     db.Bestillinger.Add(dbbestilling);
                     var endring = new DBEndring()
                     {

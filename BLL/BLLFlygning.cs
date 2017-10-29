@@ -64,7 +64,6 @@ namespace BLL
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
         {
-            //TODO: Om vi implementerer quickgraph vil denne funksjonen være lettere
             List<Reise> reiseMuligheter = new List<Reise>();
 
 
