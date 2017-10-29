@@ -3,6 +3,7 @@ using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace BLL
     {
         private IDBFlyplass dbFlyplass;
 
+        [ExcludeFromCodeCoverage]
         public BLLFlyplass()
         {
             dbFlyplass = new DBFlyplass();

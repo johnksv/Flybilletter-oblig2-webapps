@@ -6,6 +6,13 @@
     string jsonFlygninger = jsSerializer.Serialize(Model);
 }
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 <h2>Flygninger</h2>
 
 <p>

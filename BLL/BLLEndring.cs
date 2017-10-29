@@ -10,6 +10,7 @@ using Flybilletter.DAL.Interfaces;
 using DAL;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BLL
 {
@@ -17,6 +18,7 @@ namespace BLL
     {
         private IDBEndring dbEndring;
 
+        [ExcludeFromCodeCoverage]
         public BLLEndring() : this(new DBEndring())
         {
         }

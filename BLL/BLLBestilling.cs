@@ -4,6 +4,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -17,6 +18,7 @@ namespace BLL
         private IDBBestilling dbBestilling;
         private IDBFlygning dbflygning;
 
+        [ExcludeFromCodeCoverage]
         public BLLBestilling()
         {
             dbBestilling = new DBBestilling();
