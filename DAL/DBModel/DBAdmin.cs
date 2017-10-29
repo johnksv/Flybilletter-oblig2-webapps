@@ -32,7 +32,6 @@ namespace Flybilletter.DAL.DBModel
         public string Brukernavn { get; set; }
         public byte[] Passord { get; set; }
         public string Salt { get; set; }
-        // NiceToHave: DateTime LastLogin
 
         public bool LeggInn(Admin admin)
         {
