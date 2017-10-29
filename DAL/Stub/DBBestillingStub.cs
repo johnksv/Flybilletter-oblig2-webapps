@@ -32,7 +32,7 @@ namespace Flybilletter.DAL.Stub
                 FlygningerTur = new List<Flygning>(){
                     new Flygning() //Kunde kan slette
                 {
-                    AvgangsTid = new DateTime(2018,01,01,00,00,00)
+                    AvgangsTid = new DateTime(2019,01,01,00,00,00)
                 } },
                 Bestillingstidspunkt = new DateTime(2018,11,27,12,00,00) //Kunde kan slette
             },
@@ -42,7 +42,7 @@ namespace Flybilletter.DAL.Stub
                 FlygningerTur = new List<Flygning>(){
                     new Flygning() //Kunde kan ikke slette
                 {
-                    AvgangsTid = new DateTime(2016,01,01,00,00,00)
+                    AvgangsTid = new DateTime(2019,01,01,00,00,00)
                 } },
                 Bestillingstidspunkt = new DateTime(2018,11,27,12,00,00) //Kunde kan slette
             },

@@ -174,30 +174,38 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var model = bllflyplass.HentAlle();
+                if (TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
+                }
                 return View("ListFlyplasser", model);
             }
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult NyFlyplass()
+        public ActionResult LagFlyplass()
         {
             if (ErAdmin())
             {
-                return View("LagFlyplass");
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }
 
         [HttpPost]
-        public ActionResult NyFlyplass(Flyplass flyplass)
+        public ActionResult LagFlyplass(Flyplass flyplass)
         {
             if (ErAdmin())
             {
                 if (ModelState.IsValid)
                 {
-                    bllflyplass.LeggInn(flyplass);
+                    if( !bllflyplass.LeggInn(flyplass))
+                    {
+                        TempData["feilmelding"] = "Kunne ikke legge inn flyplass. Feil i databasen.";
+                    }
+                    return RedirectToAction("Flyplasser");
                 }
-                return RedirectToAction("Flyplasser");
+                return View(flyplass);
             }
             return RedirectToAction("Sok", "Home");
         }
