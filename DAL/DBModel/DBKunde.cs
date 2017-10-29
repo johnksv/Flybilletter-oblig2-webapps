@@ -145,7 +145,7 @@ namespace Flybilletter.DAL.DBModel
                     db.Endringer.Add(new DBEndring()
                     {
                         Tidspunkt = DateTime.Now,
-                        Endring = $"Endret på kunde {kunde.ID}, nye verdier: {kunde.Fornavn} {kunde.Etternavn}, {kunde.Adresse}, {kunde.Postnr} {kunde.Poststed}"
+                        Endring = $"Endret på kunde {kunde.ID}, nye verdier: {kunde.Fornavn} {kunde.Etternavn}, {kunde.Adresse}, {kunde.Postnr} {dbkundeEntitet.Postnummer.Poststed}"
                     });
                     db.SaveChanges();
                     return true;
