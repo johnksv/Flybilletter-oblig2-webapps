@@ -27,3 +27,6 @@ Anmerkelser fra prosjektoppgave 1:
 Link til webapplikasjonen:
     http://flybilletterwebapps2017.azurewebsites.net/
 
+Påloggingsinformasjon for administrator:
+    Brukernavn: "root"
+    Passord: "Test1"
