@@ -105,7 +105,7 @@ namespace Flybilletter.Controllers
                 }
                 else
                 {
-                    // https://stackoverflow.com/questions/1352948/how-to-get-all-errors-from-asp-net-mvc-modelstate
+                    //Kilde: https://stackoverflow.com/questions/1352948/how-to-get-all-errors-from-asp-net-mvc-modelstate
                     return string.Join(".\n", ModelState.Values
                                         .SelectMany(x => x.Errors)
                                         .Select(x => x.ErrorMessage));
