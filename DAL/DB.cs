@@ -2,9 +2,11 @@
 using Flybilletter.DAL.DBModel;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flybilletter.DAL
 {
+    [ExcludeFromCodeCoverage]
     internal class DB : DbContext
     {
 

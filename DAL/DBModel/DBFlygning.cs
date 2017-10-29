@@ -4,11 +4,13 @@ using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
 
 namespace Flybilletter.DAL.DBModel
 {
+    [ExcludeFromCodeCoverage]
     public class DBFlygning : IDBFlygning
     {
         public int ID { get; set; }

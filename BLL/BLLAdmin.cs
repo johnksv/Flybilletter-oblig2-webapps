@@ -7,9 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flybilletter.Model.ViewModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BLL
 {
+    [ExcludeFromCodeCoverage]
     public class BLLAdmin : IBLLAdmin
     {
         private IDBAdmin dbAdmin;

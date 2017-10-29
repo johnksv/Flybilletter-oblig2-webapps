@@ -3,11 +3,13 @@ using Flybilletter.DAL.DBModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
 
 namespace Flybilletter.DAL
 {
+    [ExcludeFromCodeCoverage]
     internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
     {
         protected override void Seed(DB context)

@@ -6,9 +6,11 @@ using System.Web;
 using Flybilletter.Model.DomeneModel;
 using AutoMapper;
 using DAL;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flybilletter.DAL.DBModel
 {
+    [ExcludeFromCodeCoverage]
     public class DBRute : IDBRute
     {
         public int ID { get; set; }

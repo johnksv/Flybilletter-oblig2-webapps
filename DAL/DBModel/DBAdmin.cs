@@ -8,9 +8,11 @@ using System.Text;
 using DAL;
 using System.Collections.Generic;
 using Flybilletter.Model.ViewModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flybilletter.DAL.DBModel
 {
+    [ExcludeFromCodeCoverage]
     public class DBAdmin : IDBAdmin
     {
 

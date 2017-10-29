@@ -9,9 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Flybilletter.Model.DomeneModel;
 using DAL;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flybilletter.DAL.DBModel
 {
+    [ExcludeFromCodeCoverage]
     //Lagrer endringer i databasen
     public class DBEndring : IDBEndring
     {

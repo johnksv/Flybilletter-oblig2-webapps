@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Flybilletter.Model.DomeneModel;
 using System;
 using DAL;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flybilletter.DAL.DBModel
 {
+    [ExcludeFromCodeCoverage]
     public class DBFly : IDBFly
     {
         public int ID { get; set; }
