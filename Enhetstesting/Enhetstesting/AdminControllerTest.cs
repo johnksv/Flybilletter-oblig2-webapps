@@ -737,6 +737,55 @@ namespace Enhetstesting
             Assert.AreEqual(null, controller.TempData["feilmelding"]);
         }
 
+        [TestMethod]
+        public void SlettKundeUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettKunde(1);
+
+            Assert.AreEqual("Kunder", faktisk.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void SlettKundeMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettKunde(-1);
+
+            Assert.AreEqual("Kunder", faktisk.RouteValues["action"]);
+            string forventet = "Kunne ikke slette kunde. Mulig den har bestillinger relatert til seg.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void FlygningerUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.Flygninger();
+
+
+            Assert.AreEqual("ListFlygning", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(null, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void FlygningerMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string feilmelding = "Dette er en feilmelding";
+            controller.TempData["feilmelding"] = feilmelding;
+
+            var faktisk = (ViewResult)controller.Flygninger();
+
+            Assert.AreEqual("ListFlygning", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
+        }
+
 
         //Disse kunne evt vært splittet opp i en test-metode for hvert case
         [TestMethod]

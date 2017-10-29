@@ -466,6 +466,10 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var flygninger = bllflygning.HentAlle(DateTime.Now);
+                if (TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
+                }
                 return View("ListFlygning", flygninger);
             }
 

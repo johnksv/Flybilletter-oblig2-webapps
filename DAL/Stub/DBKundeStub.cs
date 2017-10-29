@@ -44,13 +44,13 @@ namespace Flybilletter.DAL.Stub
 
         public DBKunde LeggInn(Kunde innKunde)
         {
-            if( innKunde != null 
-                && innKunde.Fornavn != null 
+            if (innKunde != null
+                && innKunde.Fornavn != null
                 && innKunde.Etternavn != null
-                && innKunde.Fodselsdag != null 
-                && innKunde.EPost != null 
+                && innKunde.Fodselsdag != null
+                && innKunde.EPost != null
                 && innKunde.Tlf != null
-                && innKunde.Postnr != null 
+                && innKunde.Postnr != null
                 && innKunde.Poststed != null)
             {
                 return new DBKunde();
@@ -58,14 +58,25 @@ namespace Flybilletter.DAL.Stub
             return null;
         }
 
-        public bool Endre(Kunde kunde)
+        public bool Endre(Kunde innKunde)
         {
-            throw new NotImplementedException();
+            if (innKunde != null
+               && innKunde.Fornavn != null
+               && innKunde.Etternavn != null
+               && innKunde.Fodselsdag != null
+               && innKunde.EPost != null
+               && innKunde.Tlf != null
+               && innKunde.Postnr != null
+               && innKunde.Poststed != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool Slett(int id)
         {
-            throw new NotImplementedException();
+            return id > 0;
         }
     }
 }
