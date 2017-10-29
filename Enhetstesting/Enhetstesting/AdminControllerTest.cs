@@ -108,7 +108,7 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void seDetaljertBestillingSkalReturne()
+        public void SeDetaljertBestillingSkalReturnView()
         {
             var controller = NyAdminControllerMedSession(true);
             
@@ -116,6 +116,7 @@ namespace Enhetstesting
 
             Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
         }
+
 
 
 
@@ -145,9 +146,6 @@ namespace Enhetstesting
                 faktisk = (RedirectToRouteResult)controller.SeDetaljerBestilling("");
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
-                faktisk = (RedirectToRouteResult)controller.RedigerFly(0);
-                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
-
                 faktisk = (RedirectToRouteResult)controller.SlettFly(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
@@ -164,9 +162,6 @@ namespace Enhetstesting
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.NyFlyplass(null);
-                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
-
-                faktisk = (RedirectToRouteResult)controller.EndreFlyplass("");
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.Ruter();
@@ -188,9 +183,6 @@ namespace Enhetstesting
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.LeggTilKunde(null);
-                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
-
-                faktisk = (RedirectToRouteResult)controller.EndreKunde(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.OppdaterKunde(null);

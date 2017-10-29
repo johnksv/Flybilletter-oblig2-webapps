@@ -85,16 +85,6 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult RedigerFly(int ID)
-        {
-            if (ErAdmin())
-            {
-                var fly = bllfly.Hent(ID);
-                if (fly != null) return View("RedigerFly", fly);
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
         [HttpPost]
         public string EndreFly(Fly item)
         {
@@ -198,21 +188,6 @@ namespace Flybilletter.Controllers
                     bllflyplass.LeggInn(flyplass);
                 }
                 return RedirectToAction("Flyplasser");
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
-        public ActionResult EndreFlyplass(string id)
-        {
-            if (ErAdmin())
-            {
-                var model = bllflyplass.Hent(id);
-                if (model != null)
-                {
-                    return View("EndreFlyplass", model);
-                }
-                ViewBag.Feilmelding = "Fant ikke flyplass med ID " + id + " i databasen";
-                //TODO: redirect til feilmelding
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -444,16 +419,6 @@ namespace Flybilletter.Controllers
             return "NotAdmin";
         }
 
-        public ActionResult EndreKunde(int id)
-        {
-            if (ErAdmin())
-            {
-                var kunde = bllkunde.HentEnKunde(id);
-                return View("RedigerKunde", kunde);
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
         public ActionResult OppdaterKunde(Kunde kunde)
         {
             if (ErAdmin())
@@ -576,6 +541,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
+        [HttpPost]
         public string EndreAdmin(AdminPassordViewModel adminViewModel)
         {
             if (ErAdmin())
