@@ -175,7 +175,7 @@
     <Content Include="Views\Admin\ListRuter.cshtml" />
     <Content Include="Views\Admin\LagRute.cshtml" />
     <Content Include="Views\Shared\_SlettElementModal.cshtml" />
-    <Content Include="Views\Admin\LagNyFlygning.cshtml" />
+    <Content Include="Views\Admin\LagFlygning.cshtml" />
     <Content Include="Views\Admin\_ListFeilFraFil.cshtml" />
     <Content Include="Views\Admin\_ListEndringerFraDB.cshtml" />
     <Content Include="Views\Admin\_LagAdministrator.cshtml" />

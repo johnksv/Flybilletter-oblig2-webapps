@@ -598,10 +598,7 @@ namespace Enhetstesting
                 faktisk = (RedirectToRouteResult)controller.LagKunde();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
-                faktisk = (RedirectToRouteResult)controller.LeggTilKunde(null);
-                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
-
-                faktisk = (RedirectToRouteResult)controller.OppdaterKunde(null);
+                faktisk = (RedirectToRouteResult)controller.LagKunde(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.SlettKunde(0);
@@ -610,13 +607,10 @@ namespace Enhetstesting
                 faktisk = (RedirectToRouteResult)controller.Flygninger();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
-                faktisk = (RedirectToRouteResult)controller.OppdaterFlygning(null);
-                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
-
                 faktisk = (RedirectToRouteResult)controller.LagFlygning();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
-                faktisk = (RedirectToRouteResult)controller.OppdaterStatusFlygning(0);
+                faktisk = (RedirectToRouteResult)controller.EndreStatusFlygning(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.Administrator();

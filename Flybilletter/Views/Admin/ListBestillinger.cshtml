@@ -104,26 +104,7 @@
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
-        /*
-        $("#slette").click(function (event2) {          
-            $(".slettknapp").click(function (event) {
-                event.preventDefault();
-                var that = $(this);
-                $.ajax({
-                    type: "POST",
-                    url: that.attr("href")
-                }).done(function (response) {
-                    if (response == "True") {
-                        that.parents("tr").remove();
-                    } else {
-                        alert("En feil oppsto. Kan ikke slette");
-                    }
-                });
-            });
-
-        });
-        */
-
+        
         //Data for list.js
         var options = {
             valueNames: ['referanse', 'bestil', 'antalpass', 'totalpris'],

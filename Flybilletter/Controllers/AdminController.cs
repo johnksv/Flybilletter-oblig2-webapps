@@ -391,7 +391,7 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult LeggTilKunde(Kunde kunde)
+        public ActionResult LagKunde(Kunde kunde)
         {
             if (ErAdmin())
             {
@@ -436,17 +436,7 @@ namespace Flybilletter.Controllers
             }
             return "NotAdmin";
         }
-
-        public ActionResult OppdaterKunde(Kunde kunde)
-        {
-            if (ErAdmin())
-            {
-                bllkunde.Oppdater(kunde);
-                return RedirectToAction("Kunder");
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
+        
         public ActionResult SlettKunde(int id)
         {
             if (ErAdmin())
@@ -492,23 +482,13 @@ namespace Flybilletter.Controllers
             return "NotAdmin";
         }
 
-        public ActionResult OppdaterFlygning(Flygning flygning)
-        {
-            if (ErAdmin())
-            {
-                bllflygning.OppdaterFlygning(flygning);
-                return RedirectToAction("Flygninger");
-            }
-            return RedirectToAction("Sok", "Home");
-        }
-
         public ActionResult LagFlygning()
         {
             if (ErAdmin())
             {
                 ViewBag.ruter = bllrute.HentAlle();
                 ViewBag.fly = bllfly.HentAlle();
-                return View("LagNyFlygning");
+                return View("LagFlygning");
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -524,7 +504,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public ActionResult OppdaterStatusFlygning(int id)
+        public ActionResult EndreStatusFlygning(int id)
         {
             if (ErAdmin())
             {
@@ -533,6 +513,7 @@ namespace Flybilletter.Controllers
             }
             return RedirectToAction("Sok", "Home");
         }
+
         public ActionResult Administrator()
         {
             if (ErAdmin())

@@ -96,9 +96,7 @@
                         @Html.ActionLink("Endre", "EndreFlygning", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
                         @Html.ActionLink("Lagre", "LagreKunde", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
 
-                        @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
-                        {
-                            @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" })
+                        @if                             @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" })
                         }
                         else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
                         {
@@ -122,7 +120,76 @@
     </table>
 </div>
 
-@if (Model.Count() >= 8)
+@if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
+    {
+
+
+#line default
+#line hidden
+
+#line 22 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+        __o = Html.ActionLink("Kanseller", "EndreStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" });
+
+
+#line default
+#line hidden
+
+#line 23 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+
+    }
+    else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
+    {
+
+
+#line default
+#line hidden
+
+#line 24 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+        __o = Html.ActionLink("Aktiver", "EndreStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success", data_val = "aktivere", data_tittel = "Aktiver" });
+
+
+#line default
+#line hidden
+
+#line 25 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+
+    }
+    else
+    {
+        if (item.Kansellert == true)
+        {
+
+
+#line default
+#line hidden
+
+#line 26 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+
+        }
+        else
+        {
+
+
+#line default
+#line hidden
+
+#line 27 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+
+        }
+    }
+
+#line default
+#line hidden
+
+#line 28 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+
+}
+
+#line default
+#line hidden
+
+#line 29 "C:\Users\Trygve Vang\Documents\Webapplikasjoner\Flybilletter-oblig2-webapps\Flybilletter\Views\Admin\ListFlygning.cshtml"
+if (Model.Count() >= 8)
             {
     <p>
         @Html.ActionLink("Lag ny flygning", "LagFlygning", new { }, new { @class = "btn btn-primary" })

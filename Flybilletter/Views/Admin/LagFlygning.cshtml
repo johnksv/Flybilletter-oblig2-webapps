@@ -1,13 +1,13 @@
 ﻿@model Flybilletter.Model.ViewModel.LagFlygningViewModel
 
 @{
-    ViewBag.Title = "LagNyFlygning";
+    ViewBag.Title = "Lag ny flygning";
     var jsSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     string jsonFly = jsSerializer.Serialize(ViewBag.Fly);
     string jsonRuter = jsSerializer.Serialize(ViewBag.Ruter);
 }
 
-<h2>LagNyFlygning</h2>
+<h2>Lag ny flygning</h2>
 
 @using (Html.BeginForm("LagreFlygning", "Admin", FormMethod.Post))
 {
