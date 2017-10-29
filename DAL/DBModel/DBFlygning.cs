@@ -191,7 +191,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public bool Endre(int id, DateTime nyAvgangstid) //TODO: Bruker vi både denne og metoden Endre (Linje 100)
+        public bool Endre(int id, DateTime nyAvgangstid)
         {
             using (var db = new DB())
             {

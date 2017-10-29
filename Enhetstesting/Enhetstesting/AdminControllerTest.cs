@@ -980,7 +980,7 @@ namespace Enhetstesting
             var controller = NyAdminControllerMedSession(true);
             var result = (ViewResult)controller.Administrator();
             Assert.AreEqual("", result.ViewName);
-        } // Bør ViewBags i metoden testes?
+        }
 
         [TestMethod]
         public void LagAdminModelStateNotValid()
@@ -1126,8 +1126,7 @@ namespace Enhetstesting
             var result = (RedirectToRouteResult)controller.LoggUt();
             Assert.AreEqual("Sok", result.RouteValues["action"]);
         }
-
-        //Disse kunne evt vært splittet opp i en test-metode for hvert case
+        
         [TestMethod]
         public void SkalRedirecteTilSokNaarIkkeAdmin()
         {
