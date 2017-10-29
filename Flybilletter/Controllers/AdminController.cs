@@ -153,10 +153,14 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return bllbestilling.Slett(referanse);
+                if (!bllbestilling.Slett(referanse))
+                {
+                    TempData["feilmelding"] = "Kunne ikke slette bestilling. Mulig flyet allerede har gått.";
+                }
 
+                return RedirectToAction("Bestillinger");
             }
-            return false;
+            return RedirectToAction("Sok", "Home");
         }
 
         public ActionResult Flyplasser()
