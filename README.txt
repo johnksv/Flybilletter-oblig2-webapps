@@ -16,6 +16,7 @@ Andre data vi har benyttes oss av:
 
 Anmerkelser fra prosjektoppgave 2:
     - Flygninger genereres i DAL/DBInit.cs, og det genereres flygninger fra dags dato til og med tre uker frem i tid.
+    - Deler av applikasjon som DAL er ikke natulig å teste, og har derfor blitt ekskludert fra Code Coverage, og andre deler som BLL blir implisitt testet gjennom AdminController.
 
 Anmerkelser fra prosjektoppgave 1:
     - Webapplikasjonen tar kun høyde for reiser med 0 eller 1 mellomlanding. Støtte for flere mellomlandinger kan løses ved å bruke rammeverket "QuickGraph". Dette ville blitt implementert som følger: Flyplasser angis som noder, og et graf-tre bygges rundt dette. Alle kanter mellom nodene representerer flyruter, og man angir en vekt på disse rutene. I vårt tilfelle ville denne vekten enten vært reisetid eller distanse. Basert på vår tolkning av oppgaveteksten, valgte vi å ikke implementere dette.
