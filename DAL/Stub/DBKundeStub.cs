@@ -37,11 +37,6 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public bool LeggInn(IEnumerable<Kunde> kunder)
-        {
-            throw new NotImplementedException();
-        }
-
         public DBKunde LeggInn(Kunde innKunde)
         {
             if (innKunde != null

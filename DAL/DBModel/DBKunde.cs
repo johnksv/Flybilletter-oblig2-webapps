@@ -33,25 +33,6 @@ namespace Flybilletter.DAL.DBModel
 
         public virtual List<DBBestilling> Bestillinger { get; set; }
 
-
-        public bool LeggInn(IEnumerable<Kunde> kunder)
-        {
-            try
-            {
-                foreach (var kunde in kunder)
-                {
-                    LeggInn(kunde);
-                }
-            }
-            catch (Exception e)
-            {
-                DALsetup.LogFeilTilFil("DBKunde:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn kunder.");
-                return false;
-            }
-
-            return true;
-        }
-
         public DBKunde LeggInn(Kunde innKunde)
         {
             using (var db = new DB())
