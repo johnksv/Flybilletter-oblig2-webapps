@@ -23,7 +23,7 @@ namespace Enhetstesting
         {
             var bllfly = new BLLFly(new DBFlyStub());
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub(), new DBRuteStub(), new DBFlyStub());
             var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
             var bllrute = new BLLRute(new DBRuteStub());
@@ -847,6 +847,91 @@ namespace Enhetstesting
             Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
         }
 
+        [TestMethod]
+        public void EndreFlygningSkalFungereMedGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            
+            string faktisk = controller.EndreFlygning(1, DateTime.Now.AddDays(2));
+
+            Assert.AreEqual("true", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlygningMedUgyldigID()
+        {
+            var controller = NyAdminControllerMedSession(true);
+ 
+            string faktisk = controller.EndreFlygning(0, DateTime.Now.AddDays(2) );
+
+            Assert.AreEqual("En feil oppsto under lagring til databasen.", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlygningMedUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            string faktisk = controller.EndreFlygning(0, DateTime.Now.AddDays(-2));
+
+            Assert.AreEqual("Ugyldig data. Avgangstid må være et senere tiddspunkt enn nå.", faktisk);
+        }
+
+        [TestMethod]
+        public void LagFlygning()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.LagFlygning();
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreNotEqual(null, controller.ViewBag.ruter);
+            Assert.AreNotEqual(null, controller.ViewBag.fly);
+        }
+
+        [TestMethod]
+        public void LagFlygningUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            controller.ModelState.AddModelError("Flygning", "Flygning er obligatorisk");
+            var faktisk = (ViewResult)controller.LagFlygning(null);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual(null, faktisk.Model);
+        }
+
+        [TestMethod]
+        public void LagFlygningUgyldigModellIDatabase()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var flygning = new LagFlygningViewModel();
+
+            var faktisk = (RedirectToRouteResult)controller.LagFlygning(flygning);
+
+            Assert.AreEqual("Flygninger", faktisk.RouteValues["action"]);
+            string forventet = "Kunne ikke legge inn flygning. Feil i databasen.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+
+        [TestMethod]
+        public void LagFlygningGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var flygning = new LagFlygningViewModel()
+            {
+                AvgangsTid = DateTime.Now.AddHours(5),
+                FlyID = "1",
+                RuteID = "1"
+            };
+
+            var faktisk = (RedirectToRouteResult)controller.LagFlygning(flygning);
+
+            Assert.AreEqual("Flygninger", faktisk.RouteValues["action"]);
+            Assert.AreEqual(null, controller.TempData["feilmelding"]);
+        }
+
 
         //Disse kunne evt vært splittet opp i en test-metode for hvert case
         [TestMethod]
@@ -926,13 +1011,22 @@ namespace Enhetstesting
                 faktisk = (RedirectToRouteResult)controller.LagKunde(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
+                stringResult = controller.EndreKunde(null);
+                Assert.AreEqual("Ikke admin", stringResult);
+
                 faktisk = (RedirectToRouteResult)controller.SlettKunde(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.Flygninger();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
+                stringResult = controller.EndreFlygning(0, new DateTime());
+                Assert.AreEqual("Ikke admin", stringResult);
+
                 faktisk = (RedirectToRouteResult)controller.LagFlygning();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagFlygning(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.EndreStatusFlygning(0);
