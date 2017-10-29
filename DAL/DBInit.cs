@@ -170,7 +170,7 @@ namespace Flybilletter.DAL
             };
 
 
-            for (int i = 0; i < 100; i += 8) // 336 timer = 2 uker _ STO 1344
+            for (int i = 0; i < 336; i += 8) // 336 timer = 2 uker _ STO 1344
             {
                 var flygningBOOOSL = new DBFlygning()
                 {

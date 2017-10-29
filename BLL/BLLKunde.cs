@@ -15,7 +15,6 @@ namespace BLL
     {
         private IDBKunde dbkunde;
         private IDBPostnummer dbPostnummer;
-        private DBKundeStub dBKundeStub;
 
         [ExcludeFromCodeCoverage]
         public BLLKunde()
