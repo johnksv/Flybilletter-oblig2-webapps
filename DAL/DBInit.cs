@@ -10,7 +10,7 @@ using System.Web;
 namespace Flybilletter.DAL
 {
     [ExcludeFromCodeCoverage]
-    internal class DBInit : DropCreateDatabaseIfModelChanges<DB>
+    internal class DBInit : DropCreateDatabaseAlways<DB>
     {
         protected override void Seed(DB context)
         {
@@ -258,7 +258,120 @@ namespace Flybilletter.DAL
                 context.Flygninger.Add(flygningOSLCPH);
                 context.Flygninger.Add(flygningCPHOSL);
             }
+            var flygningCPHOSL1 = new DBFlygning()
+            {
+                AvgangsTid = new DateTime(2017, 12, 12, 12, 00, 00),
+                Fly = Boeing737_3,
+                Rute = CPHOSL,
+                Kansellert = false
+            };
+            var flygningOSLCPH2 = new DBFlygning()
+            {
+                AvgangsTid = new DateTime(2017,12,20,12,00,00),
+                Fly = Boeing737_3,
+                Rute = OSLCPH,
+                Kansellert = false
+            };
+            var flygningOSLARN2 = new DBFlygning()
+            {
+                AvgangsTid = DateTime.Today.AddHours(3),
+                Fly = Boeing737_3,
+                Rute = OSLARN,
+                Kansellert = false
+            };
+            var flygningARNOSL1 = new DBFlygning()
+            {
+                AvgangsTid = DateTime.Today.AddHours(3),
+                Fly = Boeing737_3,
+                Rute = ARNOSL,
+                Kansellert = false
+            };
 
+            var flygningOSLARN3 = new DBFlygning()
+            {
+                AvgangsTid = new DateTime(2018,01,12,12,00,00),
+                Fly = Boeing737_3,
+                Rute = OSLARN,
+                Kansellert = false
+            };
+            var flygningARNOSL4 = new DBFlygning()
+            {
+                AvgangsTid = new DateTime(2018,01,01,12,00,00),
+                Fly = Boeing737_3,
+                Rute = ARNOSL,
+                Kansellert = false
+            };
+
+            context.Flygninger.Add(flygningCPHOSL1);
+            context.Flygninger.Add(flygningOSLCPH2);
+            context.Flygninger.Add(flygningOSLARN2);
+            context.Flygninger.Add(flygningARNOSL1);
+            context.Flygninger.Add(flygningOSLARN3);
+            context.Flygninger.Add(flygningARNOSL4);
+
+
+            var best1 = new DBBestilling()
+            {
+                Bestillingstidspunkt = new DateTime(2017, 10, 29, 17, 13, 00),
+                FlygningerTur = new List<DBFlygning>() { flygningCPHOSL1 },
+                FlygningerRetur = new List<DBFlygning>() { flygningOSLCPH2 },
+                Totalpris = flygningOSLCPH2.Rute.BasePris + flygningCPHOSL1.Rute.BasePris,
+                Referanse = "123ABC"
+            };
+
+            var best2 = new DBBestilling()
+            {
+                Bestillingstidspunkt = new DateTime(2017, 10, 29, 17, 49, 00),
+                FlygningerTur = new List<DBFlygning>() { flygningOSLARN2 },
+                FlygningerRetur = new List<DBFlygning>() { flygningARNOSL1 },
+                Totalpris = flygningOSLARN2.Rute.BasePris + flygningARNOSL1.Rute.BasePris,
+                Referanse = "CBA321"
+            };
+
+            var best3 = new DBBestilling()
+            {
+                Bestillingstidspunkt = new DateTime(2018, 10, 29, 17, 49, 00),
+                FlygningerTur = new List<DBFlygning>() { flygningOSLARN3 },
+                FlygningerRetur = new List<DBFlygning>() { flygningARNOSL4 },
+                Totalpris = flygningOSLARN3.Rute.BasePris + flygningARNOSL4.Rute.BasePris,
+                Referanse = "123456"
+            };
+
+            var kunde1 = new DBKunde()
+            {
+                Fornavn = "Ola",
+                Etternavn = "Nordmann",
+                ID = 100,
+                Adresse = "Oslogata 85",
+                Postnummer = poststeder.ToList()[4],
+                EPost = "olanordmann@gmail.com",
+                Fodselsdag = new DateTime(1968, 04, 16),
+                Tlf = "98653212",
+                Bestillinger = new List<DBBestilling>() { best1 }
+            };
+
+            var kunde2 = new DBKunde()
+            {
+                Fornavn = "Kari",
+                Etternavn = "Nordmann",
+                ID = 101,
+                Adresse = "Oslogata 85",
+                Postnummer = poststeder.ToList()[4],
+                EPost = "karinordmann@gmail.com",
+                Fodselsdag = new DateTime(1968, 07, 17),
+                Tlf = "47659863",
+                Bestillinger = new List<DBBestilling>() { best2 }
+            };
+
+            best2.Passasjerer = new List<DBKunde>() { kunde2 };
+            best1.Passasjerer = new List<DBKunde>() { kunde1 };
+            best3.Passasjerer = new List<DBKunde>() { kunde1, kunde2 };
+
+            context.Kunder.Add(kunde1);
+            context.Kunder.Add(kunde2);
+            context.Bestillinger.Add(best1);
+            context.Bestillinger.Add(best2);
+            context.Bestillinger.Add(best3);
 
             context.Flyplasser.Add(OSL);
             context.Flyplasser.Add(BOO);
