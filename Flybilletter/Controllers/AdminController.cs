@@ -45,7 +45,7 @@ namespace Flybilletter.Controllers
                 Session["Admin"] = true;
                 return true;
             }
-                
+
             return false;
         }
 
@@ -98,7 +98,7 @@ namespace Flybilletter.Controllers
                     }
                     else
                     {
-                        return "Fikk ikke oppdatert flyet.";
+                        return "En feil oppsto under lagring til databasen.";
                     }
                 }
                 else
@@ -140,11 +140,17 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (bllfly.LeggTil(fly))
+                if (ModelState.IsValid)
                 {
-                    List<Fly> alleFly = bllfly.HentAlle();
+
+                    if (!bllfly.LeggTil(fly))
+                    {
+                        TempData["feilmelding"] = "Kunne ikke legge inn fly. Feil i databasen.";
+                    }
                     return RedirectToAction("Fly");
                 }
+                return View(fly);
+
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -256,7 +262,7 @@ namespace Flybilletter.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    if (! bllrute.LagRute(rute))
+                    if (!bllrute.LagRute(rute))
                     {
                         TempData["feilmelding"] = "En feil oppso under lagring av ruten til databasen";
                     }
@@ -381,7 +387,7 @@ namespace Flybilletter.Controllers
                     return RedirectToAction("Kunder");
                 else return RedirectToAction("Kunder");
             }
-                return RedirectToAction("Sok", "Home");
+            return RedirectToAction("Sok", "Home");
         }
 
         [HttpPost]
@@ -433,7 +439,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (! bllkunde.SlettKunde(id))
+                if (!bllkunde.SlettKunde(id))
                 {
 
                     TempData["feilmelding"] = "Kunne ikke slette kunde. Mulig den har bestillinger relatert til seg.";
@@ -461,11 +467,11 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if(nyAvgangstid <= DateTime.Now)
+                if (nyAvgangstid <= DateTime.Now)
                 {
                     return "Ugyldig data. Avgangstid må være et senere tiddspunkt enn nå.";
                 }
-                if(bllflygning.EndreFlygning(id, nyAvgangstid))
+                if (bllflygning.EndreFlygning(id, nyAvgangstid))
                 {
                     return "true";
                 }
