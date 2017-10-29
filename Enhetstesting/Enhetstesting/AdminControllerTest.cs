@@ -493,11 +493,12 @@ namespace Enhetstesting
         public void LagRuteUgyldigModellIDatabase()
         {
             var controller = NyAdminControllerMedSession(true);
-            var rute = new NyRuteViewModel() {
+            var rute = new NyRuteViewModel()
+            {
                 FraFlyplassID = "",
                 TilFlyplassID = "OSL",
                 Basepris = -1,
-                Reisetid = new TimeSpan(1,0,0)
+                Reisetid = new TimeSpan(1, 0, 0)
             };
 
             var faktisk = (RedirectToRouteResult)controller.LagRute(rute);
@@ -524,6 +525,136 @@ namespace Enhetstesting
 
             Assert.AreEqual("Ruter", faktisk.RouteValues["action"]);
             Assert.AreEqual(null, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void EndreRuteSkalFungereMedGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new Rute()
+            {
+                ID = 1,
+                Fra = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen Lufthavn"
+
+                },
+                Til = new Flyplass()
+                {
+                    ID = "BOO",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                BasePris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            string faktisk = controller.EndreRute(rute);
+
+            Assert.AreEqual("true", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreRuterFeilModellOgSammeDestinasjon()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new Rute()
+            {
+                ID = 1,
+                Fra = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen Lufthavn"
+                },
+                Til = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                BasePris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            controller.ModelState.AddModelError("rute.ID", "feil");
+            controller.ModelState.AddModelError("rute.BasePris", "feil");
+            controller.ModelState.AddModelError("rute.Reisetid", "feil");
+            controller.ModelState.AddModelError("rute.Fra.ID", "feil");
+            controller.ModelState.AddModelError("rute.Til.ID", "feil");
+
+            string faktisk = controller.EndreRute(rute);
+            string forventet = "Ugyldig id: feil.\nUgyldig pris: feil.\nUgyldig id: feil.\nUgyldig fra Flyplass: feil.\nUgyldig til flyplass: feil.\nRute kan ikke ha samme til og fra.";
+
+            Assert.AreEqual(forventet, faktisk);
+        }
+
+        [TestMethod]
+        public void EndreRuterGaarIkkeGjennomOslo()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new Rute()
+            {
+                ID = 1,
+                Fra = new Flyplass()
+                {
+                    ID = "BOO",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                Til = new Flyplass()
+                {
+                    ID = "ARN",
+                    By = "Stockholm",
+                    Land = "Sverige",
+                    Navn = "Arlanda Lufthavn"
+                },
+                BasePris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            string faktisk = controller.EndreRute(rute);
+            string forventet = "Grunnet begrensninger fra oblig 1 må alle ruter gå innom Oslo (OSL).";
+
+            Assert.AreEqual(forventet, faktisk);
+        }
+
+        [TestMethod]
+        public void EndreRuterFeilIDatabase()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new Rute()
+            {
+                ID = 1,
+                Fra = new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen Lufthavn"
+                },
+                Til = new Flyplass()
+                {
+                    ID = "ARN",
+                    By = "Stockholm",
+                    Land = "Sverige",
+                    Navn = "Arlanda Lufthavn"
+                },
+                BasePris = -5,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            string faktisk = controller.EndreRute(rute);
+            string forventet = "En feil oppsto med lagring i database.";
+
+            Assert.AreEqual(forventet, faktisk);
         }
 
         //Disse kunne evt vært splittet opp i en test-metode for hvert case
@@ -588,6 +719,9 @@ namespace Enhetstesting
 
                 faktisk = (RedirectToRouteResult)controller.LagRute(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                stringResult = controller.EndreRute(null);
+                Assert.AreEqual("Ikke admin", stringResult);
 
                 faktisk = (RedirectToRouteResult)controller.SlettRute(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
@@ -676,7 +810,33 @@ namespace Enhetstesting
         {
             var controller = NyAdminControllerMedSession(true);
             var result = (ViewResult)controller.Administrator();
-            Assert.AreEqual(result.ViewName, "");
+            Assert.AreEqual("", result.ViewName);
+        } // Bør ViewBags i metoden testes?
+
+        [TestMethod]
+        public void LagAdminModelStateNotValid()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var admin = new Admin()
+            {
+                Brukernavn = null,
+                Passord = null
+            };
+            var result = (RedirectToRouteResult)controller.LagAdmin(admin);
+            Assert.AreEqual("Administrator", result.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void LagAdminModelStateValid()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var admin = new Admin()
+            {
+                Brukernavn = "testadmin",
+                Passord = "Test1"
+            };
+            var result = (RedirectToRouteResult)controller.LagAdmin(admin);
+            Assert.AreEqual("Administrator", result.RouteValues["action"]);
         }
 
     }
