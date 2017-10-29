@@ -574,7 +574,7 @@ namespace Flybilletter.Controllers
                 }
                 return "Feil input.";
             }
-            return "Ikke administrator";
+            return "Ikke admin";
         }
 
         public ActionResult SlettAdmin(string Username)

@@ -680,6 +680,32 @@ namespace Enhetstesting
         }
 
         [TestMethod]
+        public void KunderUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.Kunder();
+
+            Assert.AreEqual("ListKunder", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(null, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void KunderMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string feilmelding = "Dette er en feilmelding";
+            controller.TempData["feilmelding"] = feilmelding;
+
+            var faktisk = (ViewResult)controller.Kunder();
+
+            Assert.AreEqual("ListKunder", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
         public void LagKunde()
         {
             var controller = NyAdminControllerMedSession(true);
@@ -1023,6 +1049,9 @@ namespace Enhetstesting
                 stringResult = controller.EndreFlygning(0, new DateTime());
                 Assert.AreEqual("Ikke admin", stringResult);
 
+                stringResult = controller.EndreAdmin(null);
+                Assert.AreEqual("Ikke admin", stringResult);
+
                 faktisk = (RedirectToRouteResult)controller.LagFlygning();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
@@ -1033,6 +1062,15 @@ namespace Enhetstesting
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
 
                 faktisk = (RedirectToRouteResult)controller.Administrator();
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                faktisk = (RedirectToRouteResult)controller.LagAdmin(null);
+                Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                stringResult = controller.EndreFlygning(0, new DateTime());
+                Assert.AreEqual("Ikke admin", stringResult);
+
+                faktisk = (RedirectToRouteResult)controller.SlettAdmin(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
             }
         }

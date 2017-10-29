@@ -29,7 +29,7 @@ namespace Flybilletter.DAL.Stub
 
         public List<Kunde> HentAlle()
         {
-            throw new NotImplementedException();
+            return kunder;
         }
 
         public Kunde Hent(int id)
