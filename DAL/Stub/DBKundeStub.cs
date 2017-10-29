@@ -37,7 +37,7 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public DBKunde LeggInn(Kunde innKunde)
+        public bool LeggInn(Kunde innKunde)
         {
             if (innKunde != null
                 && innKunde.Fornavn != null
@@ -48,9 +48,9 @@ namespace Flybilletter.DAL.Stub
                 && innKunde.Postnr != null
                 && innKunde.Poststed != null)
             {
-                return new DBKunde();
+                return true;
             }
-            return null;
+            return false;
         }
 
         public bool Endre(Kunde innKunde)

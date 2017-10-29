@@ -38,7 +38,7 @@ namespace BLL
 
         public bool LeggInn(Kunde innKunde)
         {
-            return dbkunde.LeggInn(innKunde) != null;
+            return dbkunde.LeggInn(innKunde);
         }
 
         public bool Endre(Kunde kunde)

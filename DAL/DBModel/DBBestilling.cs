@@ -63,8 +63,14 @@ namespace Flybilletter.DAL.DBModel
                     DBKunde dbKunde = new DBKunde();
                     foreach (var kunde in bestilling.Passasjerer)
                     {
-                        kunder.Add(dbKunde.LeggInn(kunde));
-                        db.Kunder.Attach(kunder.Last());
+                        dbKunde.LeggInn(kunde);
+                        var dkunde = db.Kunder.Include("Postnummer").Where(k => k.Etternavn == kunde.Etternavn && k.Fornavn == kunde.Fornavn && k.Tlf == kunde.Tlf).FirstOrDefault();
+                        kunder.Add(dkunde);
+                        if(! db.Poststeder.Local.Any(e => e.Postnr == dkunde.Postnummer.Postnr)){
+                            db.Entry(dkunde.Postnummer).State = EntityState.Unchanged;
+                        }
+                        
+                        
                     }
                     dbbestilling.Passasjerer = kunder;
 

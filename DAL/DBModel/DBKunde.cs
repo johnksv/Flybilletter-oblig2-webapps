@@ -33,7 +33,7 @@ namespace Flybilletter.DAL.DBModel
 
         public virtual List<DBBestilling> Bestillinger { get; set; }
 
-        public DBKunde LeggInn(Kunde innKunde)
+        public bool LeggInn(Kunde innKunde)
         {
             using (var db = new DB())
             {
@@ -43,7 +43,7 @@ namespace Flybilletter.DAL.DBModel
 
                     if (eksisterendeKunde != null)
                     {
-                        return eksisterendeKunde;
+                        return false;
                     }
 
                     DBKunde kunde = Mapper.Map<DBKunde>(innKunde);
@@ -71,12 +71,12 @@ namespace Flybilletter.DAL.DBModel
                     db.Endringer.Add(endring);
                     db.SaveChanges();
 
-                    return kunde;
+                    return true;
                 }
                 catch (Exception e)
                 {
                     DALsetup.LogFeilTilFil("DBKunde:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn ny kunde.");
-                    return null;
+                    return false;
                 }
             }
         }

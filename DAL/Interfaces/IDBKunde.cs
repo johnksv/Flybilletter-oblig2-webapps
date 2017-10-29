@@ -10,7 +10,7 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBKunde
     {
-        DBKunde LeggInn(Kunde innKunde);
+        bool LeggInn(Kunde innKunde);
         List<Kunde> HentAlle();
         Kunde Hent(int id);
         bool Endre(Kunde kunde);
