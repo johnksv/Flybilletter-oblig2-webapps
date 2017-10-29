@@ -169,9 +169,18 @@ namespace Flybilletter.Controllers
             return bllbestilling.EksistererReferanse("/Home/ReferanseSok?referanse=", referanse);
         }
 
-        public bool SlettBestilling(string referanse)
+        public ActionResult SlettBestilling(string referanse)
         {
-            return bllbestilling.SlettSomKunde(referanse);
+            if (!bllbestilling.SlettSomKunde(referanse))
+            {
+                TempData["feilmelding"] = "Kunne ikke slette bestilling. Mulig flyet allerede har gått.";
+                return RedirectToAction("ReferanseSok","Home", referanse);
+            }
+            else
+            {
+                return RedirectToAction("Sok", "Home");
+            }
+            
         }
 
 

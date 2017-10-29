@@ -168,7 +168,7 @@ namespace Flybilletter.DAL.DBModel
                         db.Endringer.Add(new DBEndring()
                         {
                             Tidspunkt = DateTime.Now,
-                            Endring = $"Slettet admin {admin.Username} "
+                            Endring = $"Slettet administrator {admin.Username} "
                         });
                         db.SaveChanges();
                         return true;
