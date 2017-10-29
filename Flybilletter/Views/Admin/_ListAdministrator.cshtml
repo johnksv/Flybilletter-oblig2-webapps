@@ -38,13 +38,22 @@
                     <td>
                         @Html.ActionLink("Endre passord", "EndrePassord", new { id = item.Username }, new { @class = "endre btn btn-default", data_status = "endre" })
                         @Html.ActionLink("Lagre", "LagrePassord", new { id = item.Username }, new { @class = "lagre btn btn-default disabled" })
-                        @Html.ActionLink("Slett administrator", "SlettAdmin", new { id = item.Username }, new { @class = "slett btn btn-danger slettKnapp" })
+                        @if (item.Username != "root")
+                        {
+                            @Html.ActionLink("Slett", "SlettAdmin", new { Username = item.Username }, new { @class = "btn btn-danger slettKnapp" })
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-default" title="Kan ikke slette root" data-toggle="tooltip">Slett</a>
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@Html.Partial("_SlettElementModal")
 
 <script>
     $(function () {
@@ -82,6 +91,8 @@
                 }
                 });
         });
+
+        $('[data-toggle="tooltip"]').tooltip();
 
         //Data for list.js
         var options = {

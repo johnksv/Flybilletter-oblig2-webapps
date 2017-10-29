@@ -155,14 +155,18 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public bool SlettBestilling(string referanse)
+        public ActionResult SlettBestilling(string referanse)
         {
             if (ErAdmin())
             {
-                return bllbestilling.Slett(referanse);
+                if (!bllbestilling.Slett(referanse))
+                {
+                    TempData["feilmelding"] = "Kunne ikke slette bestilling. Mulig flyet allerede har gått.";
+                }
 
+                return RedirectToAction("Bestillinger");
             }
-            return false;
+            return RedirectToAction("Sok", "Home");
         }
 
         public ActionResult Flyplasser()
@@ -563,6 +567,21 @@ namespace Flybilletter.Controllers
                 return "Feil input.";
             }
             return "Ikke administrator";
+        }
+
+        public ActionResult SlettAdmin(string Username)
+        {
+            if (ErAdmin())
+            {
+                if (!blladmin.SlettAdmin(Username))
+                {
+                    TempData["feilmelding"] = "Kunne ikke slette administrator.";
+                }
+
+                return RedirectToAction("Administrator");
+
+            }
+            return RedirectToAction("Sok", "Home");
         }
 
         private bool ErAdmin()

@@ -4,6 +4,13 @@
     ViewBag.Title = "Bestillinger";
 }
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 <h2>Bestillinger</h2>
 <div id="bestillinger">
     <p>Bestillinger kan legges til ved å gå til <a href="/Home/Sok">søk flygninger</a>.</p>
@@ -77,7 +84,7 @@
 
                         @if (DateTime.Now < item.FlygningerTur.First().AvgangsTid)
                 {
-                            @Html.ActionLink("Slett", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "slettknapp btn btn-danger" })
+                            @Html.ActionLink("Slett", "SlettBestilling", new { referanse = item.Referanse }, new { @class = "slettknapp slettKnapp btn btn-danger" })
                         }
                         else
                         {
@@ -92,26 +99,30 @@
 
 </div>
 
+@Html.Partial("_SlettElementModal")
+
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
-
-        $(".slettknapp").click(function (event) {
-            event.preventDefault();
-            var that = $(this);
-            $.ajax({
-                type: "POST",
-                url: that.attr("href")
-            }).done(function (response) {
-                if (response == "True") {
-                    that.parents("tr").remove();
-                } else {
-                    alert("En feil oppsto. Kan ikke slette");
-                }
+        /*
+        $("#slette").click(function (event2) {          
+            $(".slettknapp").click(function (event) {
+                event.preventDefault();
+                var that = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: that.attr("href")
+                }).done(function (response) {
+                    if (response == "True") {
+                        that.parents("tr").remove();
+                    } else {
+                        alert("En feil oppsto. Kan ikke slette");
+                    }
+                });
             });
 
         });
-
+        */
 
         //Data for list.js
         var options = {
