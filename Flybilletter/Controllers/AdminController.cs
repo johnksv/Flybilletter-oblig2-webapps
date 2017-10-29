@@ -288,7 +288,7 @@ namespace Flybilletter.Controllers
 
 
         [HttpPost]
-        public string LagreRute(Rute rute)
+        public string EndreRute(Rute rute)
         {
             if (ErAdmin())
             {

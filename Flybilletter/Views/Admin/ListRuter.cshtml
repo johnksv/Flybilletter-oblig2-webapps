@@ -98,7 +98,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreRute", new { id = rute.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
-                        @Html.ActionLink("Lagre", "LagreRute", new { id = rute.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
+                        @Html.ActionLink("Lagre", "EndreRute", new { id = rute.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
                         @Html.ActionLink("Slett", "SlettRute", new { id = rute.ID }, new { @class = "slettKnapp btn btn-danger" })
                     </td>
                 </tr>
@@ -148,7 +148,7 @@
             var formData = $(this).parents("tr").find(".editModel").serialize();
 
             $.ajax({
-                url: "/Admin/LagreRute",
+                url: "/Admin/EndreRute",
                 method: "POST",
                 data: formData
             }).done(function (response) {
