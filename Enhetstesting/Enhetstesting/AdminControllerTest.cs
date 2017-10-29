@@ -810,7 +810,33 @@ namespace Enhetstesting
         {
             var controller = NyAdminControllerMedSession(true);
             var result = (ViewResult)controller.Administrator();
-            Assert.AreEqual(result.ViewName, "");
+            Assert.AreEqual("", result.ViewName);
+        } // Bør ViewBags i metoden testes?
+
+        [TestMethod]
+        public void LagAdminModelStateNotValid()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var admin = new Admin()
+            {
+                Username = null,
+                Password = null
+            };
+            var result = (RedirectToRouteResult)controller.LagAdmin(admin);
+            Assert.AreEqual("Administrator", result.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void LagAdminModelStateValid()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var admin = new Admin()
+            {
+                Username = "testadmin",
+                Password = "Test1"
+            };
+            var result = (RedirectToRouteResult)controller.LagAdmin(admin);
+            Assert.AreEqual("Administrator", result.RouteValues["action"]);
         }
 
     }
