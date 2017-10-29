@@ -15,7 +15,9 @@ namespace BLL.Stub
 
         public bool EndrePassord(AdminPassordViewModel adminViewModel)
         {
-            throw new NotImplementedException();
+            if (adminViewModel.Username != "root" && adminViewModel.Nytt == adminViewModel.NyttBekreft && adminViewModel.Gammelt != null)
+                return true;
+            return false;
         }
 
         public List<Admin> Hent()
@@ -61,7 +63,8 @@ namespace BLL.Stub
 
         public bool SlettAdmin(string Username)
         {
-            throw new NotImplementedException();
+            if (Username != "root" && Username.Length >= 4) return true;
+            return false;
         }
     }
 }
