@@ -22,8 +22,8 @@
             {
                 <tr>
                     <td class="brukernavn">
-                        @Html.DisplayFor(modelItem => item.Username)
-                        <input class="editModel hidden input-xs text-box single-line" data-val="true" name="Username" type="hidden" value="@item.Username">
+                        @Html.DisplayFor(modelItem => item.Brukernavn)
+                        <input class="editModel hidden input-xs text-box single-line" data-val="true" name="Username" type="hidden" value="@item.Brukernavn">
                     </td>
                     <td>
                         <!--Passord td-->
@@ -32,11 +32,11 @@
                         <input class="editModel hidden form-control input-xs text-box single-line" data-val="true" name="NyttBekreft" placeholder="Bekreft nytt passord">
                     </td>
                     <td>
-                        @Html.ActionLink("Endre passord", "EndrePassord", new { id = item.Username }, new { @class = "endre btn btn-default", data_status = "endre" })
-                        @Html.ActionLink("Lagre", "LagrePassord", new { id = item.Username }, new { @class = "lagre btn btn-default disabled" })
-                        @if (item.Username != "root")
+                        @Html.ActionLink("Endre passord", "EndrePassord", new { id = item.Brukernavn }, new { @class = "endre btn btn-default", data_status = "endre" })
+                        @Html.ActionLink("Lagre", "LagrePassord", new { id = item.Brukernavn }, new { @class = "lagre btn btn-default disabled" })
+                        @if (item.Brukernavn != "root")
                         {
-                            @Html.ActionLink("Slett", "SlettAdmin", new { Username = item.Username }, new { @class = "btn btn-danger slettKnapp" })
+                            @Html.ActionLink("Slett", "SlettAdmin", new { Username = item.Brukernavn }, new { @class = "btn btn-danger slettKnapp" })
                         }
                         else
                         {

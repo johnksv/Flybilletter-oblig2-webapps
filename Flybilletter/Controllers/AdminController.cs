@@ -304,7 +304,7 @@ namespace Flybilletter.Controllers
                 {
                     ModelState.TryGetValue("rute.BasePris", out var value);
                     string hvorfor = value.Errors.First().ErrorMessage;
-                    feilmeldinger.Add($"Ugyldig pris: {hvorfor} .");
+                    feilmeldinger.Add($"Ugyldig pris: {hvorfor}.");
                 }
                 if (!ModelState.IsValidField("rute.Reisetid"))
                 {
@@ -351,7 +351,7 @@ namespace Flybilletter.Controllers
                 }
 
             }
-            return "NotAdmin";
+            return "Ikke admin";
         }
 
         public ActionResult SlettRute(int id)

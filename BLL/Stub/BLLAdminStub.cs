@@ -24,13 +24,13 @@ namespace BLL.Stub
             {
                 new Admin()
                 {
-                    Username = "",
-                    Password = ""
+                    Brukernavn = "",
+                    Passord = ""
                 },
                 new Admin()
                 {
-                    Username = "",
-                    Password = ""
+                    Brukernavn = "",
+                    Passord = ""
                 }
             };
             return adminer;
@@ -38,18 +38,18 @@ namespace BLL.Stub
 
         public bool IsPassordGyldig(string Brukernavn, string PwAttempt)
         {
-            var admin = adminer.FirstOrDefault(a => a.Username == Brukernavn);
+            var admin = adminer.FirstOrDefault(a => a.Brukernavn == Brukernavn);
             if(admin != null)
             {
-                return admin.Password == PwAttempt;
+                return admin.Passord == PwAttempt;
             }
             return false;
         }
 
         public bool LeggInn(Admin admin)
         {
-            var eksisterer = adminer.Where(a => a.Username == admin.Username).Any();
-            if (eksisterer || admin.Password == "")
+            var eksisterer = adminer.Where(a => a.Brukernavn == admin.Brukernavn).Any();
+            if (eksisterer || admin.Passord == "")
             {
                 return false;
             }
