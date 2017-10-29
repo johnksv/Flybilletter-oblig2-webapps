@@ -10,9 +10,9 @@ namespace Flybilletter.DAL.Interfaces
     public interface IDBFly
     {
         List<Fly> HentAlle();
-        bool Oppdater(Fly fly);
+        bool Endre(Fly fly);
         Fly Hent(int ID);
         bool Slett(int ID);
-        bool LeggTil(Fly fly);
+        bool LeggInn(Fly fly);
     }
 }

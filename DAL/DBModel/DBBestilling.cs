@@ -23,7 +23,7 @@ namespace Flybilletter.DAL.DBModel
         public DateTime Bestillingstidspunkt { get; set; }
         public double Totalpris { get; set; }
 
-        public Bestilling FinnBestilling(string referanse)
+        public Bestilling Hent(string referanse)
         {
             Bestilling bestilling = null;
             if (referanse == null) return bestilling;
@@ -44,7 +44,7 @@ namespace Flybilletter.DAL.DBModel
             }
             catch (Exception e)
             {
-                DALsetup.LogFeilTilFil("DBBestilling:FinnBestilling", e, "En feil oppsto når metoden prøvde å finne bestilling med referanse " + referanse);
+                DALsetup.LogFeilTilFil("DBBestilling:HentAlle", e, "En feil oppsto når metoden prøvde å finne bestilling med referanse " + referanse);
             }
 
             return bestilling;

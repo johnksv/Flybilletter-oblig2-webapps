@@ -28,7 +28,7 @@ namespace BLL
 
         public List<Endring> Hent()
         {
-            return dbEndring.Hent();
+            return dbEndring.HentAlle();
         }
 
         public List<FeilFraFilViewModel> ParseFeil(string filePath)

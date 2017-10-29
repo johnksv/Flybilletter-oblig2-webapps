@@ -13,8 +13,8 @@ namespace Flybilletter.DAL.Interfaces
         bool LeggInn(IEnumerable<Kunde> kunder);
         DBKunde LeggInn(Kunde innKunde);
         List<Kunde> HentAlle();
-        Kunde HentEnKunde(int id);
-        bool Oppdater(Kunde kunde);
-        bool SlettKunde(int id);
+        Kunde Hent(int id);
+        bool Endre(Kunde kunde);
+        bool Slett(int id);
     }
 }

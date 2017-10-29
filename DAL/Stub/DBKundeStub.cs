@@ -16,7 +16,7 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public Kunde HentEnKunde(int id)
+        public Kunde Hent(int id)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public bool Oppdater(Kunde kunde)
+        public bool Endre(Kunde kunde)
         {
             throw new NotImplementedException();
         }
 
-        public bool SlettKunde(int id)
+        public bool Slett(int id)
         {
             throw new NotImplementedException();
         }

@@ -25,15 +25,10 @@ namespace BLL
             dbfly = new DBFly();
         }
 
-        public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
-        {
-            dbflygning = stub;
-            dbflyplass = flyplassStub;
-        }
-
         public bool LeggInn(LagFlygningViewModel flygning)
         {
-            return dbflygning.LeggInnFlygning(new Flygning()
+
+            return dbflygning.LeggInn(new Flygning()
             {
                 Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
                 Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
@@ -41,19 +36,25 @@ namespace BLL
             });
         }
 
-        public bool EndreStatus(int id)
+        public bool EndreFlygning(Flygning flygning)
         {
-            return dbflygning.OppdaterStatus(id);
+            return dbflygning.Endre(flygning);
         }
 
-        public bool EndreFlygning(int id, DateTime nyAvgangstid)
+        public bool EndreStatus(int id)
         {
-            return dbflygning.Endre(id, nyAvgangstid);
+            return dbflygning.EndreStatus(id);
         }
 
         public List<Flygning> HentAlle(DateTime dateTime)
         {
             return dbflygning.HentAlle(dateTime);
+        }
+
+        public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
+        {
+            dbflygning = stub;
+            dbflyplass = flyplassStub;
         }
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
@@ -111,6 +112,6 @@ namespace BLL
                 TurRetur = innSok.Retur >= innSok.Avreise
             };
         }
-        
+
     }
 }

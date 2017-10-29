@@ -42,12 +42,12 @@ namespace Flybilletter.DAL.Stub
             return ruter;
         }
 
-        public bool LagreRute(Rute rute)
+        public bool Endre(Rute rute)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool LagRute(Rute innrute)
+        public bool LeggInn(Rute innrute)
         {
             return innrute != null && innrute.Reisetid != null && innrute.Til != null && innrute.Til.ID != "" && innrute.Fra != null && innrute.Fra.ID != "" && innrute.BasePris > 0;
         }

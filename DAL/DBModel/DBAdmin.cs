@@ -29,8 +29,8 @@ namespace Flybilletter.DAL.DBModel
         }
 
         [Key]
-        public string Username { get; set; }
-        public byte[] Password { get; set; }
+        public string Brukernavn { get; set; }
+        public byte[] Passord { get; set; }
         public string Salt { get; set; }
         // NiceToHave: DateTime LastLogin
 
@@ -45,9 +45,9 @@ namespace Flybilletter.DAL.DBModel
                         var salt = LagSalt();
                         DBAdmin dbadmin = new DBAdmin()
                         {
-                            Username = admin.Username,
+                            Brukernavn = admin.Username,
                             Salt = salt,
-                            Password = HashPassord(admin.Password, salt)
+                            Passord = HashPassord(admin.Password, salt)
                         };
                         db.Administratorer.Add(dbadmin);
 
@@ -139,7 +139,7 @@ namespace Flybilletter.DAL.DBModel
                     var salt = LagSalt();
                     var hash = HashPassord(password, salt);
                     var admin = db.Administratorer.Find(username);
-                    admin.Password = hash;
+                    admin.Passord = hash;
                     admin.Salt = salt;
                     db.Endringer.Add(new DBEndring()
                     {
@@ -157,20 +157,20 @@ namespace Flybilletter.DAL.DBModel
             return false;
         }
 
-        public bool SlettAdmin(string username)
+        public bool Slett(string username)
         {
             using (var db = new DB())
             {
                 try
                 {
-                    var admin = db.Administratorer.Where(kunde => kunde.Username == username).FirstOrDefault();
+                    var admin = db.Administratorer.Where(kunde => kunde.Brukernavn == username).FirstOrDefault();
                     if (admin != null)
                     {
                         db.Administratorer.Remove(admin);
                         db.Endringer.Add(new DBEndring()
                         {
                             Tidspunkt = DateTime.Now,
-                            Endring = $"Slettet administrator {admin.Username} "
+                            Endring = $"Slettet administrator {admin.Brukernavn} "
                         });
                         db.SaveChanges();
                         return true;
@@ -178,7 +178,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBAdmin:SlettAdmin", e, "En feil oppsto da metoden prøvde å slette administrator.");
+                    DALsetup.LogFeilTilFil("DBAdmin:Slett", e, "En feil oppsto da metoden prøvde å slette administrator.");
                 }
                 return false;
             }

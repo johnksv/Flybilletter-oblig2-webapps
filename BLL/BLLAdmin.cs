@@ -41,7 +41,7 @@ namespace BLL
             return dbAdmin.HentAlle();
         }
 
-        public bool IsPassordGyldig(string Username, string PwAttempt) //Username og PWAttempt er klartekst
+        public bool IsPassordGyldig(string Username, string PwAttempt) //Brukernavn og PWAttempt er klartekst
         {
             var admin = dbAdmin.Hent(Username);
 
@@ -51,7 +51,7 @@ namespace BLL
                 var i = 0;
                 foreach (byte b in cipherText)
                 {
-                    if (!b.Equals(admin.Password[i])) return false;
+                    if (!b.Equals(admin.Passord[i])) return false;
                     i++;
                 }
                 return true;
@@ -67,7 +67,7 @@ namespace BLL
         public bool SlettAdmin(string Username)
         {
             if (Username != "root")
-                return dbAdmin.SlettAdmin(Username);
+                return dbAdmin.Slett(Username);
             return false;
         }
     }

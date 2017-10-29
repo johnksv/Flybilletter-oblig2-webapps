@@ -41,7 +41,7 @@ namespace Flybilletter.DAL.Stub
             return fly;
         }
 
-        public bool LeggTil(Fly innfly)
+        public bool LeggInn(Fly innfly)
         {
             if(innfly != null && innfly.ID > 0 && innfly.Modell != null && innfly.AntallSeter > 0)
             {
@@ -51,7 +51,7 @@ namespace Flybilletter.DAL.Stub
             return false;
         }
 
-        public bool Oppdater(Fly innfly)
+        public bool Endre(Fly innfly)
         {
             return innfly != null && innfly.ID > 0 && innfly.Modell != null && innfly.AntallSeter > 0;
         }

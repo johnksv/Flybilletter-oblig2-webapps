@@ -9,6 +9,6 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBEndring
     {
-        List<Endring> Hent();
+        List<Endring> HentAlle();
     }
 }

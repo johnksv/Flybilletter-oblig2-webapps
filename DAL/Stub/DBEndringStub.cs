@@ -16,7 +16,7 @@ namespace Flybilletter.DAL.Stub
     public class DBEndringStub : IDBEndring
     {
 
-        public List<Endring> Hent()
+        public List<Endring> HentAlle()
         {
             var endringer = new List<Endring>()
             {

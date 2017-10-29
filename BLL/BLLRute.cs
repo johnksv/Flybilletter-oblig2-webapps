@@ -35,7 +35,7 @@ namespace BLL
 
         public bool Endre(Rute rute)
         {
-            return dbRute.LagreRute(rute);
+            return dbRute.Endre(rute);
         }
 
         public bool LeggInn(NyRuteViewModel rute)
@@ -54,7 +54,7 @@ namespace BLL
                 BasePris = rute.Basepris
             };
 
-            return dbRute.LagRute(nyRute);
+            return dbRute.LeggInn(nyRute);
         }
 
         public bool Slett(int id)

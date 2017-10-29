@@ -17,7 +17,7 @@ namespace Flybilletter.DAL.Stub
             new Postnummer() {Postnr = "0015", Poststed = "OSLO"},
             new Postnummer() {Postnr = "0018", Poststed = "OSLO"},
         };
-        public Postnummer HentPoststed(string postnummer)
+        public Postnummer Hent(string postnummer)
         {
             return gyldigePostnummer.FirstOrDefault(post => post.Postnr == postnummer);
         }
