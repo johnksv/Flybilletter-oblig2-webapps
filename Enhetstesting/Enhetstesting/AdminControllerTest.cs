@@ -1096,6 +1096,14 @@ namespace Enhetstesting
         }
 
         [TestMethod]
+        public void EndreStatusFlygningFeilMeldingHvisIkkeSuksessIDB()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var resultat = controller.EndreStatusFlygning(-1);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
         public void AdministratorReturnererView()
         {
             var controller = NyAdminControllerMedSession(true);
