@@ -36,12 +36,6 @@ namespace BLL
             return  postnr == null ? "UGYLDIG POSTNUMMER" : postnr.Poststed;
         }
 
-
-        public bool LeggInn(IEnumerable<Kunde> kunder)
-        {
-            return dbkunde.LeggInn(kunder);
-        }
-
         public bool LeggInn(Kunde innKunde)
         {
             return dbkunde.LeggInn(innKunde) != null;
