@@ -7,6 +7,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.DAL.DBModel;
 using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.ViewModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BLL
 {
@@ -14,6 +15,7 @@ namespace BLL
     {
         private IDBRute dbRute;
 
+        [ExcludeFromCodeCoverage]
         public BLLRute() : this(new DBRute())
         {
         }

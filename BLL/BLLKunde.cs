@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Flybilletter.DAL.Stub;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BLL
 {
@@ -16,6 +17,7 @@ namespace BLL
         private IDBPostnummer dbPostnummer;
         private DBKundeStub dBKundeStub;
 
+        [ExcludeFromCodeCoverage]
         public BLLKunde()
         {
             dbkunde = new DBKunde();

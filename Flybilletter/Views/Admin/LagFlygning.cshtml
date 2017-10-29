@@ -9,23 +9,22 @@
 
 <h2>Lag ny flygning</h2>
 
-@using (Html.BeginForm("EndreFlygning", "Admin", FormMethod.Post))
+@using (Html.BeginForm("LagFlygning", "Admin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LagFlygningViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.RuteID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Rute</label>
             <div class="col-md-10">
                 <select id="RuteID" class="form-control" name="RuteID"> </select>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FlyID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Fly</label>
             <div class="col-md-10">
                 <select id="FlyID" class="form-control" name="FlyID"> </select>
             </div>

@@ -6,6 +6,13 @@
     string jsonFlygninger = jsSerializer.Serialize(Model);
 }
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 <h2>Flygninger</h2>
 
 <p>
@@ -98,11 +105,11 @@
 
                         @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
                         {
-                            @Html.ActionLink("Kanseller", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" })
+                            @Html.ActionLink("Kanseller", "EndreStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-danger", data_val = "kansellere", data_tittel = "Kanseller" })
                         }
                         else if (DateTime.Now < item.AvgangsTid && item.Kansellert == true)
                         {
-                            @Html.ActionLink("Aktiver", "OppdaterStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success", data_val = "aktivere", data_tittel = "Aktiver" })
+                            @Html.ActionLink("Aktiver", "EndreStatusFlygning", new { id = item.ID }, new { @class = "slettKnapp btn btn-success", data_val = "aktivere", data_tittel = "Aktiver" })
                         }
                         else
                         {

@@ -3,6 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,6 +20,7 @@ namespace Flybilletter.Controllers
         private IBLLEndring bllendring;
         private IBLLAdmin blladmin;
 
+        [ExcludeFromCodeCoverage]
         public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring(), new BLLAdmin())
         {
         }

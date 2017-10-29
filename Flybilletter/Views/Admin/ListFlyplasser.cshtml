@@ -4,6 +4,13 @@
     ViewBag.Title = "Flyplasser";
 }
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 <h2>Flyplasser</h2>
 
 <p>
