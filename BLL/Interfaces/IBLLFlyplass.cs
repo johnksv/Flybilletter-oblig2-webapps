@@ -9,9 +9,9 @@ namespace BLL
 {
     public interface IBLLFlyplass
     {
-        List<Flyplass> HentAlle();
         bool LeggInn(Flyplass flyplass);
-        Flyplass Hent(string id);
         bool Endre(Flyplass item);
+        Flyplass Hent(string id);
+        List<Flyplass> HentAlle();
     }
 }

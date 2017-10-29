@@ -10,10 +10,10 @@ namespace BLL
 {
     public interface IBLLAdmin
     {
-        bool IsPassordGyldig(string Username, string PwAttempt);
         bool LeggInn(Admin admin);
         List<Admin> Hent();
+        bool SlettAdmin(string brukernavn);
+        bool IsPassordGyldig(string brukernavn, string passordforsok);
         bool EndrePassord(AdminPassordViewModel adminViewModel);
-        bool SlettAdmin(string Username);
     }
 }

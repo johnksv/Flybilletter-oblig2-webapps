@@ -9,12 +9,12 @@ namespace BLL
 {
     public interface IBLLKunde
     {
-        string HentPoststed(string postnummer);
         bool LeggInn(IEnumerable<Kunde> kunder);
         bool LeggInn(Kunde innKunde);
-        List<Kunde> HentAlle();
+        bool Endre(Kunde kunde);
         Kunde HentEnKunde(int id);
-        bool Oppdater(Kunde kunde);
-        bool SlettKunde(int id);
+        List<Kunde> HentAlle();
+        string HentPoststed(string postnummer);
+        bool Slett(int id);
     }
 }

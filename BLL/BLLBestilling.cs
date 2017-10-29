@@ -29,7 +29,7 @@ namespace BLL
             dbflygning = flygningStub;
         }
 
-        public Bestilling FinnBestilling(string referanse)
+        public Bestilling Hent(string referanse)
         {
             return dbBestilling.FinnBestilling(referanse);
         }

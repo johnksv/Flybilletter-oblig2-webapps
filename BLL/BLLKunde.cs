@@ -45,7 +45,7 @@ namespace BLL
             return dbkunde.LeggInn(innKunde) != null;
         }
 
-        public bool Oppdater(Kunde kunde)
+        public bool Endre(Kunde kunde)
         {
             return dbkunde.Oppdater(kunde);
         }
@@ -60,7 +60,7 @@ namespace BLL
             return dbkunde.HentEnKunde(id);
         }
 
-        public bool SlettKunde(int id)
+        public bool Slett(int id)
         {
             return dbkunde.SlettKunde(id);
         }

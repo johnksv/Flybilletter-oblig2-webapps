@@ -92,7 +92,7 @@ namespace Flybilletter.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (bllfly.Oppdater(item))
+                    if (bllfly.Endre(item))
                     {
                         return "true";
                     }
@@ -274,7 +274,7 @@ namespace Flybilletter.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    if (!bllrute.LagRute(rute))
+                    if (!bllrute.LeggInn(rute))
                     {
                         TempData["feilmelding"] = "En feil oppso under lagring av ruten til databasen.";
                     }
@@ -340,7 +340,7 @@ namespace Flybilletter.Controllers
                     return String.Join("\n", feilmeldinger);
                 }
 
-                bool ok = bllrute.LagreRute(rute);
+                bool ok = bllrute.Endre(rute);
                 if (ok)
                 {
                     return "true";
@@ -409,7 +409,7 @@ namespace Flybilletter.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (bllkunde.Oppdater(item))
+                    if (bllkunde.Endre(item))
                     {
                         return "true";
                     }
@@ -441,7 +441,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (!bllkunde.SlettKunde(id))
+                if (!bllkunde.Slett(id))
                 {
 
                     TempData["feilmelding"] = "Kunne ikke slette kunde. Mulig den har bestillinger relatert til seg.";
@@ -498,7 +498,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                bllflygning.LeggInnFlygning(flygning);
+                bllflygning.LeggInn(flygning);
                 return RedirectToAction("Flygninger");
             }
             return RedirectToAction("Sok", "Home");
@@ -508,7 +508,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                bllflygning.OppdaterStatus(id);
+                bllflygning.EndreStatus(id);
                 return RedirectToAction("Flygninger");
             }
             return RedirectToAction("Sok", "Home");
