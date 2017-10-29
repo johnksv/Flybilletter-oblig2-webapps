@@ -7,6 +7,13 @@
     return;
 }
 
+@if (ViewBag.Feilmelding != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.Feilmelding
+    </div>
+}
+
 @{
     var fraFlyplass = Model.FlygningerTur.First().Rute.Fra;
     var tilFlyplass = Model.FlygningerTur.Last().Rute.Til;
@@ -80,7 +87,7 @@
                 actionName: "SlettBestilling",
                 controllerName: "Admin",
                 routeValues: new { referanse = Model.Referanse },
-                htmlAttributes: new { @class = "btn btn-danger", id = "kanseller", data_url = Url.Action("Bestillinger","Admin")   })
+                htmlAttributes: new { @class = " slettKnapp btn btn-danger", id = "kanseller", data_url = Url.Action("Bestillinger","Admin")   })
     }
     else if (brukerSkalKunneSlette && flyHarIkkeFlydd)
     {
@@ -89,7 +96,7 @@
                 actionName: "SlettBestilling",
                 controllerName: "Home",
                 routeValues: new { referanse = Model.Referanse },
-                htmlAttributes: new { @class = "btn btn-danger", id="kanseller", data_url = Url.Action("Sok", "Home") })
+                htmlAttributes: new { @class = "slettKnapp btn btn-danger", id="kanseller", data_url = Url.Action("Sok", "Home") })
     }
     else {
         <p>Kan ikke kansellere. Flyet har alerede hatt avgang eller tidsvinduet for å kansellere har utløpt.</p>
@@ -102,24 +109,6 @@
 
     @if ((erAdmin && flyHarIkkeFlydd) || brukerSkalKunneSlette)
     {
-        <script>
-            $(function () {
-                $("#kanseller").click(function (event) {
-                    event.preventDefault();
-                    var that = $(this);
-                    $.ajax({
-                        type: "POST",
-                        url: that.attr("href")
-                    }).done(function (response) {
-                        if (response == "True") {
-                            window.location.href = that.data("url");
-                        } else {
-                            alert("En feil oppsto. Kan ikke slette");
-                        }
-                    });
-
-                });
-            });
-        </script>
+        @Html.Partial("_SlettElementModal")
     }
 </div>
