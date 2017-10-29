@@ -6,6 +6,31 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBRuteStub : IDBRute
     {
+        private List<Rute> ruter = new List<Rute>()
+        {
+            new Rute()
+            {
+                ID = 1,
+                Fra =  new Flyplass()
+                {
+                    ID = "OSL",
+                    By = "Oslo",
+                    Land = "Norge",
+                    Navn = "Gardermoen Lufthavn"
+
+                },
+                Til =  new Flyplass()
+                {
+                    ID = "BOO",
+                    By = "Bodø",
+                    Land = "Norge",
+                    Navn = "Bodø Lufthavn"
+                },
+                BasePris=1499,
+                Reisetid = new System.TimeSpan(1,0,0)
+            }
+        };
+
         public Rute Hent(int ruteID)
         {
             throw new System.NotImplementedException();
@@ -13,7 +38,7 @@ namespace Flybilletter.DAL.Stub
 
         public List<Rute> HentAlle()
         {
-            throw new System.NotImplementedException();
+            return ruter;
         }
 
         public bool LagreRute(Rute rute)
