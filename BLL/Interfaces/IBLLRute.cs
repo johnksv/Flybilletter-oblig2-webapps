@@ -8,7 +8,6 @@ namespace BLL
     {
         bool LeggInn(NyRuteViewModel rute);
         bool Endre(Rute rute);
-        Rute Hent(int ruteID);
         List<Rute> HentAlle();
         bool Slett(int id);
     }

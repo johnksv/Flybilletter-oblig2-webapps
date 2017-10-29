@@ -11,7 +11,6 @@ namespace BLL
     {
         bool LeggTil(Fly fly);
         bool Endre(Fly fly);
-        Fly Hent(int ID);
         List<Fly> HentAlle();
         bool Slett(int ID);
     }

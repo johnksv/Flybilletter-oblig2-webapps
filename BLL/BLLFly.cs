@@ -25,11 +25,6 @@ namespace BLL
             dbFly = stub;
         }
 
-        public Fly Hent(int ID)
-        {
-            return dbFly.Hent(ID);
-        }
-
         public List<Fly> HentAlle()
         {
             return dbFly.HentAlle();

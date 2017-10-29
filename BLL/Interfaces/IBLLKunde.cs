@@ -11,7 +11,6 @@ namespace BLL
     {
         bool LeggInn(Kunde innKunde);
         bool Endre(Kunde kunde);
-        Kunde HentEnKunde(int id);
         List<Kunde> HentAlle();
         string HentPoststed(string postnummer);
         bool Slett(int id);
