@@ -20,7 +20,7 @@ namespace Flybilletter.DAL.DBModel
         public string Poststed { get; set; }
         public virtual List<DBKunde> Kunder { get; set; }
 
-        public Postnummer HentPoststed(string postnummer)
+        public Postnummer Hent(string postnummer)
         {
             var regex = new Regex("^[0-9]{4}$");
             bool isMatch = regex.IsMatch(postnummer);
@@ -34,7 +34,7 @@ namespace Flybilletter.DAL.DBModel
                         return Mapper.Map<Postnummer>(db.Poststeder.FirstOrDefault(model => model.Postnr == postnummer));
                     }catch(Exception e)
                     {
-                        DALsetup.LogFeilTilFil("DBPostnummer:HentPoststed", e, "En feil oppsto da metoden prøvde å hente poststed.");
+                        DALsetup.LogFeilTilFil("DBPostnummer:Hent", e, "En feil oppsto da metoden prøvde å hente poststed.");
                         return null;
                     }
                 }

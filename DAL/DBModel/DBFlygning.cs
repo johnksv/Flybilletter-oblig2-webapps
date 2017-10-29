@@ -90,16 +90,23 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public Flygning HentEnFlygning(int id)
+        public Flygning Hent(int id)
         {
             using (var db = new DB())
             {
-                var dbflygning = db.Flygninger.Include("Fly").Where(item => item.ID == id).FirstOrDefault();
-                return Mapper.Map<Flygning>(dbflygning);
+                try
+                {
+                    var dbflygning = db.Flygninger.Include("Fly").Where(item => item.ID == id).FirstOrDefault();
+                    return Mapper.Map<Flygning>(dbflygning);
+                }catch(Exception e)
+                {
+                    DALsetup.LogFeilTilFil("DBFlygning:Hent", e, "En feil oppsto da metoden prøvde hente flygning med ID " + id);
+                    return null;
+                }
             }
         }
 
-        public bool OppdaterFlygning(Flygning flygning)
+        public bool Endre(Flygning flygning)
         {
             using (var db = new DB())
             {
@@ -117,14 +124,14 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBFlygning:OppdaterFlygning", e, "En feil oppsto da metoden prøvde å oppdatere flygning");
+                    DALsetup.LogFeilTilFil("DBFlygning:Endre", e, "En feil oppsto da metoden prøvde å oppdatere flygning");
                     return false;
                 }
                 return true;
             }
         }
 
-        public bool OppdaterStatus(int id)
+        public bool EndreStatus(int id)
         {
             using (var db = new DB())
             {
@@ -150,13 +157,13 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBFlygning:OppdaterStatus", e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
+                    DALsetup.LogFeilTilFil("DBFlygning:EndreStatus", e, "En feil oppsto da metoden prøvde å oppdatere status på flygning");
                     return false;
                 }
             }
         }
 
-        public bool LeggInnFlygning(Flygning flygning)
+        public bool LeggInn(Flygning flygning)
         {
             using (var db = new DB())
             {
@@ -178,13 +185,13 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBFlygning:LeggInnFlygning", e.InnerException, "Feil under lagring til databasen");
+                    DALsetup.LogFeilTilFil("DBFlygning:LeggInn", e.InnerException, "Feil under lagring til databasen");
                     return false;
                 }
             }
         }
 
-        public bool Endre(int id, DateTime nyAvgangstid) //TODO: Bruker vi både denne og metoden OppdaterFlygning (Linje 100)
+        public bool Endre(int id, DateTime nyAvgangstid) //TODO: Bruker vi både denne og metoden Endre (Linje 100)
         {
             using (var db = new DB())
             {

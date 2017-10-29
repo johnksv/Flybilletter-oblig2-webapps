@@ -22,7 +22,7 @@ namespace Flybilletter.DAL.DBModel
         public string Endring { get; set; }
         public DateTime Tidspunkt { get; set; }
 
-        public List<Endring> Hent()
+        public List<Endring> HentAlle()
         {
             using (var db = new DB())
             {
@@ -32,7 +32,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBEndring:Hent", e, "En feil oppsto da metoden prøvde å hente alle registrerte endringer fra databasen");
+                    DALsetup.LogFeilTilFil("DBEndring:HentAlle", e, "En feil oppsto da metoden prøvde å hente alle registrerte endringer fra databasen");
                     return null;
                 }
             }

@@ -50,7 +50,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public bool LagreRute(Rute innrute)
+        public bool Endre(Rute innrute)
         {
             using (var db = new DB())
             {
@@ -77,14 +77,14 @@ namespace Flybilletter.DAL.DBModel
                     }
                     catch (Exception e)
                     {
-                        DALsetup.LogFeilTilFil("DBRute:LagreRute", e, "En feil oppsto da metoden prøvde å endre rute.");
+                        DALsetup.LogFeilTilFil("DBRute:Endre", e, "En feil oppsto da metoden prøvde å endre rute.");
                     }
                 }
                 return false;
             }
         }
 
-        public bool LagRute(Rute innrute)
+        public bool LeggInn(Rute innrute)
         {
             using (var db = new DB())
             {
@@ -115,7 +115,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBRute:LagRute", e, "En feil oppsto da metoden prøvde å lagre rute.");
+                    DALsetup.LogFeilTilFil("DBRute:LeggInn", e, "En feil oppsto da metoden prøvde å lagre rute.");
                 }
             }
             return false;

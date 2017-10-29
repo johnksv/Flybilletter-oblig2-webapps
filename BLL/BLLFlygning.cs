@@ -99,13 +99,13 @@ namespace BLL
 
         public Flygning HentEnFlygning(int id)
         {
-            return dbflygning.HentEnFlygning(id);
+            return dbflygning.Hent(id);
         }
 
         public bool LeggInnFlygning(LagFlygningViewModel flygning)
         {
 
-            return dbflygning.LeggInnFlygning(new Flygning()
+            return dbflygning.LeggInn(new Flygning()
             {
                 Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
                 Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
@@ -115,12 +115,12 @@ namespace BLL
 
         public bool OppdaterFlygning(Flygning flygning)
         {
-            return dbflygning.OppdaterFlygning(flygning);
+            return dbflygning.Endre(flygning);
         }
 
         public bool OppdaterStatus(int id)
         {
-            return dbflygning.OppdaterStatus(id);
+            return dbflygning.EndreStatus(id);
         }
     }
 }

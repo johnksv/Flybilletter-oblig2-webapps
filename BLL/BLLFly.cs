@@ -35,12 +35,12 @@ namespace BLL
 
         public bool LeggTil(Fly fly)
         {
-            return dbFly.LeggTil(fly);
+            return dbFly.LeggInn(fly);
         }
 
         public bool Oppdater(Fly fly)
         {
-            return dbFly.Oppdater(fly);
+            return dbFly.Endre(fly);
         }
 
         public bool Slett(int ID)

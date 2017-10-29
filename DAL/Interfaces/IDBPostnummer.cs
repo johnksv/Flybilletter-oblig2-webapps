@@ -9,6 +9,6 @@ namespace Flybilletter.DAL.Interfaces
 {
     public interface IDBPostnummer
     {
-        Postnummer HentPoststed(string postnummer);
+        Postnummer Hent(string postnummer);
     }
 }

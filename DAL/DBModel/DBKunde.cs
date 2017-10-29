@@ -127,7 +127,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public Kunde HentEnKunde(int id)
+        public Kunde Hent(int id)
         {
             using (var db = new DB())
             {
@@ -140,14 +140,14 @@ namespace Flybilletter.DAL.DBModel
                     return kund;
                 }catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBKunde:HentEnKunde", e, "En feil oppsto da metoden prøvde å hente en kunde.");
+                    DALsetup.LogFeilTilFil("DBKunde:Hent", e, "En feil oppsto da metoden prøvde å hente en kunde.");
                     return null;
                 }
 
             }
         }
 
-        public bool Oppdater(Kunde kunde)
+        public bool Endre(Kunde kunde)
         {
             using (var db = new DB())
             {
@@ -172,13 +172,13 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBKunde:Oppdater", e, $"En feil oppsto da metoden prøvde å oppdatere kunde.");
+                    DALsetup.LogFeilTilFil("DBKunde:Endre", e, $"En feil oppsto da metoden prøvde å oppdatere kunde.");
                     return false;
                 }
             }
         }
 
-        public bool SlettKunde(int id)
+        public bool Slett(int id)
         {
             using (var db = new DB())
             {
@@ -213,7 +213,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBKunde:SlettKunde", e, "En feil oppsto da metoden prøvde å slette kunde.");
+                    DALsetup.LogFeilTilFil("DBKunde:Slett", e, "En feil oppsto da metoden prøvde å slette kunde.");
                 }
                 return false;
 

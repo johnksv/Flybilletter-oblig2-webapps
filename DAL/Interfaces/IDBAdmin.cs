@@ -16,6 +16,6 @@ namespace Flybilletter.DAL.Interfaces
         byte[] HashPassord(string password, string salt);
         List<Admin> HentAlle();
         bool EndrePassord(string username, string password);
-        bool SlettAdmin(string username);
+        bool Slett(string username);
     }
 }

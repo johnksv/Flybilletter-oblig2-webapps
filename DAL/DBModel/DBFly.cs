@@ -46,7 +46,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public bool Oppdater(Fly fly)
+        public bool Endre(Fly fly)
         {
             using (var db = new DB())
             {
@@ -67,7 +67,7 @@ namespace Flybilletter.DAL.DBModel
                     return true;
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBFly:Oppdater", e, "En feil oppsto da metoden prøvde å oppdatere fly");
+                    DALsetup.LogFeilTilFil("DBFly:Endre", e, "En feil oppsto da metoden prøvde å oppdatere fly");
                     return false;
                 }
             }
@@ -102,7 +102,7 @@ namespace Flybilletter.DAL.DBModel
             }
         }
 
-        public bool LeggTil(Fly fly)
+        public bool LeggInn(Fly fly)
         {
             using (var db = new DB())
             {
@@ -121,7 +121,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBFly:LeggTil", e, "En feil oppsto da metoden prøvde å legge til et nytt fly");
+                    DALsetup.LogFeilTilFil("DBFly:LeggInn", e, "En feil oppsto da metoden prøvde å legge til et nytt fly");
                     return false;
                 }
 

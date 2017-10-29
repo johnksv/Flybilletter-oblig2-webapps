@@ -64,10 +64,10 @@ namespace Flybilletter.DAL.Stub
 
         public bool EksistererReferanse(string referanse)
         {
-            return FinnBestilling(referanse) != null;
+            return Hent(referanse) != null;
         }
 
-        public Bestilling FinnBestilling(string referanse)
+        public Bestilling Hent(string referanse)
         {
             return bestillinger.FirstOrDefault(best => best.Referanse == referanse);
         }

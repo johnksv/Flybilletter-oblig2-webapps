@@ -17,8 +17,8 @@ namespace Flybilletter.DAL
             DALsetup.RensFil();
             var Root = new DBAdmin()
             {
-                Username = "root",
-                Password = new byte[]{ 157, 139, 122, 179, 32, 60, 242, 212, 90, 206, 9, 36, 228, 133, 132, 142, 26, 193, 225, 49, 252, 98, 154, 102, 87, 73, 148, 252, 232, 222, 104, 39 }, //Test1
+                Brukernavn = "root",
+                Passord = new byte[]{ 157, 139, 122, 179, 32, 60, 242, 212, 90, 206, 9, 36, 228, 133, 132, 142, 26, 193, 225, 49, 252, 98, 154, 102, 87, 73, 148, 252, 232, 222, 104, 39 }, //Test1
                 Salt = "SALT"
             };
 

@@ -31,7 +31,7 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public Flygning HentEnFlygning(int id)
+        public Flygning Hent(int id)
         {
             throw new NotImplementedException();
         }
@@ -46,17 +46,17 @@ namespace Flybilletter.DAL.Stub
             throw new NotImplementedException();
         }
 
-        public bool LeggInnFlygning(Flygning flygning)
+        public bool LeggInn(Flygning flygning)
         {
             throw new NotImplementedException();
         }
 
-        public bool OppdaterFlygning(Flygning flygning)
+        public bool Endre(Flygning flygning)
         {
             throw new NotImplementedException();
         }
 
-        public bool OppdaterStatus(int id)
+        public bool EndreStatus(int id)
         {
             throw new NotImplementedException();
         }

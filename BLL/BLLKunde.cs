@@ -30,7 +30,7 @@ namespace BLL
 
         public string HentPoststed(string postnummer)
         {
-            Postnummer postnr = dbPostnummer.HentPoststed(postnummer);
+            Postnummer postnr = dbPostnummer.Hent(postnummer);
             return  postnr == null ? "UGYLDIG POSTNUMMER" : postnr.Poststed;
         }
 
@@ -47,7 +47,7 @@ namespace BLL
 
         public bool Oppdater(Kunde kunde)
         {
-            return dbkunde.Oppdater(kunde);
+            return dbkunde.Endre(kunde);
         }
         
         public List<Kunde> HentAlle()
@@ -57,12 +57,12 @@ namespace BLL
 
         public Kunde HentEnKunde(int id)
         {
-            return dbkunde.HentEnKunde(id);
+            return dbkunde.Hent(id);
         }
 
         public bool SlettKunde(int id)
         {
-            return dbkunde.SlettKunde(id);
+            return dbkunde.Slett(id);
         }
     }
 }

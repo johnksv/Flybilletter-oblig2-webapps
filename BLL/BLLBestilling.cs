@@ -31,7 +31,7 @@ namespace BLL
 
         public Bestilling FinnBestilling(string referanse)
         {
-            return dbBestilling.FinnBestilling(referanse);
+            return dbBestilling.Hent(referanse);
         }
 
         public bool VerifiserKredittkort(string CVCstring, string utlop, out string feilmelding)
@@ -90,7 +90,7 @@ namespace BLL
             do //Lag en unik UUID helt til det ikke finnes i databasen fra før.
             {
                 bestilling.Referanse = Guid.NewGuid().ToString().ToUpper().Substring(0, 6);
-            } while (dbBestilling.FinnBestilling(bestilling.Referanse) != null);
+            } while (dbBestilling.Hent(bestilling.Referanse) != null);
 
 
             foreach (var flygning in gjeldende.Tur.Flygninger)
@@ -152,7 +152,7 @@ namespace BLL
 
         public bool Slett(string referanse)
         {
-            var best = dbBestilling.FinnBestilling(referanse);
+            var best = dbBestilling.Hent(referanse);
 
             bool flyHarIkkeFlydd = DateTime.Now < best.FlygningerTur.First().AvgangsTid;
             if (flyHarIkkeFlydd)
@@ -164,7 +164,7 @@ namespace BLL
 
         public bool SlettSomKunde(string referanse)
         {
-            var best = dbBestilling.FinnBestilling(referanse);
+            var best = dbBestilling.Hent(referanse);
             if(best != null)
             {
                 var brukerSkalKunneSlette = (DateTime.Now - best.Bestillingstidspunkt) < new TimeSpan(48, 0, 0);
