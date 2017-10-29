@@ -1107,6 +1107,7 @@ namespace Enhetstesting
                 Brukernavn = null,
                 Passord = null
             };
+            controller.ModelState.AddModelError("Brukernavn", "Feil");
             var result = (RedirectToRouteResult)controller.LagAdmin(admin);
             Assert.AreEqual("Administrator", result.RouteValues["action"]);
         }
@@ -1124,5 +1125,122 @@ namespace Enhetstesting
             Assert.AreEqual("Administrator", result.RouteValues["action"]);
         }
 
+        [TestMethod]
+        public void EndreAdminModelStateNotValid()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var adminPassordViewModel = new AdminPassordViewModel()
+            {
+                Username = null,
+                Gammelt = null,
+                Nytt = null,
+                NyttBekreft = null
+            };
+            controller.ModelState.AddModelError("Gammelt", "Feil");
+            var result = (string)controller.EndreAdmin(adminPassordViewModel);
+            Assert.AreNotEqual("true", result);
+        }
+
+        [TestMethod]
+        public void EndreAdminModelStateValidIkkeLeggeTil()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var adminPassordViewModel = new AdminPassordViewModel()
+            {
+                Username = "testadmin",
+                Gammelt = "Gammelt1",
+                Nytt = "NyttPassord1",
+                NyttBekreft = "NyttP" // Model er gyldig, men nytt != nyttbekreft
+            };
+            var result = (string)controller.EndreAdmin(adminPassordViewModel);
+            Assert.AreNotEqual("true", result);
+        }
+
+        [TestMethod]
+        public void EndreAdminAltErGyldigMenBrukerErRoot()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var adminPassordViewModel = new AdminPassordViewModel()
+            {
+                Username = "root",
+                Gammelt = "Gammelt1",
+                Nytt = "NyttPassord1",
+                NyttBekreft = "NyttPassord1"
+            };
+            var result = (string)controller.EndreAdmin(adminPassordViewModel);
+            Assert.AreNotEqual("true", result);
+        }
+
+        [TestMethod]
+        public void EndreAdminSkalKunneEndrePassord()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var adminPassordViewModel = new AdminPassordViewModel()
+            {
+                Username = "testadmin",
+                Gammelt = "Gammelt1",
+                Nytt = "NyttPassord1",
+                NyttBekreft = "NyttPassord1"
+            };
+            var result = (string)controller.EndreAdmin(adminPassordViewModel);
+            Assert.AreEqual("true", result);
+        }
+
+        [TestMethod]
+        public void SlettAdminReturnererRiktigView()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string brukernavn = ""; // Har ikke noe å si at brukernavn er ugyldig
+            var result = (RedirectToRouteResult)controller.SlettAdmin(brukernavn);
+            Assert.AreEqual("Administrator", result.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void SlettAdminSkalIkkeKunneSlette()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            controller.TempData["feilmelding"] = null;
+            string brukernavn = "root";
+            var result = controller.SlettAdmin(brukernavn);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+            controller.TempData["feilmelding"] = null;
+            brukernavn = "a";
+            result = controller.SlettAdmin(brukernavn);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+            controller.TempData["feilmelding"] = null;
+            brukernavn = "aa";
+            result = controller.SlettAdmin(brukernavn);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+            controller.TempData["feilmelding"] = null;
+            brukernavn = "aaa";
+            result = controller.SlettAdmin(brukernavn);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+            
+        }
+
+        [TestMethod]
+        public void SlettAdminSkalKunddeSlette()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string brukernavn = "abcd";
+            var result = controller.SlettAdmin(brukernavn);
+            Assert.IsNull(controller.TempData["feilmeldinger"]);
+        }
+
+        [TestMethod]
+        public void LoggUtSetterSessionLikNull()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var result = controller.LoggUt();
+            Assert.IsNull(controller.Session["Admin"]);
+        }
+
+        [TestMethod]
+        public void LoggUtRedirecterTilIndeks()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var result = (RedirectToRouteResult)controller.LoggUt();
+            Assert.AreEqual("Sok", result.RouteValues["action"]);
+        }
     }
 }
