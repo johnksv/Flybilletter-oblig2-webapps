@@ -149,7 +149,7 @@ namespace Flybilletter.Controllers
             return RedirectToAction("Sok", "Home");
         }
 
-        public bool SlettBestilling(string referanse)
+        public ActionResult SlettBestilling(string referanse)
         {
             if (ErAdmin())
             {
