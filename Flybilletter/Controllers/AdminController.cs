@@ -230,7 +230,7 @@ namespace Flybilletter.Controllers
                                         .Select(x => x.ErrorMessage));
 
             }
-            return "NotAdmin";
+            return "Ikke admin";
         }
 
         public ActionResult Ruter()
