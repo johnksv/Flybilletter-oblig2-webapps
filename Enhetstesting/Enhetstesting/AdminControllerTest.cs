@@ -59,8 +59,8 @@ namespace Enhetstesting
 
             var admin = new Admin()
             {
-                Username = "test",
-                Password = "riktigPassord"
+                Brukernavn = "test",
+                Passord = "riktigPassord"
             };
 
             controller.LagAdmin(admin);

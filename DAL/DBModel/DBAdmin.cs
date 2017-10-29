@@ -45,16 +45,16 @@ namespace Flybilletter.DAL.DBModel
                         var salt = LagSalt();
                         DBAdmin dbadmin = new DBAdmin()
                         {
-                            Brukernavn = admin.Username,
+                            Brukernavn = admin.Brukernavn,
                             Salt = salt,
-                            Passord = HashPassord(admin.Password, salt)
+                            Passord = HashPassord(admin.Passord, salt)
                         };
                         db.Administratorer.Add(dbadmin);
 
                         db.Endringer.Add(new DBEndring()
                         {
                             Tidspunkt = DateTime.Now,
-                            Endring = "Legg til administrator med brukernavn " + admin.Username
+                            Endring = "Legg til administrator med brukernavn " + admin.Brukernavn
                         });
                         db.SaveChanges();
                         return true;
@@ -62,7 +62,7 @@ namespace Flybilletter.DAL.DBModel
                     return false;
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil("DBAdmin:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn administrator med brukernavn " + admin.Username);
+                    DALsetup.LogFeilTilFil("DBAdmin:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn administrator med brukernavn " + admin.Brukernavn);
                     return false;
                 }
             }
