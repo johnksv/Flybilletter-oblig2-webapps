@@ -276,7 +276,7 @@ namespace Flybilletter.Controllers
                 {
                     if (!bllrute.LagRute(rute))
                     {
-                        TempData["feilmelding"] = "En feil oppso under lagring av ruten til databasen";
+                        TempData["feilmelding"] = "En feil oppso under lagring av ruten til databasen.";
                     }
                     return RedirectToAction("Ruter");
                 }

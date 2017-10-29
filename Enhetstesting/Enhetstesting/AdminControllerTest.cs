@@ -3,6 +3,7 @@ using BLL.Stub;
 using Flybilletter.Controllers;
 using Flybilletter.DAL.Stub;
 using Flybilletter.Model.DomeneModel;
+using Flybilletter.Model.ViewModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using System;
@@ -426,6 +427,103 @@ namespace Enhetstesting
             Assert.AreEqual("ListRuter", faktisk.ViewName);
             Assert.AreNotEqual(null, faktisk.Model);
             Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void LagRute()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.LagRute();
+
+            Assert.AreEqual("", faktisk.ViewName);
+        }
+
+        [TestMethod]
+        public void LagRuteUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            controller.ModelState.AddModelError("Rute", "Rute er obligatorisk");
+            var forventet = new NyRuteViewModel();
+            var faktisk = (ViewResult)controller.LagRute(forventet);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual(forventet, faktisk.Model);
+        }
+
+        [TestMethod]
+        public void LagRuteSammeFraOgTil()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new NyRuteViewModel()
+            {
+                FraFlyplassID = "OSL",
+                TilFlyplassID = "OSL",
+                Basepris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            var faktisk = (ViewResult)controller.LagRute(rute);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual("Flyplassene må være ulik", controller.ModelState["TilFlyplassID"].Errors.First().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void LagRuteIngenInnomOslo()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new NyRuteViewModel()
+            {
+                FraFlyplassID = "A",
+                TilFlyplassID = "B",
+                Basepris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            var faktisk = (ViewResult)controller.LagRute(rute);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            string forventet = "Minst en av flygningene må gå til OSL på grunn av begrensninger gjort i oblig 1.";
+            Assert.AreEqual(forventet, controller.ModelState["TilFlyplassID"].Errors.First().ErrorMessage);
+        }
+
+        [TestMethod]
+        public void LagRuteUgyldigModellIDatabase()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new NyRuteViewModel() {
+                FraFlyplassID = "",
+                TilFlyplassID = "OSL",
+                Basepris = -1,
+                Reisetid = new TimeSpan(1,0,0)
+            };
+
+            var faktisk = (RedirectToRouteResult)controller.LagRute(rute);
+
+            Assert.AreEqual("Ruter", faktisk.RouteValues["action"]);
+            string forventet = "En feil oppso under lagring av ruten til databasen.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+
+        [TestMethod]
+        public void LagRuteGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var rute = new NyRuteViewModel()
+            {
+                FraFlyplassID = "OSL",
+                TilFlyplassID = "BOO",
+                Basepris = 1499,
+                Reisetid = new TimeSpan(1, 0, 0)
+            };
+
+            var faktisk = (RedirectToRouteResult)controller.LagRute(rute);
+
+            Assert.AreEqual("Ruter", faktisk.RouteValues["action"]);
+            Assert.AreEqual(null, controller.TempData["feilmelding"]);
         }
 
         //Disse kunne evt vært splittet opp i en test-metode for hvert case

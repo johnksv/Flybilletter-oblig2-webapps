@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Flybilletter.DAL.Interfaces;
 using Flybilletter.Model.DomeneModel;
+using System.Linq;
 
 namespace Flybilletter.DAL.Stub
 {
@@ -48,12 +49,12 @@ namespace Flybilletter.DAL.Stub
 
         public bool LagRute(Rute innrute)
         {
-            throw new System.NotImplementedException();
+            return innrute != null && innrute.Reisetid != null && innrute.Til != null && innrute.Til.ID != "" && innrute.Fra != null && innrute.Fra.ID != "" && innrute.BasePris > 0;
         }
 
         public bool Slett(int id)
         {
-            throw new System.NotImplementedException();
+            return ruter.FirstOrDefault(r => r.ID == id) != null;
         }
     }
 }
