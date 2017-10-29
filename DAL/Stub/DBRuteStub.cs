@@ -44,7 +44,7 @@ namespace Flybilletter.DAL.Stub
 
         public bool Endre(Rute rute)
         {
-            throw new System.NotImplementedException();
+            return ruter.FirstOrDefault(r => r.ID == rute.ID) != null;
         }
 
         public bool LeggInn(Rute innrute)
