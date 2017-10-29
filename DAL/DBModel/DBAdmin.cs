@@ -31,7 +31,6 @@ namespace Flybilletter.DAL.DBModel
         public byte[] Password { get; set; }
         public string Salt { get; set; }
         // NiceToHave: DateTime LastLogin
-        // DB metoder under her
 
         public bool LeggInn(Admin admin)
         {
@@ -61,7 +60,7 @@ namespace Flybilletter.DAL.DBModel
                     return false;
                 } catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å legge inn administrator med brukernavn " + admin.Username);
+                    DALsetup.LogFeilTilFil("DBAdmin:LeggInn", e, "En feil oppsto da metoden prøvde å legge inn administrator med brukernavn " + admin.Username);
                     return false;
                 }
             }
@@ -77,7 +76,7 @@ namespace Flybilletter.DAL.DBModel
                     return db.Administratorer.Find(username); //Admin == null betyr feil brukernavn
                 } catch (Exception e)
                 {
-                    // Logge feil
+                    DALsetup.LogFeilTilFil("DBAdmin:Hent", e, "En feil oppsto da metoden prøvde å administrator, brukernavn: " + username);
                     return null;
                 }
             }
@@ -123,7 +122,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch(Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å returnere alle administratorer fra databasen");
+                    DALsetup.LogFeilTilFil("DBAdmin:HentAlle", e, "En feil oppsto da metoden prøvde å returnere alle administratorer fra databasen");
                     return new List<Admin>(); // Tom liste
                 }
             }
@@ -150,7 +149,7 @@ namespace Flybilletter.DAL.DBModel
                 }
                 catch (Exception e)
                 {
-                    DALsetup.LogFeilTilFil(System.Reflection.MethodBase.GetCurrentMethod().Name, e, "En feil oppsto da metoden prøvde å endre passordet til admin " + username);
+                    DALsetup.LogFeilTilFil("DBAdmin:EndrePassord", e, "En feil oppsto da metoden prøvde å endre passordet til admin " + username);
                 }
             }
             return false;
