@@ -6,10 +6,10 @@ namespace BLL
 {
     public interface IBLLRute
     {
+        bool LeggInn(NyRuteViewModel rute);
+        bool Endre(Rute rute);
+        Rute Hent(int ruteID);
         List<Rute> HentAlle();
         bool Slett(int id);
-        Rute Hent(int ruteID);
-        bool LagreRute(Rute rute);
-        bool LagRute(NyRuteViewModel rute);
     }
 }
