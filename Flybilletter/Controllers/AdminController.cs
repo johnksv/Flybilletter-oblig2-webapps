@@ -573,7 +573,7 @@ namespace Flybilletter.Controllers
                     {
                         return "true";
                     }
-                    return "Klarte ikke å endre passord på " + adminViewModel.Username; //TODO: Lag mer detaljerte feilmeildinger.
+                    return "Klarte ikke å endre passord på " + adminViewModel.Username;
                 }
                 return "Feil input.";
             }
