@@ -657,6 +657,87 @@ namespace Enhetstesting
             Assert.AreEqual(forventet, faktisk);
         }
 
+        [TestMethod]
+        public void SlettRuteUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettRute(1);
+
+            Assert.AreEqual("Ruter", faktisk.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void SlettRuteMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettRute(-1);
+
+            Assert.AreEqual("Ruter", faktisk.RouteValues["action"]);
+            string forventet = "Kunne ikke slette rute. Mulig den har flygninger relatert til seg.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void LagKunde()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.LagKunde();
+
+            Assert.AreEqual("", faktisk.ViewName);
+        }
+
+        [TestMethod]
+        public void LagKundeUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            controller.ModelState.AddModelError("Kunde", "Kunde er obligatorisk");
+            var faktisk = (ViewResult)controller.LagKunde(null);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual(null, faktisk.Model);
+        }
+
+        [TestMethod]
+        public void LagKundeUgyldigModellIDatabase()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var kunde = new Kunde();
+
+            var faktisk = (RedirectToRouteResult)controller.LagKunde(kunde);
+
+            Assert.AreEqual("Kunder", faktisk.RouteValues["action"]);
+            string forventet = "Kunne ikke legge inn kunde. Feil i databasen.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+
+        [TestMethod]
+        public void LagKundeGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var kunde = new Kunde()
+            {
+               Fornavn = "Ola",
+               Etternavn ="Nordmann",
+               Adresse ="Testveien 1",
+               EPost ="test@test.no",
+               Fodselsdag = new DateTime(1970,1,1),
+               Postnr= "0001",
+               Poststed ="Oslo",
+               Tlf = "12345678"
+            };
+
+            var faktisk = (RedirectToRouteResult)controller.LagKunde(kunde);
+
+            Assert.AreEqual("Kunder", faktisk.RouteValues["action"]);
+            Assert.AreEqual(null, controller.TempData["feilmelding"]);
+        }
+
+
         //Disse kunne evt vært splittet opp i en test-metode for hvert case
         [TestMethod]
         public void SkalRedirecteTilSokNaarIkkeAdmin()
