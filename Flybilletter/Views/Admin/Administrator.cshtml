@@ -5,12 +5,9 @@
 }
 
 <h2>Administrator</h2>
-<a href="#" data-toggle="modal" data-target="#opprett" class="btn btn-primary">Opprett ny administrator</a>
-<!--TODO: Oppdater passord på admin.-->
 <h4>Innlogget side for administrator.</h4>
-<p class="text-info">I menybaren/navbaren over har du tilgang til sider for å gjennomføre CRUD operasjoner på entiteter som Fly, Flyplass, Kunde, Rute, og mye mer.</p>
-<p class="text-info">Under vises alle endringer som lagres i databasen, samt alle feil som er logget.</p>
 
+<a href="#" data-toggle="modal" data-target="#opprett" class="btn btn-primary">Opprett ny administrator</a>
 <br />
 <div class="modal" id="opprett" role="dialog">
     <div class="modal-dialog" role="document">
@@ -33,7 +30,6 @@
 <h4>Endringer lagret i database:</h4>
 <a href="#endringer" data-toggle="collapse" id="endringerKnapp" class="btn btn-info">Vis endringer</a>
 <div id="endringer" class="collapse">
-    <!--Partial View for å vise endringer i db-->
     @Html.Partial("_ListEndringerFraDB", (List<Flybilletter.Model.DomeneModel.Endring>)ViewBag.Endringer)
 </div>
 <hr />
@@ -41,7 +37,6 @@
 <h4>Feilmeldinger lagret i fil:</h4>
 <a href="#feil" data-toggle="collapse" id="feilmeldingerKnapp" class="btn btn-info">Vis feilmeldinger</a>
 <div id="feil" class="collapse">
-    <!--Partial View for å vise feil fra fil-->
     @Html.Partial("_ListFeilFraFil", (List<Flybilletter.Model.ViewModel.FeilFraFilViewModel>)ViewBag.FeilFraFil)
 </div>
 
