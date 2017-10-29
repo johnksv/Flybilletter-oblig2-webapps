@@ -10,6 +10,46 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBFlygningStub : IDBFlygning
     {
+        private static Fly Boeing737 = new Fly()
+        {
+            Modell = "Boeing 737",
+            AntallSeter = 150
+        };
+        private static Flyplass OSL = new Flyplass()
+        {
+            ID = "OSL",
+            By = "Oslo",
+            Land = "Norge",
+            Navn = "Gardermoen Lufthavn"
+
+        };
+        private static Flyplass BOO = new Flyplass()
+        {
+            ID = "BOO",
+            By = "Bodø",
+            Land = "Norge",
+            Navn = "Bodø Lufthavn"
+
+        };
+        private static Rute BOOOSL = new Rute()
+        {
+            Fra = BOO,
+            Til = OSL,
+            BasePris = 1199,
+            Reisetid = new TimeSpan(1, 30, 0)
+        };
+
+        private List<Flygning> flygninger = new List<Flygning>()
+        {
+            new Flygning()
+            {
+                ID =1,
+                AvgangsTid = DateTime.Now,
+                Fly = Boeing737,
+                Rute = BOOOSL,
+                Kansellert = false
+            }
+        };
         public bool Endre(int id, DateTime nyAvgangstid)
         {
             throw new NotImplementedException();
@@ -23,17 +63,17 @@ namespace Flybilletter.DAL.Stub
 
         public List<Flygning> HentAlle()
         {
-            throw new NotImplementedException();
+            return flygninger;
         }
 
         public List<Flygning> HentAlle(DateTime dateTime)
         {
-            throw new NotImplementedException();
+            return flygninger.Where(f => f.AvgangsTid >= dateTime).ToList();
         }
 
         public Flygning Hent(int id)
         {
-            throw new NotImplementedException();
+            return flygninger.FirstOrDefault(f => f.ID == id);
         }
 
         public List<Flygning> HentFlygningerFra(Flyplass flyplass)

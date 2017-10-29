@@ -3,6 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,6 +19,7 @@ namespace Flybilletter.Controllers
         private IBLLBestilling bllbestilling;
         private IBLLKunde bllkunde;
 
+        [ExcludeFromCodeCoverage]
         public HomeController()
         {
             bllflyplass = new BLLFlyplass();

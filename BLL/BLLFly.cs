@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Flybilletter.Model.DomeneModel;
 using Flybilletter.DAL.Interfaces;
 using Flybilletter.DAL.DBModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BLL
 {
@@ -13,6 +14,7 @@ namespace BLL
     {
         private IDBFly dbFly;
 
+        [ExcludeFromCodeCoverage]
         public BLLFly()
         {
             dbFly = new DBFly();

@@ -3,6 +3,7 @@ using Flybilletter.Model.DomeneModel;
 using Flybilletter.Model.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -19,6 +20,7 @@ namespace Flybilletter.Controllers
         private IBLLEndring bllendring;
         private IBLLAdmin blladmin;
 
+        [ExcludeFromCodeCoverage]
         public AdminController() : this(new BLLBestilling(), new BLLFly(), new BLLKunde(), new BLLFlyplass(), new BLLFlygning(), new BLLRute(), new BLLEndring(), new BLLAdmin())
         {
         }
@@ -199,7 +201,7 @@ namespace Flybilletter.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if( !bllflyplass.LeggInn(flyplass))
+                    if (!bllflyplass.LeggInn(flyplass))
                     {
                         TempData["feilmelding"] = "Kunne ikke legge inn flyplass. Feil i databasen.";
                     }
@@ -385,7 +387,7 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                return View("LagKunde");
+                return View();
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -395,9 +397,15 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                if (bllkunde.LeggInn(kunde))
+                if (ModelState.IsValid)
+                {
+                    if (! bllkunde.LeggInn(kunde))
+                    {
+                        TempData["feilmelding"] = "Kunne ikke legge inn kunde. Feil i databasen.";
+                    }
                     return RedirectToAction("Kunder");
-                else return RedirectToAction("Kunder");
+                }
+                return View(kunde);
             }
             return RedirectToAction("Sok", "Home");
         }
@@ -413,7 +421,7 @@ namespace Flybilletter.Controllers
                     {
                         return "true";
                     }
-                    return "En feil oppsto med lagring i database.";
+                    return "En feil oppsto under lagring til databasen.";
                 }
                 var feilmeldinger = new List<String>();
 
@@ -434,9 +442,9 @@ namespace Flybilletter.Controllers
                 }
 
             }
-            return "NotAdmin";
+            return "Ikke admin";
         }
-        
+
         public ActionResult SlettKunde(int id)
         {
             if (ErAdmin())
@@ -458,6 +466,10 @@ namespace Flybilletter.Controllers
             if (ErAdmin())
             {
                 var flygninger = bllflygning.HentAlle(DateTime.Now);
+                if (TempData["feilmelding"] != null)
+                {
+                    ViewBag.Feilmelding = (String)TempData["feilmelding"];
+                }
                 return View("ListFlygning", flygninger);
             }
 
