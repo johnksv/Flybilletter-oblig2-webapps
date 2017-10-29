@@ -86,7 +86,7 @@ namespace Enhetstesting
             var controller = NyAdminControllerMedSession(true);
 
             var faktisk = (ViewResult)controller.Fly();
-            
+
 
             Assert.AreEqual("ListFly", faktisk.ViewName);
             Assert.AreNotEqual(null, faktisk.Model);
@@ -111,12 +111,144 @@ namespace Enhetstesting
         public void SeDetaljertBestillingSkalReturnView()
         {
             var controller = NyAdminControllerMedSession(true);
-            
+
             var faktisk = (RedirectToRouteResult)controller.SeDetaljerBestilling("ASD123");
 
             Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
         }
 
+        [TestMethod]
+        public void EndreFlySkalFungereMedGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var fly = new Fly()
+            {
+                AntallSeter = 5,
+                ID = 1,
+                Modell = "Airbus A380"
+            };
+            string faktisk = controller.EndreFly(fly);
+
+            Assert.AreEqual("true", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlyMedUgyldigID()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var fly = new Fly()
+            {
+                AntallSeter = 5,
+                ID = -1,
+                Modell = "Airbus A380"
+            };
+            string faktisk = controller.EndreFly(fly);
+
+            Assert.AreEqual("En feil oppsto under lagring til databasen.", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlyMedUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var fly = new Fly()
+            {
+                AntallSeter = -5,
+                ID = 1,
+                Modell = "Airbus A380"
+            };
+            controller.ModelState.AddModelError("Fly.AntallSeter", "Antall seter kan kun være et positivt heltall");
+
+            string faktisk = controller.EndreFly(fly);
+
+            Assert.AreEqual("Antall seter kan kun være et positivt heltall", faktisk);
+        }
+
+        [TestMethod]
+        public void SlettFlyUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettFly(1);
+
+            Assert.AreEqual("Fly", faktisk.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void SlettFlyMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.SlettFly(-1);
+
+            Assert.AreEqual("Fly", faktisk.RouteValues["action"]);
+            string forventet = "Kunne ikke slette fly. Mulig det har flygninger relatert til seg.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void LagViewSkalGiView()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.LagFly();
+
+            Assert.AreEqual("", faktisk.ViewName);
+        }
+
+
+        [TestMethod]
+        public void LagFlyMedUgyldigModelState()
+        {
+            var fly = new Fly()
+            {
+                AntallSeter = -5,
+                ID = 1,
+                Modell = "Airbus A380"
+            };
+            var controller = NyAdminControllerMedSession(true);
+            controller.ModelState.AddModelError("Fly.AntallSeter", "Antall seter kan kun være et positivt heltall");
+            var faktisk = (ViewResult)controller.LagFly(fly);
+
+            Assert.AreEqual("", faktisk.ViewName);
+            Assert.AreEqual(fly, faktisk.Model);
+        }
+
+        [TestMethod]
+        public void LagFlyMedUgyldigModelTilDatabasen()
+        {
+            var fly = new Fly()
+            {
+                AntallSeter = 0,
+                ID = 1,
+                Modell = "Airbus A380"
+            };
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.LagFly(fly);
+
+            Assert.AreEqual("Fly", faktisk.RouteValues["action"]);
+
+            string forventet = "Kunne ikke legge inn fly. Feil i databasen.";
+            Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void LagFlyMedGyldigModel()
+        {
+            var fly = new Fly()
+            {
+                AntallSeter = 4,
+                ID = 1,
+                Modell = "Airbus A380"
+            };
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (RedirectToRouteResult)controller.LagFly(fly);
+
+            Assert.AreEqual("Fly", faktisk.RouteValues["action"]);
+            Assert.AreEqual(null, controller.TempData["feilmelding"]);
+        }
 
 
 
@@ -128,7 +260,7 @@ namespace Enhetstesting
             for (var i = 0; i < 2; i++)
             {
                 //Sjekk først med null, så med false
-                if(i == 0)
+                if (i == 0)
                 {
                     controller.Session["admin"] = null;
                 }
@@ -145,6 +277,9 @@ namespace Enhetstesting
 
                 faktisk = (RedirectToRouteResult)controller.SeDetaljerBestilling("");
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                var stringResult = controller.EndreFly(null);
+                Assert.AreEqual("Ikke admin", stringResult);
 
                 faktisk = (RedirectToRouteResult)controller.SlettFly(0);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);

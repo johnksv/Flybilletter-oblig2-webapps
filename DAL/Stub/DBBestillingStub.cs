@@ -71,7 +71,7 @@ namespace Flybilletter.DAL.Stub
 
         public List<Bestilling> HentAlle()
         {
-            throw new NotImplementedException();
+            return bestillinger;
         }
 
         public void LeggInn(Bestilling bestilling)
