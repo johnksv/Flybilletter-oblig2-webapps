@@ -822,8 +822,8 @@ namespace Enhetstesting
             var controller = NyAdminControllerMedSession(true);
             var admin = new Admin()
             {
-                Username = null,
-                Password = null
+                Brukernavn = null,
+                Passord = null
             };
             var result = (RedirectToRouteResult)controller.LagAdmin(admin);
             Assert.AreEqual("Administrator", result.RouteValues["action"]);
@@ -835,8 +835,8 @@ namespace Enhetstesting
             var controller = NyAdminControllerMedSession(true);
             var admin = new Admin()
             {
-                Username = "testadmin",
-                Password = "Test1"
+                Brukernavn = "testadmin",
+                Passord = "Test1"
             };
             var result = (RedirectToRouteResult)controller.LagAdmin(admin);
             Assert.AreEqual("Administrator", result.RouteValues["action"]);
