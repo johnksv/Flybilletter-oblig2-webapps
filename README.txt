@@ -18,6 +18,7 @@ Anmerkelser fra prosjektoppgave 2:
     - Flygninger genereres i DAL/DBInit.cs, og det genereres flygninger fra dags dato (29.10.2017) til og med to uker frem i tid.
     - Deler av applikasjon som DAL er ikke natulig å teste med enhetstester (burde gjøres som integrasjonstester), og har derfor blitt ekskludert fra Code Coverage. Andre deler som BLL blir implisitt testet gjennom AdminController. Deler av BLL tilknyttet prosjektoppgave 1 er ikke testet, og dette trekker ned vår Code Coverage prosentandel.
     - Administrator kan ikke slette elementer fra entitetene "Flyplass" og "Flygning" (Flygning sin "kanseler"-operasjon oppdaterer en status). Disse begrensningene er gjort bevisst.
+    - Endringer og feilmeldinger blir ikke populert ved programmets oppstart. Derfor kan tabellene i Administrator-viewet være uten innhold.
 
 Anmerkelser fra prosjektoppgave 1:
     - Webapplikasjonen tar kun høyde for reiser med 0 eller 1 mellomlanding. Støtte for flere mellomlandinger kan løses ved å bruke rammeverket "QuickGraph". Dette ville blitt implementert som følger: Flyplasser angis som noder, og et graf-tre bygges rundt dette. Alle kanter mellom nodene representerer flyruter, og man angir en vekt på disse rutene. I vårt tilfelle ville denne vekten enten vært reisetid eller distanse. Basert på vår tolkning av oppgaveteksten, valgte vi å ikke implementere dette.
