@@ -13,9 +13,7 @@ namespace BLL
 
         bool LeggInn(LagFlygningViewModel flygning);
         bool EndreStatus(int id);
-        bool EndreFlygning(Flygning flygning);
         bool EndreFlygning(int id, DateTime nyAvgangstid);
-        Flygning Hent(int id);
         List<Flygning> HentAlle(DateTime dateTime);
         List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag);
         void FinnReisemuligheter(SokViewModel innSok, out FlygningerViewModel reiser, out List<Reise> flygningerTur, out List<Reise> flygningerRetur);

@@ -31,9 +31,29 @@ namespace BLL
             dbflyplass = flyplassStub;
         }
 
+        public bool LeggInn(LagFlygningViewModel flygning)
+        {
+            return dbflygning.LeggInnFlygning(new Flygning()
+            {
+                Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
+                Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
+                AvgangsTid = flygning.AvgangsTid
+            });
+        }
+
+        public bool EndreStatus(int id)
+        {
+            return dbflygning.OppdaterStatus(id);
+        }
+
         public bool EndreFlygning(int id, DateTime nyAvgangstid)
         {
             return dbflygning.Endre(id, nyAvgangstid);
+        }
+
+        public List<Flygning> HentAlle(DateTime dateTime)
+        {
+            return dbflygning.HentAlle(dateTime);
         }
 
         public List<Reise> FinnReiseforslag(string fraFlyplassID, string tilFlyplassID, DateTime avreiseDag)
@@ -91,36 +111,6 @@ namespace BLL
                 TurRetur = innSok.Retur >= innSok.Avreise
             };
         }
-
-        public List<Flygning> HentAlle(DateTime dateTime)
-        {
-            return dbflygning.HentAlle(dateTime);
-        }
-
-        public Flygning Hent(int id)
-        {
-            return dbflygning.HentEnFlygning(id);
-        }
-
-        public bool LeggInn(LagFlygningViewModel flygning)
-        {
-
-            return dbflygning.LeggInnFlygning(new Flygning()
-            {
-                Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
-                Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
-                AvgangsTid = flygning.AvgangsTid
-            });
-        }
-
-        public bool EndreFlygning(Flygning flygning)
-        {
-            return dbflygning.OppdaterFlygning(flygning);
-        }
-
-        public bool EndreStatus(int id)
-        {
-            return dbflygning.OppdaterStatus(id);
-        }
+        
     }
 }
