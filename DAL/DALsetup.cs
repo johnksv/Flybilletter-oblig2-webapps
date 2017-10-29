@@ -20,7 +20,7 @@ namespace DAL
                 StreamWriter writer = new System.IO.StreamWriter(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"..\DAL\flybilletter-log.txt"), true);
                 writer.WriteLine(DateTime.Now + ": " + metodeNavn + " - " + message + " - " + e.Message + (e.InnerException == null ? "" : (" - " + e.InnerException.Message)));
                 writer.Close();
-            }catch (Exception ex)
+            }catch (Exception )
             {
             
             }
@@ -41,7 +41,7 @@ namespace DAL
                     writer.Close();
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 
             }

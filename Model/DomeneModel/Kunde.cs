@@ -13,7 +13,7 @@ namespace Flybilletter.Model.DomeneModel
             Fodselsdag = new DateTime(1970, 1, 1);
         }
 
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         [Required]
         [RegularExpression(@"^[A-Za-zæøåÆØÅ\- ]+$", ErrorMessage = "Fornavn kan kun være bokstaver")]
