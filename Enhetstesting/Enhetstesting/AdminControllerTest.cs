@@ -625,5 +625,65 @@ namespace Enhetstesting
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [TestMethod]
+        public void AdministratorReturnererView()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var result = (ViewResult)controller.Administrator();
+            Assert.AreEqual(result.ViewName, "");
+        }
+
     }
 }

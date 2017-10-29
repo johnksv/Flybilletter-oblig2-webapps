@@ -20,7 +20,20 @@ namespace BLL.Stub
 
         public List<Admin> Hent()
         {
-            throw new NotImplementedException();
+            var adminer = new List<Admin>()
+            {
+                new Admin()
+                {
+                    Username = "",
+                    Password = ""
+                },
+                new Admin()
+                {
+                    Username = "",
+                    Password = ""
+                }
+            };
+            return adminer;
         }
 
         public bool IsPassordGyldig(string Brukernavn, string PwAttempt)
