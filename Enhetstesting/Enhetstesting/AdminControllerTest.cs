@@ -18,7 +18,7 @@ namespace Enhetstesting
     public class AdminControllerTest
     {
 
-        private static AdminController NyAdminControllerMedSession()
+        private static AdminController NyAdminControllerMedSession(bool settErAdminTilTrue)
         {
             var bllfly = new BLLFly(new DBFlyStub());
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
@@ -32,6 +32,10 @@ namespace Enhetstesting
             var sessionMock = new TestControllerBuilder();
             var controller = new AdminController(bllbestilling, bllfly, bllkunde, bllflyplass, bllflygning, bllrute, bllendring, blladmin);
             sessionMock.InitializeController(controller);
+            if (settErAdminTilTrue)
+            {
+                controller.Session["admin"] = true;
+            }
 
             return controller;
         }
@@ -39,7 +43,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SkalIkkeKunneLoggeInn()
         {
-            var controller = NyAdminControllerMedSession();
+            var controller = NyAdminControllerMedSession(false);
 
             bool faktisk = controller.LoginAttempt("test", "feilPassord");
 
@@ -50,8 +54,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SkalKunneLoggeInn()
         {
-            var controller = NyAdminControllerMedSession();
-            controller.Session["admin"] = true;
+            var controller = NyAdminControllerMedSession(true);
 
             var admin = new Admin()
             {
@@ -66,11 +69,60 @@ namespace Enhetstesting
             Assert.IsTrue(faktisk);
         }
 
+        [TestMethod]
+        public void BestillingerSkalReturnereViewMedModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.Bestillinger();
+
+            Assert.AreEqual("ListBestillinger", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+        }
+
+        [TestMethod]
+        public void FlySkalReturnereViewMedModellUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.Fly();
+            
+
+            Assert.AreEqual("ListFly", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(null, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void FlySkalReturnereViewMedModellMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string feilmelding = "Dette er en feilmelding";
+            controller.TempData["feilmelding"] = feilmelding;
+
+            var faktisk = (ViewResult)controller.Fly();
+
+            Assert.AreEqual("ListFly", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void seDetaljertBestillingSkalReturne()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            
+            var faktisk = (RedirectToRouteResult)controller.SeDetaljerBestilling("ASD123");
+
+            Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
+        }
+
+
 
         [TestMethod]
         public void SkalRedirecteTilSokNaarIkkeAdmin()
         {
-            var controller = NyAdminControllerMedSession();
+            var controller = NyAdminControllerMedSession(false);
             controller.Session["admin"] = null;
             for (var i = 0; i < 2; i++)
             {

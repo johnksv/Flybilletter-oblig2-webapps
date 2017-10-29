@@ -28,6 +28,7 @@ namespace Enhetstesting
             var faktisk = (ViewResult)controller.Sok();
             var flyplasser = faktisk.ViewBag.flyplasser;
 
+            Assert.AreEqual("", faktisk.ViewName);
             Assert.AreEqual(3, flyplasser.Count);
         }
 
