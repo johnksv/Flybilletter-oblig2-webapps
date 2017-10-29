@@ -51,11 +51,6 @@ namespace BLL
             return dbkunde.HentAlle();
         }
 
-        public Kunde HentEnKunde(int id)
-        {
-            return dbkunde.Hent(id);
-        }
-
         public bool Slett(int id)
         {
             return dbkunde.Slett(id);

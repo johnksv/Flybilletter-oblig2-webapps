@@ -52,7 +52,7 @@ namespace Flybilletter.DAL.Stub
         };
         public bool Endre(int id, DateTime nyAvgangstid)
         {
-            throw new NotImplementedException();
+            return id > 0 && nyAvgangstid != null;
         }
 
         public Flygning Finn(int ID)
@@ -88,7 +88,10 @@ namespace Flybilletter.DAL.Stub
 
         public bool LeggInn(Flygning flygning)
         {
-            throw new NotImplementedException();
+            return flygning != null 
+                && flygning.Rute != null
+                && flygning.AvgangsTid != null 
+                && flygning.Fly != null;
         }
 
         public bool Endre(Flygning flygning)
@@ -98,7 +101,8 @@ namespace Flybilletter.DAL.Stub
 
         public bool EndreStatus(int id)
         {
-            throw new NotImplementedException();
+            if (id < 0) return false;
+            return true;
         }
     }
 }

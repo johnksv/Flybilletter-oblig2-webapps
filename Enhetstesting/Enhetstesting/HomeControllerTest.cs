@@ -15,15 +15,24 @@ namespace Enhetstesting
     [TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
-        public void SokSkalKunneHenteUtAlleFlyplasser()
+
+        private static HomeController NyHomeControllerMedSession()
         {
             var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
+            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub(), new DBRuteStub(), new DBFlyStub());
             var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
+            var sessionMock = new TestControllerBuilder();
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            sessionMock.InitializeController(controller);
+            return controller;
+        }
+
+        [TestMethod]
+        public void SokSkalKunneHenteUtAlleFlyplasser()
+        {
+            var controller = NyHomeControllerMedSession();
 
             var faktisk = (ViewResult)controller.Sok();
             var flyplasser = faktisk.ViewBag.flyplasser;
@@ -43,15 +52,9 @@ namespace Enhetstesting
                 Til = "BOO"
             };
 
-            var sessionMock = new TestControllerBuilder();
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+            var controller = NyHomeControllerMedSession();
 
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
 
-            sessionMock.InitializeController(controller);
             var faktisk = (PartialViewResult)controller.Sok(model);
 
             Assert.AreEqual("_Flygninger", faktisk.ViewName);
@@ -64,13 +67,7 @@ namespace Enhetstesting
         {
             var model = new SokViewModel();
 
-
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             var faktisk = (PartialViewResult)controller.Sok(model);
 
@@ -82,14 +79,8 @@ namespace Enhetstesting
         [TestMethod]
         public void ValgtReiseGyldigeParametre()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
+            var controller = NyHomeControllerMedSession();
+            
 
           var reiseliste = new List<Reise>()
             {
@@ -111,14 +102,9 @@ namespace Enhetstesting
         [TestMethod]
         public void ValgtReiseUgyldigeParametre()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
+            var controller = NyHomeControllerMedSession();
+            
 
             controller.Session["turListe"] = new List<Reise>()
             {
@@ -135,16 +121,10 @@ namespace Enhetstesting
         [TestMethod]
         public void ValgtReiseUgyldigTurIndeks()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+            var controller = NyHomeControllerMedSession();
 
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
 
-              controller.Session["turListe"] = new List<Reise>()
+            controller.Session["turListe"] = new List<Reise>()
             {
                 GenererNyReise()
             };
@@ -160,16 +140,7 @@ namespace Enhetstesting
         [TestMethod]
         public void ValgtReiseUgyldigReturIndeks()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
-
-       
+            var controller = NyHomeControllerMedSession();
 
             controller.Session["returListe"] = controller.Session["turListe"] = new List<Reise>()
             {
@@ -187,13 +158,7 @@ namespace Enhetstesting
         [TestMethod]
         public void UgyldigeKunder()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             var kunder = new List<Kunde>()
             {
@@ -211,14 +176,7 @@ namespace Enhetstesting
         [TestMethod]
         public void GyldigeKunder()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
+            var controller = NyHomeControllerMedSession();
 
             var kunder = new List<Kunde>()
             {
@@ -246,15 +204,7 @@ namespace Enhetstesting
         [TestMethod]
         public void GenererReferanseMedRiktigModell()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var sessionMock = new TestControllerBuilder();
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            sessionMock.InitializeController(controller);
-           
+            var controller = NyHomeControllerMedSession();
 
             controller.Session["GjeldendeBestilling"] = new BestillingViewModel()
             {
@@ -283,12 +233,7 @@ namespace Enhetstesting
         [TestMethod]
         public void GenererReferanseMedFeilModell()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             var model = new BestillingViewModel()
             {
@@ -306,12 +251,8 @@ namespace Enhetstesting
         [TestMethod]
         public void GenererReferanseMedUgyldigKredittkort()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
+            var controller = NyHomeControllerMedSession();
 
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
             var model = new BestillingViewModel()
             {
                 Kredittkort = new KredittkortViewModel()
@@ -335,12 +276,7 @@ namespace Enhetstesting
         [TestMethod]
         public void ReferanseSokDerReferanseEksisterer()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             var faktisk = (ViewResult)controller.ReferanseSok("ARP123");
 
@@ -351,12 +287,7 @@ namespace Enhetstesting
         [TestMethod]
         public void ReferanseSokDerReferanseIkkeEksisterer()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (ViewResult)controller.ReferanseSok(null);
 
             Assert.AreEqual(null, faktisk.Model);
@@ -367,12 +298,7 @@ namespace Enhetstesting
         [TestMethod]
         public void ReferanseEksisterer()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             string json = controller.ReferanseEksisterer("ARP123");
             var faktisk = Json.Decode(json);
@@ -384,12 +310,7 @@ namespace Enhetstesting
         [TestMethod]
         public void ReferanseEksistererIkke()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
 
             string json = controller.ReferanseEksisterer(null);
             var faktisk = Json.Decode(json);
@@ -401,12 +322,7 @@ namespace Enhetstesting
         [TestMethod]
         public void Kvittering()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (ViewResult)controller.Kvittering();
             Assert.AreEqual("", faktisk.ViewName);
             Assert.AreEqual(null, faktisk.Model);
@@ -415,12 +331,7 @@ namespace Enhetstesting
         [TestMethod]
         public void HentPoststedNaarEksiterer()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession(); ;
             string faktisk = controller.HentPoststed("0001");
 
             Assert.AreEqual("OSLO", faktisk);
@@ -430,12 +341,7 @@ namespace Enhetstesting
         [TestMethod]
         public void HentPoststedNaarIkkeEksiterer()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             string faktisk = controller.HentPoststed("0000");
 
             Assert.AreEqual("UGYLDIG POSTNUMMER", faktisk);
@@ -444,12 +350,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SlettBestillingFoer48TimerRiktigFlyIkkeGaatt()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (RedirectToRouteResult)controller.SlettBestilling("AAB123");
 
             Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
@@ -458,12 +359,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SlettBestillingFoer48TimerFeilFlyIkkeGaatt()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (RedirectToRouteResult)controller.SlettBestilling("AAA123");
 
             Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
@@ -472,12 +368,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SlettBestilling48TimerRiktigFlyGaatt()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (RedirectToRouteResult)controller.SlettBestilling("ABB123");
 
             Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
@@ -486,12 +377,7 @@ namespace Enhetstesting
         [TestMethod]
         public void SlettBestilling48TimerFeilFlyGaatt()
         {
-            var bllflyplass = new BLLFlyplass(new DBFlyplassStub());
-            var bllflygning = new BLLFlygning(new DBFlygningStub(), new DBFlyplassStub());
-            var bllbestilling = new BLLBestilling(new DBBestillingStub(), new DBFlygningStub());
-            var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
-
-            var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
+            var controller = NyHomeControllerMedSession();
             var faktisk = (RedirectToRouteResult)controller.SlettBestilling("ABC123");
 
             Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);

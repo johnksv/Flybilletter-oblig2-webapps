@@ -30,11 +30,6 @@ namespace BLL
             return dbFlyplass.Endre(item);
         }
 
-        public Flyplass Hent(string id)
-        {
-            return dbFlyplass.Hent(id);
-        }
-
         public List<Flyplass> HentAlle()
         {
             return dbFlyplass.HentAlle();

@@ -19,28 +19,32 @@ namespace BLL
         private IDBFly dbfly;
 
         [ExcludeFromCodeCoverage]
-        public BLLFlygning()
+        public BLLFlygning() : this(new DBFlygning(), new DBFlyplass(), new DBRute(), new DBFly())
         {
-            dbflygning = new DBFlygning();
-            dbflyplass = new DBFlyplass();
-            dbrute = new DBRute();
-            dbfly = new DBFly();
         }
 
-        public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub)
+        public BLLFlygning(IDBFlygning stub, IDBFlyplass flyplassStub, IDBRute rutestub, IDBFly flystub)
         {
             dbflygning = stub;
             dbflyplass = flyplassStub;
+            dbrute = rutestub;
+            dbfly = flystub;
         }
 
         public bool LeggInn(LagFlygningViewModel flygning)
         {
-            return dbflygning.LeggInn(new Flygning()
+            if (flygning != null && flygning.AvgangsTid != null
+                && flygning.FlyID != null && flygning.RuteID != null)
             {
-                Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
-                Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
-                AvgangsTid = flygning.AvgangsTid
-            });
+
+                return dbflygning.LeggInn(new Flygning()
+                {
+                    Rute = dbrute.Hent(int.Parse(flygning.RuteID)),
+                    Fly = dbfly.Hent(int.Parse(flygning.FlyID)),
+                    AvgangsTid = flygning.AvgangsTid
+                });
+            }
+            return false;
         }
 
         public bool EndreStatus(int id)
@@ -63,7 +67,7 @@ namespace BLL
             //TODO: Om vi implementerer quickgraph vil denne funksjonen være lettere
             List<Reise> reiseMuligheter = new List<Reise>();
 
-            
+
             var fraFlyplass = dbflyplass.Hent(fraFlyplassID); // db.Flyplasser.Where(flyplass => flyplass.ID == fraFlyplassID).First(); //Hvis du tweaket i HTML-koden fortjener du ikke feilmelding
             var tilFlyplass = dbflyplass.Hent(tilFlyplassID); //db.Flyplasser.Where(flyplass => flyplass.ID == tilFlyplassID).First();
 
@@ -113,6 +117,6 @@ namespace BLL
                 TurRetur = innSok.Retur >= innSok.Avreise
             };
         }
-        
+
     }
 }
