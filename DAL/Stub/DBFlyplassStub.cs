@@ -39,9 +39,13 @@ namespace Flybilletter.DAL.Stub
             }
         };
 
-        public bool Endre(Flyplass item)
+        public bool Endre(Flyplass flyplass)
         {
-            throw new NotImplementedException();
+            if (flyplass != null && flyplass.By != null && flyplass.ID != null && flyplass.Land != null && flyplass.Navn != null)
+            {
+                return flyplasser.FirstOrDefault(f => f.ID == flyplass.ID) != null;
+            }
+            return false;
         }
 
         public Flyplass Hent(string tilFlyplassID)

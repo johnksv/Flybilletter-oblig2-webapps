@@ -21,9 +21,10 @@ namespace Flybilletter.DAL.Stub
                 Referanse = "AAA123",
                 FlygningerTur = new List<Flygning>(){
                     new Flygning() //Kunde kan slette
-                {
-                    AvgangsTid = new DateTime(2018,01,01,00,00,00)
-                } },                
+                    {
+                      AvgangsTid = new DateTime(2018,01,01,00,00,00)
+                    }
+                },
                Bestillingstidspunkt = new DateTime(2017,10,20,12,00,00) //Kunde kan ikke slette
             },
             new Bestilling()
@@ -31,9 +32,10 @@ namespace Flybilletter.DAL.Stub
                 Referanse = "AAB123",
                 FlygningerTur = new List<Flygning>(){
                     new Flygning() //Kunde kan slette
-                {
-                    AvgangsTid = new DateTime(2019,01,01,00,00,00)
-                } },
+                    {
+                        AvgangsTid = new DateTime(2019,01,01,00,00,00)
+                    }
+                },
                 Bestillingstidspunkt = new DateTime(2018,11,27,12,00,00) //Kunde kan slette
             },
             new Bestilling()
@@ -41,9 +43,10 @@ namespace Flybilletter.DAL.Stub
                 Referanse = "ABB123",
                 FlygningerTur = new List<Flygning>(){
                     new Flygning() //Kunde kan ikke slette
-                {
-                    AvgangsTid = new DateTime(2019,01,01,00,00,00)
-                } },
+                    {
+                        AvgangsTid = new DateTime(2017,01,01,00,00,00)
+                    }
+                },
                 Bestillingstidspunkt = new DateTime(2018,11,27,12,00,00) //Kunde kan slette
             },
             new Bestilling()
@@ -76,13 +79,13 @@ namespace Flybilletter.DAL.Stub
 
         public void LeggInn(Bestilling bestilling)
         {
-            
+
         }
 
         public bool Slett(string referanse)
         {
             var bestilling = bestillinger.FirstOrDefault(best => best.Referanse == referanse);
-            if((DateTime.Now - bestilling.Bestillingstidspunkt) < new TimeSpan(48, 0, 0))
+            if ((DateTime.Now - bestilling.Bestillingstidspunkt) < new TimeSpan(48, 0, 0))
             {
                 return true;
             }

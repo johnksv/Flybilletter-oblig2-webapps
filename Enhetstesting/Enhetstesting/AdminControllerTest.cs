@@ -81,7 +81,7 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void FlySkalReturnereViewMedModellUtenFeilmelding()
+        public void FlyUtenFeilmelding()
         {
             var controller = NyAdminControllerMedSession(true);
 
@@ -94,7 +94,7 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void FlySkalReturnereViewMedModellMedFeilmelding()
+        public void FlyMedFeilmelding()
         {
             var controller = NyAdminControllerMedSession(true);
             string feilmelding = "Dette er en feilmelding";
@@ -273,7 +273,7 @@ namespace Enhetstesting
         }
 
         [TestMethod]
-        public void Flyplasser()
+        public void FlyplasserUteneilmelding()
         {
             var controller = NyAdminControllerMedSession(true);
 
@@ -281,6 +281,21 @@ namespace Enhetstesting
 
             Assert.AreEqual("ListFlyplasser", faktisk.ViewName);
             Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(null, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void FlyplasserMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string feilmelding = "Dette er en feilmelding";
+            controller.TempData["feilmelding"] = feilmelding;
+
+            var faktisk = (ViewResult)controller.Flyplasser();
+
+            Assert.AreEqual("ListFlyplasser", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
         }
 
         [TestMethod]
@@ -337,6 +352,82 @@ namespace Enhetstesting
             Assert.AreEqual(null, controller.TempData["feilmelding"]);
         }
 
+        [TestMethod]
+        public void EndreFlyplassSkalFungereMedGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var flyplass = new Flyplass()
+            {
+                ID = "OSL",
+                Navn = "Gardermoen Lufthavnn",
+                By = "Oslo",
+                Land = "Norge"
+            };
+            string faktisk = controller.EndreFlyplass(flyplass);
+
+            Assert.AreEqual("true", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlyplassMedUgyldigID()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var flyplass = new Flyplass()
+            {
+                ID = "",
+                Navn = "Gardermoen Lufthavn",
+                By = "Oslo",
+                Land = "Norge"
+            };
+            string faktisk = controller.EndreFlyplass(flyplass);
+
+            Assert.AreEqual("En feil oppsto under lagring til databasen.", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreFlyplassMedUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var flyplass = new Flyplass()
+            {
+                ID = "OSL",
+                Navn = "#!¤",
+                By = "Oslo",
+                Land = "Norge"
+            };
+            controller.ModelState.AddModelError("Flyplass.Navn", "Navn kan kun bestå av bokstaver");
+
+            string faktisk = controller.EndreFlyplass(flyplass);
+
+            Assert.AreEqual("Navn kan kun bestå av bokstaver", faktisk);
+        }
+
+        [TestMethod]
+        public void RuterUtenFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+
+            var faktisk = (ViewResult)controller.Ruter();
+
+            Assert.AreEqual("ListRuter", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(null, faktisk.ViewBag.Feilmelding);
+        }
+
+        [TestMethod]
+        public void RuterMedFeilmelding()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            string feilmelding = "Dette er en feilmelding";
+            controller.TempData["feilmelding"] = feilmelding;
+
+            var faktisk = (ViewResult)controller.Ruter();
+
+            Assert.AreEqual("ListRuter", faktisk.ViewName);
+            Assert.AreNotEqual(null, faktisk.Model);
+            Assert.AreEqual(feilmelding, faktisk.ViewBag.Feilmelding);
+        }
+
         //Disse kunne evt vært splittet opp i en test-metode for hvert case
         [TestMethod]
         public void SkalRedirecteTilSokNaarIkkeAdmin()
@@ -387,6 +478,9 @@ namespace Enhetstesting
 
                 faktisk = (RedirectToRouteResult)controller.LagFlyplass(null);
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
+
+                stringResult = controller.EndreFlyplass(null);
+                Assert.AreEqual("Ikke admin", stringResult);
 
                 faktisk = (RedirectToRouteResult)controller.Ruter();
                 Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
