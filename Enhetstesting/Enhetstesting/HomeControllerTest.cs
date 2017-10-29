@@ -450,9 +450,9 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            bool faktisk = controller.SlettBestilling("AAB123");
+            var faktisk = (RedirectToRouteResult)controller.SlettBestilling("AAB123");
 
-            Assert.AreEqual(true, faktisk);
+            Assert.AreEqual("Sok", faktisk.RouteValues["action"]);
         }
 
         [TestMethod]
@@ -464,9 +464,9 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            bool faktisk = controller.SlettBestilling("AAA123");
+            var faktisk = (RedirectToRouteResult)controller.SlettBestilling("AAA123");
 
-            Assert.AreEqual(false, faktisk);
+            Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
         }
 
         [TestMethod]
@@ -478,9 +478,9 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            bool faktisk = controller.SlettBestilling("ABB123");
+            var faktisk = (RedirectToRouteResult)controller.SlettBestilling("ABB123");
 
-            Assert.AreEqual(false, faktisk);
+            Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
         }
 
         [TestMethod]
@@ -492,9 +492,9 @@ namespace Enhetstesting
             var bllkunde = new BLLKunde(new DBKundeStub(), new DBPostnummerStub());
 
             var controller = new HomeController(bllflyplass, bllflygning, bllbestilling, bllkunde);
-            bool faktisk = controller.SlettBestilling("ABC123");
+            var faktisk = (RedirectToRouteResult)controller.SlettBestilling("ABC123");
 
-            Assert.AreEqual(false, faktisk);
+            Assert.AreEqual("ReferanseSok", faktisk.RouteValues["action"]);
         }
         private static Reise GenererNyReise()
         {
