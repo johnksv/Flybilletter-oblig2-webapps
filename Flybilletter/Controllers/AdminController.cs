@@ -421,7 +421,7 @@ namespace Flybilletter.Controllers
                     {
                         return "true";
                     }
-                    return "En feil oppsto med lagring i database.";
+                    return "En feil oppsto under lagring til databasen.";
                 }
                 var feilmeldinger = new List<String>();
 
@@ -442,7 +442,7 @@ namespace Flybilletter.Controllers
                 }
 
             }
-            return "NotAdmin";
+            return "Ikke admin";
         }
 
         public ActionResult SlettKunde(int id)

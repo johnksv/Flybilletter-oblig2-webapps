@@ -10,7 +10,28 @@ namespace Flybilletter.DAL.Stub
 {
     public class DBFlygningStub : IDBFlygning
     {
-        private Rute BOOOSL = new Rute()
+        private static Fly Boeing737 = new Fly()
+        {
+            Modell = "Boeing 737",
+            AntallSeter = 150
+        };
+        private static Flyplass OSL = new Flyplass()
+        {
+            ID = "OSL",
+            By = "Oslo",
+            Land = "Norge",
+            Navn = "Gardermoen Lufthavn"
+
+        };
+        private static Flyplass BOO = new Flyplass()
+        {
+            ID = "BOO",
+            By = "Bodø",
+            Land = "Norge",
+            Navn = "Bodø Lufthavn"
+
+        };
+        private static Rute BOOOSL = new Rute()
         {
             Fra = BOO,
             Til = OSL,
@@ -24,7 +45,7 @@ namespace Flybilletter.DAL.Stub
             {
                 ID =1,
                 AvgangsTid = DateTime.Now,
-                Fly = Boeing737_1,
+                Fly = Boeing737,
                 Rute = BOOOSL,
                 Kansellert = false
             }

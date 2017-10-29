@@ -714,7 +714,6 @@ namespace Enhetstesting
             Assert.AreEqual(forventet, controller.TempData["feilmelding"]);
         }
 
-
         [TestMethod]
         public void LagKundeGyldigModell()
         {
@@ -735,6 +734,68 @@ namespace Enhetstesting
 
             Assert.AreEqual("Kunder", faktisk.RouteValues["action"]);
             Assert.AreEqual(null, controller.TempData["feilmelding"]);
+        }
+
+        [TestMethod]
+        public void EndreKundeSkalFungereMedGyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var kunde = new Kunde()
+            {
+                Fornavn = "Ola",
+                Etternavn = "Nordmann",
+                Adresse = "Testveien 1",
+                EPost = "test@test.no",
+                Fodselsdag = new DateTime(1970, 1, 1),
+                Postnr = "0001",
+                Poststed = "Oslo",
+                Tlf = "12345678"
+            };
+            string faktisk = controller.EndreKunde(kunde);
+
+            Assert.AreEqual("true", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreKundeMedUgyldigID()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var kunde = new Kunde()
+            {
+                Fornavn = null,
+                Etternavn = "Nordmann",
+                Adresse = "Testveien 1",
+                EPost = "test@test.no",
+                Fodselsdag = new DateTime(1970, 1, 1),
+                Postnr = "0001",
+                Poststed = "Oslo",
+                Tlf = "12345678"
+            };
+            string faktisk = controller.EndreKunde(kunde);
+
+            Assert.AreEqual("En feil oppsto under lagring til databasen.", faktisk);
+        }
+
+        [TestMethod]
+        public void EndreKundeMedUgyldigModell()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var kunde = new Kunde()
+            {
+                Fornavn = null,
+                Etternavn = "Nordmann",
+                Adresse = "Testveien 1",
+                EPost = "test@test.no",
+                Fodselsdag = new DateTime(1970, 1, 1),
+                Postnr = "0001",
+                Poststed = "Oslo",
+                Tlf = "12345678"
+            };
+            controller.ModelState.AddModelError("item.Fornavn", "Fornavn er obligatorisk");
+
+            string faktisk = controller.EndreKunde(kunde);
+
+            Assert.AreEqual("Ugyldig Fornavn: Fornavn er obligatorisk.", faktisk);
         }
 
         [TestMethod]
