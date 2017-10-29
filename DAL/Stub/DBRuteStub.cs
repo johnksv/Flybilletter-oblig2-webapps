@@ -42,9 +42,13 @@ namespace Flybilletter.DAL.Stub
             return ruter;
         }
 
-        public bool Endre(Rute rute)
+        public bool Endre(Rute innrute)
         {
-            return ruter.FirstOrDefault(r => r.ID == rute.ID) != null;
+            if(innrute != null && innrute.Reisetid != null && innrute.Til != null && innrute.Til.ID != "" && innrute.Fra != null && innrute.Fra.ID != "" && innrute.BasePris > 0)
+            {
+                return ruter.FirstOrDefault(r => r.ID == innrute.ID) != null;
+            }
+            return false;
         }
 
         public bool LeggInn(Rute innrute)

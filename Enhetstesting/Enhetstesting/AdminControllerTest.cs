@@ -571,7 +571,6 @@ namespace Enhetstesting
                     By = "Oslo",
                     Land = "Norge",
                     Navn = "Gardermoen Lufthavn"
-
                 },
                 Til = new Flyplass()
                 {
@@ -610,13 +609,12 @@ namespace Enhetstesting
                     Land = "Norge",
                     Navn = "Bodø Lufthavn"
                 },
-                Til = new DBFlyplass()
+                Til = new Flyplass()
                 {
                     ID = "ARN",
                     By = "Stockholm",
                     Land = "Sverige",
                     Navn = "Arlanda Lufthavn"
-
                 },
                 BasePris = 1499,
                 Reisetid = new TimeSpan(1, 0, 0)
@@ -637,18 +635,17 @@ namespace Enhetstesting
                 ID = 1,
                 Fra = new Flyplass()
                 {
-                    ID = "BOO",
-                    By = "Bodø",
+                    ID = "OSL",
+                    By = "Oslo",
                     Land = "Norge",
-                    Navn = "Bodø Lufthavn"
+                    Navn = "Gardermoen Lufthavn"
                 },
-                Til = new DBFlyplass()
+                Til = new Flyplass()
                 {
                     ID = "ARN",
                     By = "Stockholm",
                     Land = "Sverige",
                     Navn = "Arlanda Lufthavn"
-
                 },
                 BasePris = -5,
                 Reisetid = new TimeSpan(1, 0, 0)
