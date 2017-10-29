@@ -1125,8 +1125,21 @@ namespace Enhetstesting
 
 
 
+        [TestMethod]
+        public void EndreStatusFlygningReturnererRiktigViewHvisAdmin()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var resultat = (RedirectToRouteResult)controller.EndreStatusFlygning(0);
+            Assert.AreEqual("Flygninger", resultat.RouteValues["action"]);
+        }
 
-
+        [TestMethod]
+        public void EndreStatusFlygningFeilMeldingHvisIkkeSuksessIDB()
+        {
+            var controller = NyAdminControllerMedSession(true);
+            var resultat = controller.EndreStatusFlygning(-1);
+            Assert.IsNotNull(controller.TempData["feilmelding"]);
+        }
 
         [TestMethod]
         public void AdministratorReturnererView()

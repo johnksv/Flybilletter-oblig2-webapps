@@ -527,7 +527,10 @@ namespace Flybilletter.Controllers
         {
             if (ErAdmin())
             {
-                bllflygning.EndreStatus(id);
+                if (!bllflygning.EndreStatus(id))
+                {
+                    TempData["feilmelding"] = "Kunne ikke oppdatere status på flygning.";
+                }
                 return RedirectToAction("Flygninger");
             }
             return RedirectToAction("Sok", "Home");
