@@ -403,7 +403,7 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public string LagreKunde(Kunde item)
+        public string EndreKunde(Kunde item)
         {
             if (ErAdmin())
             {
@@ -494,7 +494,7 @@ namespace Flybilletter.Controllers
         }
 
         [HttpPost]
-        public ActionResult LagreFlygning(LagFlygningViewModel flygning)
+        public ActionResult LagFlygning(LagFlygningViewModel flygning)
         {
             if (ErAdmin())
             {

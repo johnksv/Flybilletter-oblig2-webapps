@@ -94,7 +94,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Endre", "EndreFlygning", new { id = item.ID }, new { @class = "endreKnapp btn btn-default", data_status = "endre" })
-                        @Html.ActionLink("Lagre", "LagreKunde", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
+                        @Html.ActionLink("Lagre", "EndreFlygning", new { id = item.ID }, new { @class = "lagreKnapp btn btn-default disabled" })
 
                         @if (DateTime.Now < item.AvgangsTid && item.Kansellert == false)
                         {
